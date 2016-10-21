@@ -8,21 +8,21 @@ the Control-Systems Lab of the Mechanical Engineering Department of NTUA.
 
 In each one of the MR-SLAM agents (robots) the following shell variables must
 be set:
-- ROBOT_MODEL
+- ROBOT_MODEL  
   String ID of the current agent. Available options are:
   + pioneer_2at
   + pioneer_3at
   + youbot
-
-- ROBOT_ID
+- ROBOT_ID  
   Numeric ID of the current agent (e.g. 2)
-
-- ROBOT_DRIVERS
+- ROBOT_DRIVERS  
   Available options are:
   + poulias
   + youbot
-- WLAN_INTERFACE
+- WLAN_INTERFACE  
   Wireless interface that is to be used for the communication (e.g. wlan6)
+- GEN_ROSBAG_DIR  
+  Directory of the generated rosbag
 
 # Usage Information
 
