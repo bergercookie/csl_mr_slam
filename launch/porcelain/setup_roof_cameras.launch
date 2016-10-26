@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+
+<!--
+Wed Oct 26 13:12:27 EEST 2016, Nikos Koukis
+
+File launches the necessary nodes for setting up the ps3 cameras for fetching a
+form of ground truth for the robot movement. File is heavily based on the
+previous version of the csl_aruco package launchfiles.
+
+-->
+
+<launch>
+
+    <arg name="fps" value="15" />
+    <arg name="calib_file" value="file://$(find ground_truth_fetcher)/res/calibration/ps3M_blue_calib.yaml"/>
+    <arg name="view_cam_images" value="false" />
+    <arg name="boards_config_file" value="$(find ground_truth_fetcher)/res/boards/vrep_multicam_res/boards_real.yml" />
+    <arg name="boards_config_dir" value="$(find ground_truth_fetcher)/res/boards/vrep_multicam_res/" />
+    <arg name="broadcast_to_origin" value="true" />
+
+    <!-- Launch the cameras -->
+    <group ns="/top_left_camera">
+	    <node name="uvc_camera_left" pkg="uvc_camera" type="uvc_camera_node" output="screen">
+            <param name="width" type="int" value="640" />
+            <param name="height" type="int" value="480" />
+            <param name="fps" type="int" value="$(arg fps)" />
+            <param name="frame_id" type="string" value="/left_camera" />
+            <param name="camera_name" type="string" value="left_camera" />
+            <param name="device" type="string" value="/dev/video0" />
+            <param name="camera_info_url" type="string" value="$(arg calib_file)" />
+	    </node>
+    </group>
+
+    <group ns="/top_right_camera">
+	    <node name="uvc_camera_right" pkg="uvc_camera" type="uvc_camera_node" output="screen">
+            <param name="width" type="int" value="640" />
+            <param name="height" type="int" value="480" />
+            <param name="fps" type="int" value="15" />
+            <param name="frame_id" type="string" value="/right_camera" />
+            <param name="camera_name" type="string" value="right_camera" />
+            <param name="device" type="string" value="/dev/video1" />
+            <param name="camera_info_url" type="string" value="$(arg calib_file)" />
+	    </node>
+    </group>
+
+    <!-- Launch ar_sys -->
+  	<node pkg="ar_sys" type="multi_boards" name="ar_multi_boards_top_left" output="screen">
+		 <remap from="/image" to="/top_left_camera/image_raw"/>
+                 <remap from="/camera_info" to="/top_left_camera/camera_info"/>
+
+		<param name="image_is_rectified" type="bool" value="true"/>
+		<param name="boards_config" type="string" value="$(arg boards_config_file)"/>
+		<param name="boards_directory" type="string" value="$(arg boards_config_dir)"/>
+		<param name="draw_markers" type="bool" value="true" />
+		<param name="draw_markers_cube" type="bool" value="false" />
+		<param name="draw_markers_axis" type="bool" value="false" />
+	</node>
+
+        <node pkg="ar_sys" type="multi_boards" name="ar_multi_boards_top_right" output="screen">
+		 <remap from="/image" to="/top_right_camera/image_raw"/>
+                 <remap from="/camera_info" to="/top_right_camera/camera_info"/>
+
+		<param name="image_is_rectified" type="bool" value="true"/>
+		<param name="boards_config" type="string" value="$(arg boards_config_file)"/>
+		<param name="boards_directory" type="string" value="$(arg boards_config_dir)"/>
+		<param name="draw_markers" type="bool" value="true" />
+		<param name="draw_markers_cube" type="bool" value="false" />
+		<param name="draw_markers_axis" type="bool" value="false" />
+	</node>
+
+	<group if="$(arg view_cam_images)">
+        <node pkg="image_view" type="image_view" name="image_view_top_left" output="screen">
+            <remap from="image" to="/ar_multi_boards_top_left/result" /> 
+            <param name="autosize" type="bool" value="true" />
+        </node>
+
+        <node pkg="image_view" type="image_view" name="image_view_top_right" output="screen">
+            <remap from="image" to="/ar_multi_boards_top_right/result" /> 
+            <param name="autosize" type="bool" value="true" />
+        </node>
+	</group>
+
+    <group if="$(arg broadcast_to_origin)">
+        <node pkg="ground_truth_fetcher" type="multirobot_tf2_broadcaster.py" name="multirobot_tf2_broadcaster" output="screen" />
+    </group>
+
+
+</launch>
+
