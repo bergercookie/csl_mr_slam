@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<!--
+Wed Oct 26 12:48:44 EEST 2016, Nikos Koukis
+
+Launchfile for executing *online* MR-SLAM. Makes the necessary calls to all the
+single robot SLAM agents via their corresponding setup_slam_agent.launch
+launchfiles.
+
+Note: If user wants to run MR-SLAM in a (gazebo) simulation they must run the
+setup_slam_agent.launch file for each one of the simulated nodes *in seperate
+shells* having already sourced the corresponding environment setting script
+(see the config directory)
+
+-->
+
+<launch>
+
+</launch>

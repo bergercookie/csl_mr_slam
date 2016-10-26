@@ -14,6 +14,7 @@ been set.
 	    type="urg_node"
 	    name="hokuyo_laser_scanner"
 	    output="$(env MR_OUTPUT_MESSAGES_TO)"
+	    required="true"
 	    >
 
         <param
@@ -21,6 +22,8 @@ been set.
             value="$(env MR_LASER_PORT)"
             type="string"
             />
+
+        <!-- Algorithm received the laser scan in the input/laser_scan topic -->
 	    <remap from="scan" to="input/laser_scan" />
 	</node>
 

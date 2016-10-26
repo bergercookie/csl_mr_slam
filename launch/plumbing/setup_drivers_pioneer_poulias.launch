@@ -14,21 +14,24 @@ Communication with the arduino is achived via a /dev device.
 <launch>
 
 	<!-- LAUNCH ARGUMENTS -->
-	<arg name="arduino_port"  value="$(env MR_POULIAS_ARDUINO_PORT"/>
-	<arg name="joystick_port" value="$(env MR_POULIAS_JOYSTICK_PORT"/>
+	<arg name="arduino_port"  value="$(env MR_POULIAS_ARDUINO_PORT)"/>
+	<arg name="joystick_port" value="$(env MR_POULIAS_JOYSTICK_PORT)"/>
 	<arg name="output"        value="$(env MR_OUTPUT_MESSAGES_TO)"/>
 	<arg name="robot_model"   default="$(env MR_ROBOT_MODEL)"/>
 	<arg name="odom_topic"    default="/graphslam_engine/input/odom"/>
 
 
     <!-- LAUNCH PARAMETERS -->
-	<param name="joy_node/dev"      value="$(arg joystick_port)" />
-	<param name="arduino/port"      value="$(arg arduino_port)"  />
+	<param name="joy_node/dev" value="$(arg joystick_port)" />
+	<param name="arduino/port" value="$(arg arduino_port)"  />
 
 	<!-- NODES TO BE LAUNCHED -->
-	<node pkg="arduino_mr"     type="$(arg robot_model).py" name="$(arg robot_model)" output="$(arg output )" args="/pioneer/position_odom:=$(arg odom_topic)" />
-	<node pkg="joy"            type="joy_node"                      name="joy_node"                   output="$(arg output)"                                                  />
-	<node pkg="joy_to_arduino" type="teleop_MR_2at"                 name="teleop_MR_2at"              output="$(arg output)"                                                  />
-	<node pkg="rosbag"         type="record"                        name="rosbag_recorder"            output="$(arg output)" args="--all -O $(env MR_ROSBAG_DIR)/records.bag"   />
+	<node pkg="arduino_mr" type="$(arg robot_model).py" name="$(arg robot_model)" output="$(arg output)" args="/pioneer/position_odom:=$(arg odom_topic)" />
+
+	<group if="$(env MR_USE_JOYSTICK)">
+	    <node pkg="joy" type="joy_node" name="joy_node" output="$(arg output)" />
+	    <node pkg="joy_to_arduino" type="teleop_MR_2at" name="teleop_MR_2at" output="$(arg output)" />
+    </group>
+
 
 </launch>

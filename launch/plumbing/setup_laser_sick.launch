@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<!--
+Wed Oct 26 12:17:31 EEST 2016, Nikos Koukis
+
+Setup the Hokuyo Laser ScanMatcher based on the environment variables that have
+been set.
+
+-->
+
+<launch>
+
+<arg name="NotImplementedYet"/>
+
+<node
+    pkg="sicktoolbox_wrapper"
+    type="sicklms"
+    name="sick_laser_scanner"
+	output="$(env MR_OUTPUT_MESSAGES_TO)"
+	required="true"
+	args="$(arg NotImplementedYet)"
+	>
+    <param
+        name="port"
+        value="$(env MR_LASER_PORT)"
+        type="string"
+        />
+	<remap from="scan" to="input/laser_scan" />
+</node>
+
+</launch>
