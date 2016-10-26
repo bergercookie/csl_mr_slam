@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(cslab_mr_slam)
+project(csl_mr_slam)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -103,7 +103,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES cslab_mr_slam
+#  LIBRARIES csl_mr_slam
 #  CATKIN_DEPENDS arduino_mr hokuyo_node roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
@@ -120,24 +120,24 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(cslab_mr_slam
-#   src/${PROJECT_NAME}/cslab_mr_slam.cpp
+# add_library(csl_mr_slam
+#   src/${PROJECT_NAME}/csl_mr_slam.cpp
 # )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(cslab_mr_slam ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(csl_mr_slam ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(cslab_mr_slam_node src/cslab_mr_slam_node.cpp)
+# add_executable(csl_mr_slam_node src/csl_mr_slam_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(cslab_mr_slam_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(csl_mr_slam_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(cslab_mr_slam_node
+# target_link_libraries(csl_mr_slam_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -156,7 +156,7 @@ include_directories(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS cslab_mr_slam cslab_mr_slam_node
+# install(TARGETS csl_mr_slam csl_mr_slam_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -181,7 +181,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_cslab_mr_slam.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_csl_mr_slam.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

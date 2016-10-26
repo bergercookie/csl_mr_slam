@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<!--
+Wed Oct 26 10:01:38 EEST 2016, Nikos Koukis
+
+Setup the Hokuyo Laser ScanMatcher based on the environment variables that have
+been set.
+
+-->
+
+<launch>
+	<node 
+	    pkg="urg_node"
+	    type="urg_node"
+	    name="hokuyo_laser_scanner"
+	    output="$(env MR_OUTPUT_MESSAGES_TO)"
+	    >
+
+        <param
+            name="~serial_port"
+            value="$(env MR_LASER_PORT)"
+            type="string"
+            />
+	    <remap from="scan" to="input/laser_scan" />
+	</node>
+
+</launch>

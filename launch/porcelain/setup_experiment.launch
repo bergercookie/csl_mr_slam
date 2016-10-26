@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<!--
+
+Main launchfile for setting up and launching the MR-SLAM. It practically
+provides a wrapper around other available launchfiles
+
+-->
+
+<launch>
+
+<arg name="output"        default="$(env MR_OUTPUT_MESSAGES_TO)"  />
+<arg name="plumb_dir" value="$(find csl_mr_slam)/launch/plumbing" />
+<arg name="porcelain_dir" value="$(find csl_mr_slam)/launch/porcelain" />
+<arg name = "robot_ns" value = "$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
+
+<!-- Simulation Time? -->
+<param name="/use_sim_time" value="$(env MR_USE_SIM_TIME)" />
+
+<!-- Record topics? -->
+
+<!-- Play rosbag if use_sim_time == true -->
+
+<!-- Use Multimaster? -->
+<group if="$(env MR_USE_MULTIMASTER)">
+    <include file="$(arg plumb_dir)/setup_multimaster.launch">
+    </include>
+</group>
+
+<group ns="$(arg robot_ns)" clear_params="true">
+
+    <!-- Robot HW Drivers -->
+    <!-- TODO - Change this structure. -->
+    <group if="$(env MR_ROBOT_DRIVERS_USE_POULIAS)">
+        <include file="$(arg plumb_dir)/setup_drivers_pioneer_poulias.launch">
+        </include>
+    </group>
+    <group if="$(env MR_ROBOT_DRIVERS_USE_YOUBOT)">
+        <include file="$(arg plumb_dir)/setup_drivers_youbot.launch">
+        </include>
+    </group>
+    <group if="$(env MR_ROBOT_DRIVERS_USE_ARIA)">
+        <include file="$(arg plumb_dir)/setup_drivers_aria.launch">
+        </include>
+    </group>
+
+    <!-- Laser Scan Matcher -->
+    <group if="$(env MR_USE_LASER)">
+        <include file="$(arg plumb_dir)/setup_laser_$(env MR_LASER_NAME).launch">
+        </include>
+    </group>
+
+</group>
+
+</launch>
