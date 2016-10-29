@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(csl_mr_slam)
+project(csl_hw_setup)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -103,7 +103,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES csl_mr_slam
+#  LIBRARIES csl_hw_setup
 #  CATKIN_DEPENDS arduino_mr hokuyo_node roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
@@ -120,14 +120,14 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(csl_mr_slam
-#   src/${PROJECT_NAME}/csl_mr_slam.cpp
+# add_library(csl_hw_setup
+#   src/${PROJECT_NAME}/csl_hw_setup.cpp
 # )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(csl_mr_slam ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(csl_hw_setup ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
 # add_executable(csl_mr_slam_node src/csl_mr_slam_node.cpp)
@@ -156,7 +156,7 @@ include_directories(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS csl_mr_slam csl_mr_slam_node
+# install(TARGETS csl_hw_setup csl_mr_slam_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

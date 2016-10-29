@@ -3,6 +3,7 @@
 # Fri Oct 21 21:45:41 EEST 2016, Nikos Koukis
 # Setup the necessary for MR-SLAM environment variables in a compact and
 # consistent manner
+export MR_IS_SIMULATION=0
 
 export MR_ROBOT_ID=18
 export MR_ROBOT_MODEL="pioneer_2at"
@@ -24,11 +25,7 @@ export MR_ROBOT_DRIVERS_USE_YOUBOT=0
 export MR_ROBOT_DRIVERS_USE_ARIA=0
 export MR_OUTPUT_MESSAGES_TO="screen"
 
-export MR_IS_SIMULATION=0
-
-# Online SLAM Arguments only. If MR_IS_SIMULATION=0 then these are *ignored*
-#################################################################################
-export MR_USE_REAL_LASER=0
+export MR_USE_REAL_LASER=1
 export MR_WLAN_INTERFACE="wlan6"
 export MR_USE_MULTIMASTER=0
 export MR_LASER_NAME="hokuyo"

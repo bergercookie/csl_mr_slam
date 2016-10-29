@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package>
-  <name>csl_mr_slam</name>
+  <name>csl_hw_setup</name>
   <version>0.1.0</version>
   <description>
-      The csl_mr_slam package
+      The csl_hw_setup package
 
       Hardware configuration for executing MR-SLAM using the equipment and
       available robots in the Control Systems Lab of NTUA
@@ -24,7 +24,7 @@
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/csl_mr_slam</url> -->
+  <!-- <url type="website">http://wiki.ros.org/csl_hw_setup</url> -->
 
 
   <!-- Author tags are optional, mutiple are allowed, one per tag -->

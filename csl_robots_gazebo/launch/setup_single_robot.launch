@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<!--
+     Setup the gazebo simulation for a single robot.
+-->
+
+<launch>
+    <arg name="robot_name" default="pioneer_3at" />
+    <arg name="position_args" default="-x 0.0 -y 0.0 -z 0.02" />
+
+    <!-- Upload the robot_description -->
+    <param name="/robot_description"
+        command="$(find xacro)/xacro.py $(find csl_robot_descriptions)/defs/pioneer3at.xacro robot_ns:=$(arg robot_name)" />
+
+    <!-- publish TFs for static links -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="30.0"/>
+    </node>
+
+    <!-- push robot_description to factory and spawn robot in gazebo -->
+    <node name="spawn_pioneer" pkg="gazebo_ros" type="spawn_model"
+        args="$(arg position_args) -urdf -param /robot_description -model $(arg robot_name) -namespace /$(arg robot_name)"
+        respawn="false" output="screen" />
+
+</launch>
