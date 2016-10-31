@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<!--
+Sun Oct 30 15:27:22 EET 2016, Nikos Koukis
+
+File sets up the ar_sys node for processing the camera images that the onboard
+camera is producing
+
+-->
+
+<launch>
+    <arg name="robot_name" default="pioneer_3at" />
+    <arg name="camera_name" default="camera1" />
+
+    <arg name="boards_config_file" value="$(find ground_truth_fetcher)/res/boards/vrep_multicam_res/boards_real.yml" />
+    <arg name="boards_config_dir" value="$(find ground_truth_fetcher)/res/boards/vrep_multicam_res/" />
+
+    <!-- Launch ar_sys -->
+  	<node pkg="ar_sys" type="multi_boards" name="ar_sys" output="screen">
+  	    <!-- Are these 2 needed? -->
+        <remap from="/image" to="$(arg camera_name)/image_raw"/>
+        <remap from="/camera_info" to="$(arg camera_name)/camera_info"/>
+
+		 <param name="image_is_rectified" type="bool" value="true"/>
+		 <param name="boards_config" type="string" value="$(arg boards_config_file)"/>
+		 <param name="boards_directory" type="string" value="$(arg boards_config_dir)"/>
+		 <param name="draw_markers" type="bool" value="true" />
+		 <param name="draw_markers_cube" type="bool" value="false" />
+		 <param name="draw_markers_axis" type="bool" value="false" />
+	 </node>
+
+ </launch>

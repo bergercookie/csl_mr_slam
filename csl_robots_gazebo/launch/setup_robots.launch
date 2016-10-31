@@ -12,23 +12,27 @@ Spawn multiple robots in the (already running) gazebo simulation
     <arg name="robot1_pos" value="-x -1.49 -y -3 -z 0.051"/>
     <arg name="robot2_pos" value="-x 10 -y -6 -z 0 -R 0 -P 0 -Y 3.14"/>
 
+    <arg name="is_mr_graphslam" value="true" /> <!-- have it just for consistency..." -->
+
     <!-- In any case spawn at least one robot -->
     <!-- pioneer3at -->
-    <group ns="pioneer_3at_1">
+    <group ns="$(arg robot1_name)">
         <param name="tf_prefix" value="$(arg robot1_name)" />
         <include file="$(find csl_robots_gazebo)/launch/setup_single_robot.launch">
             <arg name="robot_name" value="$(arg robot1_name)"/>
             <arg name="position_args" value="$(arg robot1_pos)" />
+            <arg name="is_mr_graphslam" value="$(arg is_mr_graphslam)" />
         </include>
     </group>
 
     <!-- Spawn second robot -->
     <group if="$(env SIMUL_DO_MR_GRAPHSLAM)">
-        <group ns="pioneer_3at_2">
+        <group ns="$(arg robot2_name)">
             <param name="tf_prefix" value="$(arg robot2_name)" />
             <include file="$(find csl_robots_gazebo)/launch/setup_single_robot.launch">
                 <arg name="robot_name" value="$(arg robot2_name)"/>
                 <arg name="position_args" value="$(arg robot2_pos)" />
+                <arg name="is_mr_graphslam" value="$(arg is_mr_graphslam)" />
             </include>
         </group>
     </group>

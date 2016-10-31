@@ -7,10 +7,15 @@
 <launch>
     <arg name="robot_name" default="pioneer_3at" />
     <arg name="position_args" default="-x 0.0 -y 0.0 -z 0.02" />
+    <arg name="is_mr_graphslam" default="false" />
+    <arg name="camera_name" value="camera1" />
+
+    <!-- Boolean flags -->
+    <arg name="launch_ar_sys" value="$(arg is_mr_graphslam)" />
 
     <!-- Upload the robot_description -->
     <param name="/robot_description"
-        command="$(find xacro)/xacro.py $(find csl_robot_descriptions)/defs/pioneer3at.xacro robot_ns:=$(arg robot_name)" />
+        command="$(find xacro)/xacro --inorder $(find csl_robot_descriptions)/defs/pioneer3at.xacro camera_name:=$(arg camera_name)" />
 
     <!-- publish TFs for static links -->
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
@@ -21,5 +26,13 @@
     <node name="spawn_pioneer" pkg="gazebo_ros" type="spawn_model"
         args="$(arg position_args) -urdf -param /robot_description -model $(arg robot_name) -namespace /$(arg robot_name)"
         respawn="false" output="screen" />
+
+    <!-- Launch rsys -->
+    <group if="$(arg launch_ar_sys)">
+        <include file="$(find csl_robots_gazebo)/launch/setup_single_ar_sys.launch">
+            <arg name="robot_name" value="$(arg robot_name)" />
+            <arg name="camera_name" value="$(arg camera_name)" />
+        </include>
+    </group>
 
 </launch>

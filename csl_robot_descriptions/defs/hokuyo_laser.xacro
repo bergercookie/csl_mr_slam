@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 
 <robot xmlns:xacro="http://ros.org/wiki/xacro" >
-    <xacro:property name="hokuyo_height" value="0.1" />
+    <xacro:property name="hokuyo_size" value="0.1" />
 
     <xacro:macro name="hokuyo_laser">
         <joint name="hokuyo_joint" type="fixed">
             <axis xyz="0 1 0" />
-            <origin xyz="0.0 0.0 ${hokuyo_height/4}" rpy="0 0 0"/>
+            <origin xyz="0.0 0.0 ${hokuyo_size/4}" rpy="0 0 0"/>
             <parent link="top_plate"/>
             <child link="hokuyo_link"/>
         </joint>
@@ -16,7 +16,7 @@
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <box size="0.1 0.1 0.1"/>
+                    <box size="${hokuyo_size} ${hokuyo_size} ${hokuyo_size}"/>
                 </geometry>
             </collision>
 
@@ -25,6 +25,7 @@
                 <geometry>
                     <mesh filename="package://csl_robot_descriptions/meshes/hokuyo.dae"/>
                 </geometry>
+                <material name="black"/>
             </visual>
 
             <inertial>
@@ -33,6 +34,9 @@
                 <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
             </inertial>
         </link>
+	    <gazebo reference="hokuyo_link">
+		    <material value="Gazebo/Black"/>
+	    </gazebo>
 
         <!-- Hokuyo Laser -->
         <gazebo reference="hokuyo_link">
@@ -68,7 +72,7 @@
                     </noise>
                 </ray>
                 <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">
-                    <topicName>/rrbot/laser/scan</topicName>
+                    <topicName>scan</topicName>
                     <frameName>hokuyo_link</frameName>
                 </plugin>
             </sensor>

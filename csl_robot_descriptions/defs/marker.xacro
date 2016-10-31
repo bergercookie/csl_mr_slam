@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<!-- 
+Xacro file that is used for displaying an ar_sys marker mounted on a single
+robot
+
+-->
+
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+    xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+    xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+    xmlns:xacro="http://ros.org/wiki/xacro"
+    >
+
+    <xacro:include filename="$(find csl_robot_descriptions)/defs/materials.xacro"/>
+    <xacro:property name="marker_size" value="0.18" />
+
+    <xacro:macro name="ar_sys_marker" params="parent marker_id">
+        <link name="marker_body">
+            <visual>
+                <geometry>
+                    <box size="${marker_size} ${marker_size} ${marker_size}" />
+                </geometry>
+                <material name="brown"/>
+                <origin xyz="0 0 0" rpy="0, ${pi/2} 0" />
+            </visual>
+        </link>
+
+        <joint name="base_to_marker" type="fixed">
+            <parent link="${parent}"/>
+            <child link="marker_body"/>
+  	        <axis xyz="0 0 0.5"/>
+            <!--<anchor xyz="0 0 0"/>-->
+        </joint>
+
+
+    </xacro:macro>
+</robot>
+

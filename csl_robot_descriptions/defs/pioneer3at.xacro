@@ -8,6 +8,7 @@
 
     <xacro:include filename="$(find csl_robot_descriptions)/defs/pioneer3at_body.xacro"/>
 
+    <xacro:chassis />
     <xacro:p3at_front suffix="left" reflect="1"/>
     <xacro:p3at_front suffix="right" reflect="-1"/>
     <xacro:p3at_back suffix="left" reflect="1"/>
@@ -16,4 +17,10 @@
 
     <xacro:include filename="$(find csl_robot_descriptions)/defs/hokuyo_laser.xacro"/>
     <xacro:hokuyo_laser/>
+
+    <xacro:include filename="$(find csl_robot_descriptions)/defs/camera.xacro"/>
+    <xacro:camera_macro camera_name="$(arg camera_name)"/>
+
+    <!--<xacro:include filename="$(find csl_robot_descriptions)/defs/marker.xacro"/>-->
+    <!--<xacro:ar_sys_marker parent="top_plate" marker_id="1" /> -->
 </robot>
