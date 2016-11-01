@@ -3,8 +3,10 @@
 <!--
 Tue Nov 1 23:06:10 EET 2016, Nikos Koukis
 
-Run sr_graphslam by grouping all the topic under a specific namespace. File
-should be run after setting up the drivers that offer the measurements.
+Launchfile provides a wrapper for running mrpt_graphslam_2d in an online setup.
+It is assumed that the underlying drivers (laserScanners, cameras have already
+been configured and are running so that their corresponding measurements are
+available (see setup_slam_agent.launch for the latter).
 
 -->
 
@@ -27,9 +29,23 @@ should be run after setting up the drivers that offer the measurements.
 
 	</group>
 
-	<group if="$(env MR_USE_ROOF_CAMERAS)">
+	<group if="$(env MR_COMPUTE_GROUND_TRUTH)">
+		<!-- Initialize roof cameras -->
 		<include file="$(porcelain_dir)/setup_roof_cameras.launch"/>
+
+		<!-- Get ground-truth estimation of the robot paths -->
+		<include file="$(ground_truth_fetcher)/launch/ground_truth_real.launch">
+			<arg name="gt_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
+		</include>
+
 	</group>
+
+  <!-- Record topics -->
+  <group if="$(env MR_RECORD_TOPICS)">
+	  <node
+	    pkg="rosbag" type="record" name="rosbag_recorder" output="$(arg output)" args="--all -O records.bag" />
+	</group>
+
 
 
 

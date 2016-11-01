@@ -2,14 +2,10 @@
 
 <!--
 
-Main launchfile for setting up *a single agent* for MR-SLAM. It practically
-provides a wrapper around other available low-level launchfiles of plumbing
-dir. Launchfile is to be used for *real* online SLAM, not for simulation
-purposes
-
-Use this only when using the algorithm for single-robot SLAM purposes.
-Otherwise use the setup_mr_slam which makes the necessary calls to this
-launchfile for every MR-SLAM agent.
+Setup the hardware drivers and other platform-specific nodes for a SLAM agent.
+Launchfile is to be run on the platform that traverses the environment during
+the SLAM procedure. That platform is not necessarily the platform that the SLAM
+computations take place (see run_sr_graphslam.launch for the latter).
 
 -->
 
@@ -52,18 +48,9 @@ launchfile for every MR-SLAM agent.
         </group>
 
         <!--Camera for identifying the relative transformation to another robot-->
-        <group if="$(env MR_USE_CAMERA)">
+        <group if="$(env MR_USE_ONBOARD_CAMERA)">
             <include file="$(arg plumb_dir)/setup_onboard_camera.launch"/>
         </group>
-
-        <!-- Record topics -->
-        <group if="$(env MR_RECORD_TOPICS)">
-	        <node
-	            pkg="rosbag"
-	            type="record" name="rosbag_recorder"
-	            output="$(arg output)"
-	            args="--all -O records.bag" />
-	    </group>
 
     </group>
 
