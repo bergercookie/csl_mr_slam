@@ -6,4 +6,4 @@ framework
 
 -->
 
-
+<node name="youbot_ros_interface" pkg="youbot_driver_ros_interface" type="youbot_ros_interface" />

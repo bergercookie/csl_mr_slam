@@ -4,7 +4,8 @@
 
 Main launchfile for setting up *a single agent* for MR-SLAM. It practically
 provides a wrapper around other available low-level launchfiles of plumbing
-dir.
+dir. Launchfile is to be used for *real* online SLAM, not for simulation
+purposes
 
 Use this only when using the algorithm for single-robot SLAM purposes.
 Otherwise use the setup_mr_slam which makes the necessary calls to this
@@ -14,13 +15,13 @@ launchfile for every MR-SLAM agent.
 
 <launch>
 
-<arg name="output"        default="$(env MR_OUTPUT_MESSAGES_TO)"  />
+<arg name="output" default="$(env MR_OUTPUT_MESSAGES_TO)"  />
 <arg name="plumb_dir" value="$(find csl_mr_slam)/launch/plumbing" />
 <arg name="porcelain_dir" value="$(find csl_mr_slam)/launch/porcelain" />
 <arg name = "robot_ns" defalut="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
 
 <!-- Simulation Time? -->
-<param name="/use_sim_time" default="$(env MR_IS_SIMULATION)" />
+<param name="/use_sim_time" default="false" />
 
 <!-- Use Multimaster? -->
 <group if="$(env MR_USE_MULTIMASTER)">
@@ -31,25 +32,28 @@ launchfile for every MR-SLAM agent.
 <group ns="$(arg robot_ns)" clear_params="true">
 
     <!-- Robot HW Drivers -->
-    <group unless="$(env MR_IS_SIMULATION)">
-        <group if="$(env MR_ROBOT_DRIVERS_USE_POULIAS)">
-            <include file="$(arg plumb_dir)/setup_drivers_pioneer_poulias.launch">
-            </include>
-        </group>
-        <group if="$(env MR_ROBOT_DRIVERS_USE_YOUBOT)">
-            <include file="$(arg plumb_dir)/setup_drivers_youbot.launch">
-            </include>
-        </group>
-        <group if="$(env MR_ROBOT_DRIVERS_USE_ARIA)">
-            <include file="$(arg plumb_dir)/setup_drivers_aria.launch">
-            </include>
-        </group>
+    <group if="$(env MR_ROBOT_DRIVERS_USE_POULIAS)">
+        <include file="$(arg plumb_dir)/setup_drivers_pioneer_poulias.launch">
+        </include>
+    </group>
+    <group if="$(env MR_ROBOT_DRIVERS_USE_YOUBOT)">
+        <include file="$(arg plumb_dir)/setup_drivers_youbot.launch">
+        </include>
+    </group>
+    <group if="$(env MR_ROBOT_DRIVERS_USE_ARIA)">
+        <include file="$(arg plumb_dir)/setup_drivers_aria.launch">
+        </include>
+    </group>
 
-        <!-- Laser Scan Matcher -->
-        <group if="$(env MR_USE_REAL_LASER)">
-            <include file="$(arg plumb_dir)/setup_laser_$(env MR_LASER_NAME).launch">
-            </include>
-        </group>
+    <!-- Laser Scan Matcher -->
+    <group if="$(env MR_USE_REAL_LASER)">
+        <include file="$(arg plumb_dir)/setup_laser_$(env MR_LASER_NAME).launch">
+        </include>
+    </group>
+
+    <!--Camera for identifying the relative transfomration to another robot-->
+    <group if="$(env MR_USE_CAMERA)">
+        <include file="$(arg plumb_dir)/setup_onboard_camera.launch"/>
     </group>
 
     <!-- Record topics -->
@@ -60,8 +64,6 @@ launchfile for every MR-SLAM agent.
 	        output="$(arg output)"
 	        args="--all -O $(env MR_ROSBAG_DIR)/records.bag" />
 	</group>
-
-    <!-- Play rosbag if use_sim_time == true -->
 
 </group>
 

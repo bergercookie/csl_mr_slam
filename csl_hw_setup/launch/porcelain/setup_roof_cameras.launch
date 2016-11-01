@@ -13,7 +13,7 @@ previous version of the csl_aruco package launchfiles.
 
     <arg name="fps" value="15" />
     <arg name="calib_file" value="file://$(find ground_truth_fetcher)/res/calibration/ps3M_blue_calib.yaml"/>
-    <arg name="view_cam_images" value="false" />
+    <arg name="view_cam_images" value="true" />
     <arg name="boards_config_file" value="$(find ground_truth_fetcher)/res/boards/vrep_multicam_res/boards_real.yml" />
     <arg name="boards_config_dir" value="$(find ground_truth_fetcher)/res/boards/vrep_multicam_res/" />
     <arg name="broadcast_to_origin" value="true" />
@@ -68,18 +68,20 @@ previous version of the csl_aruco package launchfiles.
 		<param name="draw_markers_axis" type="bool" value="false" />
 	</node>
 
+    <!-- Launch the camera view windows -->
 	<group if="$(arg view_cam_images)">
         <node pkg="image_view" type="image_view" name="image_view_top_left" output="screen">
-            <remap from="image" to="/ar_multi_boards_top_left/result" /> 
+            <remap from="image" to="/ar_multi_boards_top_left/result" />
             <param name="autosize" type="bool" value="true" />
         </node>
 
         <node pkg="image_view" type="image_view" name="image_view_top_right" output="screen">
-            <remap from="image" to="/ar_multi_boards_top_right/result" /> 
+            <remap from="image" to="/ar_multi_boards_top_right/result" />
             <param name="autosize" type="bool" value="true" />
         </node>
 	</group>
 
+    <!-- Broadcast the transformations to the origin -->
     <group if="$(arg broadcast_to_origin)">
         <node pkg="ground_truth_fetcher" type="multirobot_tf2_broadcaster.py" name="multirobot_tf2_broadcaster" output="screen" />
     </group>
