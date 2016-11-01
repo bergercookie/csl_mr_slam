@@ -24,6 +24,7 @@ been set.
             />
 
         <!-- Algorithm received the laser scan in the input/laser_scan topic -->
+        <!-- urg_node expects it *relative* to its start at "scan" -->
 	    <remap from="scan" to="input/laser_scan" />
 	</node>
 

@@ -46,7 +46,7 @@ launchfile for every MR-SLAM agent.
     </group>
 
     <!-- Laser Scan Matcher -->
-    <group if="$(env MR_USE_REAL_LASER)">
+    <group if="$(env MR_USE_LASER)">
         <include file="$(arg plumb_dir)/setup_laser_$(env MR_LASER_NAME).launch">
         </include>
     </group>
