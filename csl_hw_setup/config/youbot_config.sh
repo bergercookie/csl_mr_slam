@@ -18,9 +18,20 @@ export MR_ROBOT_DRIVERS_USE_YOUBOT=1
 export MR_ROBOT_DRIVERS_USE_ARIA=0
 export MR_OUTPUT_MESSAGES_TO="screen"
 
+# LaserScanner
 export MR_USE_LASER=1
 export MR_LASER_NAME="hokuyo"
 export MR_LASER_PORT="/dev/ttyACM0"
+
+# Camera
+export MR_USE_CAMERA=0
 export MR_CAMERA_PORT="dev/video0"
+
+# Teleoperation
 export MR_USE_JOYSTICK=0
 
+# Marker IDs for  common origin and ground-truth paths
+export MR_ORIGIN_MARKER_ID="mf7"
+export MR_ROBOT_MARKER_ID="mf1"
+
+export MR_USE_ROOF_CAMERAS=1

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<!--
+Tue Nov 1 23:06:10 EET 2016, Nikos Koukis
+
+Run sr_graphslam by grouping all the topic under a specific namespace. File
+should be run after setting up the drivers that offer the measurements.
+
+-->
+
+<launch>
+	<arg name="porcelain_dir" value="$(find csl_mr_slam)/launch/porcelain" />
+  <arg name="plumb_dir" value="$(find csl_mr_slam)/launch/plumbing" />
+  <arg name = "robot_ns" defalut="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
+
+	<group ns="$(arg robot_ns)">
+
+		<!-- run graphslam -->
+		<include file="$(find mrpt_graphslam_2d)/launch/graphslam.launch">
+			<arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
+			<arg name="global_frame_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
+			<arg name="NRD" value="CFixedIntervalsNRD" />
+			<arg name="ERD" value="CICPCriteriaERD" />
+			<arg name="GSO" value="CLevMarqGSO" />
+			<env name="ROS_IS_SIMULATION" value="0" />
+		</include>
+
+	</group>
+
+	<group if="$(env MR_USE_ROOF_CAMERAS)">
+		<include file="$(porcelain_dir)/setup_roof_cameras.launch"/>
+	</group>
+
+
+
+
+</launch>
