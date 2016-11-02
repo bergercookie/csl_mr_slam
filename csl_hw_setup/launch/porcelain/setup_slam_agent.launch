@@ -14,10 +14,10 @@ computations take place (see run_sr_graphslam.launch for the latter).
     <arg name="output" default="$(env MR_OUTPUT_MESSAGES_TO)"  />
     <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
     <arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
-    <arg name = "robot_ns" defalut="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
+    <arg name = "robot_ns" default="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
 
     <!-- Simulation Time? -->
-    <param name="/use_sim_time" default="false" />
+    <param name="/use_sim_time" value="false" />
 
     <group ns="$(arg robot_ns)">
 

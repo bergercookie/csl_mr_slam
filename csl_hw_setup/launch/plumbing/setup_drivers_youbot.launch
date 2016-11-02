@@ -8,10 +8,10 @@ framework
 
 <launch>
 
-<arg name = "robot_ns" value = "$(env ROBOT_MODEL)_$(env ROBOT_ID)" />
+<arg name = "robot_ns" value = "$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
 
-<remap from="/cmd_vel" to="$(robot_ns)/input/cmd_vel" />
-<remap from="/odom" to="$(robot_ns)/input/cmd_vel" />
-<include file="$(find youbot_ros_interface)/launch/youbot_driver.launch"/>
+<remap from="/cmd_vel" to="$(arg robot_ns)/input/cmd_vel" />
+<remap from="/odom" to="$(arg robot_ns)/input/cmd_vel" />
+<include file="$(find youbot_driver_ros_interface)/launch/youbot_driver.launch"/>
 
 </launch>

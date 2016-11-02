@@ -3,6 +3,8 @@
 # Single robot SLAM 
 # source this file on both the ubuntu machine and youbot
 
+export MR_USE_MULTIMASTER=0
+
 export MR_IS_MULTIROBOT_GRAPHSLAM=0
 export MR_IS_SIMULATION=0
 
@@ -22,7 +24,7 @@ export MR_OUTPUT_MESSAGES_TO="screen"
 # LaserScanner
 export MR_USE_LASER=1
 export MR_LASER_NAME="hokuyo"
-export MR_LASER_PORT="/dev/ttyACM0"
+export MR_LASER_PORT="/dev/ttyACM1"
 
 # Camera
 export MR_USE_ONBOARD_CAMERA=0
