@@ -11,8 +11,8 @@ available (see setup_slam_agent.launch for the latter).
 -->
 
 <launch>
-	<arg name="porcelain_dir" value="$(find csl_mr_slam)/launch/porcelain" />
-  <arg name="plumb_dir" value="$(find csl_mr_slam)/launch/plumbing" />
+	<arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
+  <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
   <arg name = "robot_ns" defalut="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
 
 	<group ns="$(arg robot_ns)">
@@ -30,12 +30,10 @@ available (see setup_slam_agent.launch for the latter).
 	</group>
 
 	<group if="$(env MR_COMPUTE_GROUND_TRUTH)">
-		<!-- Initialize roof cameras -->
-		<include file="$(porcelain_dir)/setup_roof_cameras.launch"/>
 
 		<!-- Get ground-truth estimation of the robot paths -->
 		<include file="$(ground_truth_fetcher)/launch/ground_truth_real.launch">
-			<arg name="gt_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
+			<arg name="oigin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
 		</include>
 
 	</group>

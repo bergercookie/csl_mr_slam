@@ -12,8 +12,8 @@ computations take place (see run_sr_graphslam.launch for the latter).
 <launch>
 
     <arg name="output" default="$(env MR_OUTPUT_MESSAGES_TO)"  />
-    <arg name="plumb_dir" value="$(find csl_mr_slam)/launch/plumbing" />
-    <arg name="porcelain_dir" value="$(find csl_mr_slam)/launch/porcelain" />
+    <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
+    <arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
     <arg name = "robot_ns" defalut="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
 
     <!-- Simulation Time? -->
