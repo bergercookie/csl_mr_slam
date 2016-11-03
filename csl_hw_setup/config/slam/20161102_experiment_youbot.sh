@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Single robot SLAM 
+# Single robot SLAM
 # source this file on both the ubuntu machine and youbot
 
 export MR_USE_MULTIMASTER=0
@@ -31,7 +31,7 @@ export MR_USE_ONBOARD_CAMERA=0
 export MR_CAMERA_PORT="dev/video0"
 
 # Teleoperation
-export MR_USE_JOYSTICK=0
+export MR_USE_JOYSTICK=1
 
 # Marker IDs for  common origin and ground-truth paths
 export MR_ORIGIN_MARKER_ID="mf7"
