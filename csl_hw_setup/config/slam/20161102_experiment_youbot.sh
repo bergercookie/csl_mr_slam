@@ -32,6 +32,7 @@ export MR_CAMERA_PORT="dev/video0"
 
 # Teleoperation
 export MR_USE_JOYSTICK=1
+export MR_JOYSTICK_PORT="/dev/input/js0"
 
 # Marker IDs for  common origin and ground-truth paths
 export MR_ORIGIN_MARKER_ID="mf7"

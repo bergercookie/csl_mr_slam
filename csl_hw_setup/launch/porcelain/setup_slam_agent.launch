@@ -52,6 +52,21 @@ computations take place (see run_sr_graphslam.launch for the latter).
             <include file="$(arg plumb_dir)/setup_onboard_camera.launch"/>
         </group>
 
+        <!-- Enable joystick teleoperation -->
+        <group if="$(env MR_USE_JOYSTICK)">
+            <group if="$(env MR_ROBOT_DRIVERS_USE_POULIAS)">
+                <include file="$(arg plumb_dir)/teleop_poulias.launch">
+                    <arg name="joystick_port" default="$(env MR_JOYSTICK_PORT)" />
+                </include>
+            </group>
+            <group unless="$(env MR_ROBOT_DRIVERS_USE_POULIAS)">
+                <include file="$(arg plumb_dir)/teleop_generic.launch">
+                    <arg name="config" default="$(find csl_hw_setup)/joystick/youbot.config.yaml" />
+                    <arg name="joystick_port" default="$(env MR_JOYSTICK_PORT)" />
+                </include>
+            </group>
+        </group>
+
     </group>
 
 </launch>

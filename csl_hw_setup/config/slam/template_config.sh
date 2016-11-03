@@ -30,6 +30,6 @@ export MR_LASER_NAME="hokuyo"
 export MR_LASER_PORT="/dev/ttyACM1"
 export MR_CAMERA_PORT="dev/video0"
 export MR_POULIAS_ARDUINO_PORT="/dev/ttyACM0"
-export MR_POULIAS_JOYSTICK_PORT="/dev/input/js0"
 export MR_USE_JOYSTICK=0
+export MR_JOYSTICK_PORT="/dev/input/js0"
 

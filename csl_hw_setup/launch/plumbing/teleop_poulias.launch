@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<!--
+Thu Nov 3 14:37:40 EET 2016, Nikos Koukis
+
+Setup joystick teleoperation with the arduino controlling the robot motion
+
+-->
+
+<launch>
+    <arg name="joystick_port" default="/dev/input/js0"/>
+	<arg name="output"        value="$(env MR_OUTPUT_MESSAGES_TO)"/>
+
+    <param name="joy_node/dev" value="$(arg joystick_port)" />
+
+    <node pkg="joy" type="joy_node" name="joy_node" output="$(arg output)" />
+    <node pkg="joy_to_arduino" type="teleop_MR_2at" name="teleop_MR_2at" output="$(arg output)" />
+
+</launch>
