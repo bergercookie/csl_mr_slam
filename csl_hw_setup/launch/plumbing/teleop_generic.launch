@@ -8,7 +8,7 @@ Setup joystick teleoperation
 
 <launch>
     <arg name="joystick_port" default="/dev/input/js0" />
-    <arg name="config" default="$(find csl_hw_setup)/joystick/youbot.config.yaml" />
+    <arg name="config" default="$(find csl_hw_setup)/config/joystick/youbot.config.yaml" />
 
     <node pkg="joy" type="joy_node" name="joy_node">
         <param name="dev" value="$(arg joystick_port)" />
@@ -17,6 +17,7 @@ Setup joystick teleoperation
     </node>
 
     <node pkg="teleop_twist_joy" name="teleop_twist_joy" type="teleop_node">
+        <remap from="cmd_vel" to="input/cmd_vel" />
         <rosparam command="load" file="$(arg config)" />
     </node>
 </launch>
