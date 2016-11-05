@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<!--
+Tue Nov 1 23:06:10 EET 2016, Nikos Koukis
+
+Launchfile provides a wrapper for running mrpt_graphslam_2d in an online setup.
+It is assumed that the underlying drivers (laserScanners, cameras have already
+been configured and are running so that their corresponding measurements are
+available (see setup_slam_agent.launch for the latter).
+
+-->
+
+<launch>
+	<arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
+    <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
+    <arg name="robot_ns" default="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
+    <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
+    <arg name="gt_ns" value="/ground_truth" />
+    <arg name="origin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
+    <arg name="robot_marker_ID" value="$(env MR_ROBOT_MARKER_ID)" />
+    <arg name="disable_MRPT_visuals" default="false" />
+
+    <arg name="start_rviz" default="false" />
+    <arg name="rviz_file" default="$(find mrpt_graphslam_2d)/rviz/graphslam_bag.rviz" />
+
+    <arg name="bag_file" default="$(find csl_hw_setup)/datasets/ktM_20161104_youbot_merged.bag" />
+
+    <param name="/use_sim_time" value="true" />
+
+    <param name="$(arg gt_ns)/origin_marker_ID" value="$(arg origin_marker_ID)" />
+    <!-- Let the nodes know what the ground-truth topic namespace is each time.. -->
+    <param name="/ground_truth_ns" value="$(arg gt_ns)" />
+
+	<group ns="$(arg robot_ns)">
+
+		<!-- Run single-robot graphSLAM -->
+		<include file="$(find mrpt_graphslam_2d)/launch/graphslam.launch">
+			<arg name="output" value="$(arg output)" />
+            <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans.ini"  />-->
+            <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_laser_odometry.ini"  />-->
+            <arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_version.ini"  />
+			<arg name="anchor_frame_ID" value="$(arg robot_marker_ID)_anchor" />
+			<arg name="NRD" value="CFixedIntervalsNRD" />
+			<!--<arg name="NRD" value="CICPCriteriaNRD" />-->
+            <!--<arg name="ERD" value="CICPCriteriaERD" />-->
+            <arg name="ERD" value="CLoopCloserERD" />
+			<arg name="GSO" value="CLevMarqGSO" />
+			<arg name="play_own_rosbag" value="false" />
+            <arg name="disable_MRPT_visuals" value="$(arg disable_MRPT_visuals)" />
+		</include>
+
+	</group>
+
+	<group if="$(env MR_COMPUTE_GROUND_TRUTH)">
+		<!-- Get ground-truth estimation of the robot paths -->
+		<include file="$(find ground_truth_fetcher)/launch/ground_truth_bag.launch">
+		</include>
+	</group>
+
+	<node pkg="rosbag" type="play" name="rosbag_player" output="$(arg output)" args="--clock $(arg bag_file)" />
+
+	<!-- Start rviz -->
+	<group if="$(arg start_rviz)">
+		<node pkg="rviz" type="rviz" name="rviz_visualization" output="$(arg output)" args="-d $(arg rviz_file)" />
+	</group>
+
+</launch>

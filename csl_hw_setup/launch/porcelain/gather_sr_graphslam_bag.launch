@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<!--
+Tue Nov 1 23:06:10 EET 2016, Nikos Koukis
+
+Record the necessary topics and node activity to run single-robot graphslam
+based on the recorded data.
+
+-->
+
+<launch>
+	<arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
+    <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
+    <arg name="robot_ns" default="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
+    <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
+    <arg name="gt_ns" value="/ground_truth" />
+    <arg name="origin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)"/>
+
+    <param name="/use_sim_time" value="false" />
+
+    <!-- Record topics -->
+    <group if="$(env MR_RECORD_TOPICS)">
+        <arg name="exclusion_topics" value="/top_left_camera/(.*)|/top_right_camera/(.*)|/(.*)/compressedDepth" />
+	    <node pkg="rosbag" type="record" name="rosbag_recorder" output="$(arg output)" args="--all -x '$(arg exclusion_topics)' -O records.bag" />
+	</group>
+
+	<!-- Initialize roof cameras -->
+    <param name="$(arg gt_ns)/origin_marker_ID" value="$(arg origin_marker_ID)" />
+	<include file="$(arg plumb_dir)/setup_roof_cameras.launch">
+		<arg name="broadcast_to_origin" value="true" />
+	</include>
+
+
+
+
+
+</launch>

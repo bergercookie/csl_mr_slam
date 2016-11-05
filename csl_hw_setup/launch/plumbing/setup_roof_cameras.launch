@@ -16,7 +16,7 @@ previous version of the csl_aruco package launchfiles.
     <arg name="view_cam_images" value="false" />
     <arg name="boards_config_file" value="$(find ground_truth_fetcher)/res/boards/vrep_multicam_res/boards_real.yml" />
     <arg name="boards_config_dir" value="$(find ground_truth_fetcher)/res/boards/vrep_multicam_res/" />
-    <arg name="broadcast_to_origin" value="true" />
+    <arg name="broadcast_to_origin" default="true" />
 
     <!-- Launch the cameras -->
     <group ns="/top_left_camera">

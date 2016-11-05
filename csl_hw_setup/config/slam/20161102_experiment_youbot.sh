@@ -28,7 +28,7 @@ export MR_LASER_PORT="/dev/ttyACM1"
 
 # Camera
 export MR_USE_ONBOARD_CAMERA=0
-export MR_CAMERA_PORT="dev/video0"
+export MR_ONBOARD_CAMERA_PORT="dev/video0"
 
 # Teleoperation
 export MR_USE_JOYSTICK=1
@@ -36,6 +36,6 @@ export MR_JOYSTICK_PORT="/dev/input/js0"
 
 # Marker IDs for  common origin and ground-truth paths
 export MR_ORIGIN_MARKER_ID="mf7"
-export MR_ROBOT_MARKER_ID="mf1"
+export MR_ROBOT_MARKER_ID="mf0"
 
 export MR_COMPUTE_GROUND_TRUTH=1
