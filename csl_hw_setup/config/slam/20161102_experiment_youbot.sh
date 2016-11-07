@@ -30,7 +30,7 @@ export MR_LASER_USE_URG_NODE_PKG=0 # Use the urg_node ROS pkg instead of the hok
 
 export MR_LASER_NAME="hokuyo"
 
-export MR_LASER_PORT="/dev/ttyACM1"
+export MR_LASER_PORT="/dev/ttyACM0"
 
 # Option only available with the urg_node laserScans package - ignored otherwise
 export MR_LASER_SKIP_NUM_MESSAGES="1"
