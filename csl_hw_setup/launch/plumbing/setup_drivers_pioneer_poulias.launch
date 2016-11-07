@@ -17,13 +17,12 @@ Communication with the arduino is achived via a /dev device.
 	<arg name="arduino_port"  value="$(env MR_POULIAS_ARDUINO_PORT)"/>
 	<arg name="output"        value="$(env MR_OUTPUT_MESSAGES_TO)"/>
 	<arg name="robot_model"   default="$(env MR_ROBOT_MODEL)"/>
-	<arg name="odom_topic"    default="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)/input/odom"/>
 
 
     <!-- LAUNCH PARAMETERS -->
 	<param name="arduino/port" value="$(arg arduino_port)"  />
 
 	<!-- NODES TO BE LAUNCHED -->
-	<node pkg="arduino_mr" type="$(arg robot_model).py" name="$(arg robot_model)" output="$(arg output)" args="/pioneer/position_odom:=$(arg odom_topic)" />
+	<node pkg="arduino_mr" type="$(arg robot_model).py" name="$(arg robot_model)" output="$(arg output)" args="odom:=input/odom" />
 
 </launch>

@@ -15,5 +15,4 @@ Setup joystick teleoperation with the arduino controlling the robot motion
 
     <node pkg="joy" type="joy_node" name="joy_node" output="$(arg output)" />
     <node pkg="joy_to_arduino" type="teleop_MR_2at" name="teleop_MR_2at" output="$(arg output)" />
-
 </launch>
