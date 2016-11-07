@@ -15,17 +15,30 @@ available (see setup_slam_agent.launch for the latter).
     <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
     <arg name="robot_ns" default="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
+    <arg name="gt_ns" value="/ground_truth" />
+    <arg name="origin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
+    <arg name="robot_marker_ID" value="$(env MR_ROBOT_MARKER_ID)" />
+    <arg name="disable_MRPT_visuals" default="false" />
+
+    <arg name="start_rviz" default="false" />
+    <arg name="rviz_file" default="$(find mrpt_graphslam_2d)/rviz/graphslam_bag.rviz" />
+
 
 	<group ns="$(arg robot_ns)">
 
-		<!-- Run single-robot graphSLAM -->
 		<include file="$(find mrpt_graphslam_2d)/launch/graphslam.launch">
 			<arg name="output" value="$(arg output)" />
-			<arg name="global_frame_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
+            <arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans.ini"  />
+            <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_laser_odometry.ini"  />-->
+            <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_version.ini"  />-->
+			<arg name="anchor_frame_ID" value="$(arg robot_marker_ID)_anchor" />
 			<arg name="NRD" value="CFixedIntervalsNRD" />
-			<arg name="ERD" value="CICPCriteriaERD" />
+			<!--<arg name="NRD" value="CICPCriteriaNRD" />-->
+            <arg name="ERD" value="CICPCriteriaERD" />
+            <!--<arg name="ERD" value="CLoopCloserERD" />-->
 			<arg name="GSO" value="CLevMarqGSO" />
-			<arg name="ros_is_simulation" value="0" />
+			<arg name="play_own_rosbag" value="false" />
+            <arg name="disable_MRPT_visuals" value="$(arg disable_MRPT_visuals)" />
 		</include>
 
 	</group>
@@ -43,6 +56,11 @@ available (see setup_slam_agent.launch for the latter).
     <group if="$(env MR_RECORD_TOPICS)">
         <arg name="exclusion_topics" value="/top_left_camera/(.*)|/top_right_camera/(.*)|/(.*)/compressedDepth" />
 	    <node pkg="rosbag" type="record" name="rosbag_recorder" output="$(arg output)" args="--all -x '$(arg exclusion_topics)' -O records.bag" />
+	</group>
+
+	<!-- Start rviz -->
+	<group if="$(arg start_rviz)">
+		<node pkg="rviz" type="rviz" name="rviz_visualization" output="$(arg output)" args="-d $(arg rviz_file)" />
 	</group>
 
 

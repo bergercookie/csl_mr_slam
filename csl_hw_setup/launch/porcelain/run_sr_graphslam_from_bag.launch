@@ -18,6 +18,7 @@ available (see setup_slam_agent.launch for the latter).
     <arg name="gt_ns" value="/ground_truth" />
     <arg name="origin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
     <arg name="robot_marker_ID" value="$(env MR_ROBOT_MARKER_ID)" />
+    <arg name="track_odd_marker_IDs" value="$(env MR_USE_ODD_ARUCO_MARKERS_FOR_GT)" />
     <arg name="disable_MRPT_visuals" default="false" />
 
     <arg name="start_rviz" default="false" />
@@ -27,23 +28,25 @@ available (see setup_slam_agent.launch for the latter).
 
     <param name="/use_sim_time" value="true" />
 
-    <param name="$(arg gt_ns)/origin_marker_ID" value="$(arg origin_marker_ID)" />
     <!-- Let the nodes know what the ground-truth topic namespace is each time.. -->
     <param name="/ground_truth_ns" value="$(arg gt_ns)" />
+
+    <param name="$(arg gt_ns)/origin_marker_ID" value="$(arg origin_marker_ID)" />
+    <param name="$(arg gt_ns)/track_odd_marker_IDs" value="$(arg track_odd_marker_IDs)" />
 
 	<group ns="$(arg robot_ns)">
 
 		<!-- Run single-robot graphSLAM -->
 		<include file="$(find mrpt_graphslam_2d)/launch/graphslam.launch">
 			<arg name="output" value="$(arg output)" />
-            <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans.ini"  />-->
+            <arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans.ini"  />
             <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_laser_odometry.ini"  />-->
-            <arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_version.ini"  />
+            <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_version.ini"  />-->
 			<arg name="anchor_frame_ID" value="$(arg robot_marker_ID)_anchor" />
 			<arg name="NRD" value="CFixedIntervalsNRD" />
 			<!--<arg name="NRD" value="CICPCriteriaNRD" />-->
-            <!--<arg name="ERD" value="CICPCriteriaERD" />-->
-            <arg name="ERD" value="CLoopCloserERD" />
+            <arg name="ERD" value="CICPCriteriaERD" />
+            <!--<arg name="ERD" value="CLoopCloserERD" />-->
 			<arg name="GSO" value="CLevMarqGSO" />
 			<arg name="play_own_rosbag" value="false" />
             <arg name="disable_MRPT_visuals" value="$(arg disable_MRPT_visuals)" />
@@ -54,6 +57,7 @@ available (see setup_slam_agent.launch for the latter).
 	<group if="$(env MR_COMPUTE_GROUND_TRUTH)">
 		<!-- Get ground-truth estimation of the robot paths -->
 		<include file="$(find ground_truth_fetcher)/launch/ground_truth_bag.launch">
+			<arg name="origin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
 		</include>
 	</group>
 

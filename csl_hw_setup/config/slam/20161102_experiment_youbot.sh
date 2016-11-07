@@ -45,6 +45,10 @@ export MR_JOYSTICK_PORT="/dev/input/js0"
 
 # Marker IDs for  common origin and ground-truth paths
 export MR_ORIGIN_MARKER_ID="mf7"
-export MR_ROBOT_MARKER_ID="mf0"
+export MR_ROBOT_MARKER_ID="mf1" # Just for initializing the anchor_frame_ID
+
+# if true, Odd Aruco markers are used for tracking the agents' ground truth
+# paths while even aruco markers for inter-robot meetings
+export MR_USE_ODD_ARUCO_MARKERS_FOR_GT=1
 
 export MR_COMPUTE_GROUND_TRUTH=1
