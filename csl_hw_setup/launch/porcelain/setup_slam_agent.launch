@@ -14,7 +14,15 @@ computations take place (see run_sr_graphslam.launch for the latter).
     <arg name="output" default="$(env MR_OUTPUT_MESSAGES_TO)"  />
     <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
     <arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
-    <arg name = "robot_ns" default="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
+    <arg name="robot_ns" default="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
+
+    <!--
+        Should this node record topics as well? Argument should not be the
+        same as the MR_RECORD_TOPICS env variable since this launchfile is run
+        on the data acquisition machine which may not share the same roscore as the machine doing the actual SLAM
+    -->
+
+    <arg name="do_record_topics" default="false" />
 
     <!-- Simulation Time? -->
     <param name="/use_sim_time" value="false" />
@@ -62,12 +70,18 @@ computations take place (see run_sr_graphslam.launch for the latter).
             <group unless="$(env MR_ROBOT_DRIVERS_USE_POULIAS)">
                 <include file="$(arg plumb_dir)/teleop_generic.launch">
                     <arg name="config" default="$(find csl_hw_setup)/config/joystick/youbot.config.yaml" />
-                    <!--<arg name="config" default="$(find csl_hw_setup)/config/joystick/non-holonomic.config.yaml" />-->
                     <arg name="joystick_port" default="$(env MR_JOYSTICK_PORT)" />
                 </include>
             </group>
         </group>
 
     </group>
+
+    <!-- Record topics -->
+    <group if="$(arg do_record_topics)">
+        <arg name="exclusion_topics" value="" />
+	    <node pkg="rosbag" type="record" name="rosbag_recorder" output="$(arg output)" args="--all -x '$(arg exclusion_topics)' -O records.bag" />
+	</group>
+
 
 </launch>

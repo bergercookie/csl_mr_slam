@@ -22,5 +22,5 @@ axis_angular:
 scale_angular:
   yaw: 0.5
 
-#enable_button: 10  # L1 shoulder button
-#enable_turbo_button: 8  # L2 shoulder button
+enable_button: 10  # L1 shoulder button
+enable_turbo_button: 8  # L2 shoulder button

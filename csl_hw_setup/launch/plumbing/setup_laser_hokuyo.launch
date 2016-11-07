@@ -9,19 +9,9 @@ been set.
 -->
 
 <launch>
-	<node 
-	    pkg="urg_node"
-	    type="urg_node"
-	    name="hokuyo_laser_scanner"
-	    output="$(env MR_OUTPUT_MESSAGES_TO)"
-	    required="true"
-	    >
-
-        <param
-            name="~serial_port"
-            value="$(env MR_LASER_PORT)"
-            type="string"
-            />
+	<node pkg="urg_node" type="urg_node" name="hokuyo_laser_scanner" output="$(env MR_OUTPUT_MESSAGES_TO)" required="true">
+        <param name="~serial_port" value="$(env MR_LASER_PORT)" type="string"/>
+        <param name="~skip" value="$(env MR_LASER_SKIP_NUM_MESSAGES)" type="int"/>
 
         <!-- Algorithm received the laser scan in the input/laser_scan topic -->
         <!-- urg_node expects it *relative* to its start at "scan" -->

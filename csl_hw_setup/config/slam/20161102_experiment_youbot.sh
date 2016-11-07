@@ -26,6 +26,7 @@ export MR_USE_LASER=1
 export MR_LASER_NAME="hokuyo"
 export MR_LASER_USE_HOKUYO_NODE_PKG=0 # should we use the hokuyo_node pkg or the newer  urg_node?
 export MR_LASER_PORT="/dev/ttyACM1"
+export MR_LASER_SKIP_NUM_MESSAGES="2"
 
 # Camera
 export MR_USE_ONBOARD_CAMERA=0
