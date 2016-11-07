@@ -6,7 +6,6 @@
 export MR_USE_MULTIMASTER=0
 
 export MR_IS_MULTIROBOT_GRAPHSLAM=0
-export MR_IS_SIMULATION=0
 
 export MR_ROBOT_ID=15
 export MR_ROBOT_MODEL="youbot"
@@ -23,10 +22,18 @@ export MR_OUTPUT_MESSAGES_TO="screen"
 
 # LaserScanner
 export MR_USE_LASER=1
+
+# [!] WARNING
+# urg_node doesn't seem to work properly with the hokuyo laser scanners available in the Control Systems lab
+# It is *strongly* advised to set this to 0
+export MR_LASER_USE_URG_NODE_PKG=0 # Use the urg_node ROS pkg instead of the hokuyo_node
+
 export MR_LASER_NAME="hokuyo"
-export MR_LASER_USE_HOKUYO_NODE_PKG=0 # should we use the hokuyo_node pkg or the newer  urg_node?
+
 export MR_LASER_PORT="/dev/ttyACM1"
-export MR_LASER_SKIP_NUM_MESSAGES="2"
+
+# Option only available with the urg_node laserScans package - ignored otherwise
+export MR_LASER_SKIP_NUM_MESSAGES="1"
 
 # Camera
 export MR_USE_ONBOARD_CAMERA=0
