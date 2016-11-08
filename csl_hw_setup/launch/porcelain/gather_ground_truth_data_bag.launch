@@ -3,17 +3,25 @@
 <!--
 Tue Nov 1 23:06:10 EET 2016, Nikos Koukis
 
-Record the necessary topics and node activity to run single-robot graphslam
-based on the recorded data.
+Record the necessary topics and node activity so that we can run single-robot
+graphslam based on the recorded data afterwards.
+
+This is a top-level launchfile that should be launched from the machine that
+handles the ground-truth roof cameras.
+
+note: File doesn't launch the nodes to compute the ground truth path of the
+      robot markers since this can be done after the initial camera data is recorded
 
 -->
 
 <launch>
 	<arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
     <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
-    <arg name="robot_ns" default="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
-    <arg name="gt_ns" value="/ground_truth" />
+
+    <!-- Needed for getting the opposite of the static marker to roof cameras
+         transformation so that the origin is the common parent in the tf tree -->
+    <arg name="gt_ns" default="/ground_truth" />
     <arg name="origin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)"/>
 
     <param name="/use_sim_time" value="false" />
