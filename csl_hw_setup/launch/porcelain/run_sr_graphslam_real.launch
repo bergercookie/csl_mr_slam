@@ -6,16 +6,16 @@ Tue Nov 1 23:06:10 EET 2016, Nikos Koukis
 Launchfile provides a wrapper for running mrpt_graphslam_2d in an online setup.
 It is assumed that the underlying drivers (laserScanners, cameras have already
 been configured and are running so that their corresponding measurements are
-available (see setup_slam_agent.launch for the latter).
+available (see setup_graphSLAM_agent.launch for the latter).
 
 warning: Node launches the necessary nodes for running grahpslam and for
          computing the ground truth paths of the robots but *does not* launch
          the nodes for grabbing the sensor measurements (laser, odometry etc)
          or for controlling the robot movement (e.g. joystick).  For this, see
-         the setup_slam_agent.launch file
+         the setup_graphSLAM_agent.launch file
 
 note: This is a top-level launchfile that should be used for running *single*
-      robot graphslam - The data are supposed to be available in the
+      robot graphslam - The data is assumed be available in the
       corresponding topics see /input topic namespace.
 -->
 
@@ -32,6 +32,8 @@ note: This is a top-level launchfile that should be used for running *single*
     <arg name="start_rviz" default="false" />
     <arg name="rviz_file" default="$(find mrpt_graphslam_2d)/rviz/graphslam_bag.rviz" />
 
+    <param name="$(arg gt_ns)/origin_marker_ID" value="$(arg origin_marker_ID)" />
+    <param name="$(arg gt_ns)/track_odd_marker_IDs" value="$(arg track_odd_marker_IDs)" type="bool"/>
 
 	<group ns="$(arg robot_ns)">
 

@@ -4,7 +4,7 @@
 Wed Oct 26 12:48:44 EEST 2016, Nikos Koukis
 
 Launchfile for executing *online* MR-SLAM. Makes the necessary calls to all the
-single robot SLAM agents via their corresponding setup_slam_agent.launch
+single robot SLAM agents via their corresponding setup_graphSLAM_agent.launch
 launchfiles.
 
 TODO - implement this.

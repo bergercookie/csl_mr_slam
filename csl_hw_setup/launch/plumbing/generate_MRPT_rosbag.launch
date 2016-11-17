@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<!--
+Fri Nov 11 12:29:20 EET 2016, Nikos Koukis
+
+Current launchfile plays a given rosbag that contains ground-truth data,
+generates the markers' paths and saves it all in a new rosbag that can be used
+solely with the mrpt_graphslam_2d ROS application. Handy for generating rosbag
+files for demo reasons in a consistent manner
+
+-->
+
+<launch>
+	<arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
+    <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
+    <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
+
+    <arg name="gt_ns" default="/ground_truth" />
+    <arg name="origin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
+    <arg name="robot_marker_ID" value="$(env MR_ROBOT_MARKER_ID)" />
+    <arg name="track_odd_marker_IDs" value="$(env MR_USE_ODD_ARUCO_MARKERS_FOR_GT)" />
+
+    <!-- Should we also start an instance of rviz ? -->
+    <arg name="start_rviz" default="false" />
+    <arg name="rviz_file" default="$(find mrpt_graphslam_2d)/rviz/graphslam_bag.rviz" />
+
+    <arg name="bag_in"/>
+    <arg name="bag_out" value="MRPT_records.bag"/>
+
+    <param name="/use_sim_time" value="true" />
+
+    <!-- Let the nodes know what the ground-truth topic namespace is each time.. -->
+    <param name="/ground_truth_ns" value="$(arg gt_ns)" />
+
+    <param name="$(arg gt_ns)/origin_marker_ID" value="$(arg origin_marker_ID)" />
+    <param name="$(arg gt_ns)/track_odd_marker_IDs" value="$(arg track_odd_marker_IDs)" type="bool"/>
+
+	<!-- Get ground-truth estimation of the robot paths -->
+	<include file="$(find ground_truth_fetcher)/launch/ground_truth_bag.launch">
+		<arg name="origin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
+	</include>
+
+	<node pkg="rosbag" type="play" name="rosbag_player" output="$(arg output)" args="--clock $(arg bag_in)" />
+	<node pkg="rosbag" type="record" name="rosbag_recorder" output="$(arg output)" args="--all -O $(arg bag_out)" />
+
+	<!-- Start rviz -->
+	<group if="$(arg start_rviz)">
+		<node pkg="rviz" type="rviz" name="rviz_visualization" output="$(arg output)" args="-d $(arg rviz_file)" />
+	</group>
+
+</launch>
