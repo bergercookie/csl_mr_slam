@@ -25,7 +25,7 @@ export MR_RECORD_TOPICS=1
 # - aria
 export MR_ROBOT_DRIVERS_NAME="youbot"
 
-# All nodes read this varaible and output the messages accordingly
+# All nodes read this variable and output the messages accordingly
 export MR_OUTPUT_MESSAGES_TO="screen"
 
 # LaserScanner
@@ -53,6 +53,15 @@ export MR_ONBOARD_CAMERA_PORT="dev/video0"
 # Teleoperation
 export MR_USE_JOYSTICK=1
 export MR_JOYSTICK_PORT="/dev/input/js0"
+# Available options are:
+# - poulias -- Custom poulias teleoperation
+# - generic -- Standard holonomic vehicle...
+# - youbot
+export MR_JOYSTICK_CONFIG_FNAME="youbot"
+# Available options are:
+# - poulias
+# - generic
+export MR_JOYSTICK_FOR="generic"
 
 # Marker IDs for  common origin and ground-truth paths
 export MR_ORIGIN_MARKER_ID="mf7"
