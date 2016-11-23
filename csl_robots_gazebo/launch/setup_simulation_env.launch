@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<!--
+Launchfile sets up the gazebo simulation environment according to the
+corresponding environment variables that are set. 
+
+Note: This *does not* launch the nodes responsible for executing graphSLAM yet.
+Refer to run_sr_graphSLAM_simul.launch file for the latter task.
+
+-->
+
+<launch>
+    <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
+    <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
+    <arg name="use_sim_time" default="true"/>
+
+    <param name="/use_sim_time" value="$(arg use_sim_time)" />
+
+    <arg name="start_rviz" default="true" />
+
+    <!-- Launch the world -->
+    <arg name="paused" default="false"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <!--<arg name="world_name" value="$(find csl_robots_gazebo)/worlds/mr_graphslam.world"/>-->
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="headless" value="$(arg headless)"/>
+    </include>
+
+    <!-- Spawn the building -->
+    <node name="building_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="$(arg output)"
+	    args="-file $(find csl_robots_gazebo)/models/ktM_second_floor_unused_office/model.sdf -z 0 -sdf -model ktM_building" />
+
+    <!-- Setup the robots -->
+	<include file="$(find csl_robots_gazebo)/launch/setup_robots.launch" />
+
+    <!-- Launch rviz -->
+    <group if="$(arg start_rviz)">
+        <include file="$(arg launch_dir)/setup_visuals.launch"/>
+    </group>
+
+
+</launch>

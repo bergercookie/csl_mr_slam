@@ -3,12 +3,13 @@
 <!--
 Sun Oct 30 15:27:22 EET 2016, Nikos Koukis
 
-File sets up the ar_sys node for processing the camera images that the onboard
-camera is producing
+Launchfile sets up the ar_sys node for processing the camera images that the onboard
+camera is producing. Spots the Aruco markers that correspond to the rest of the agents
 
 -->
 
 <launch>
+    <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
     <arg name="robot_name" default="pioneer_3at" />
     <arg name="camera_name" default="camera1" />
 
@@ -16,7 +17,7 @@ camera is producing
     <arg name="boards_config_dir" value="$(find ground_truth_fetcher)/res/boards/vrep_multicam_res/" />
 
     <!-- Launch ar_sys -->
-  	<node pkg="ar_sys" type="multi_boards" name="ar_sys" output="screen">
+  	<node pkg="ar_sys" type="multi_boards" name="ar_sys" output="$(arg output)">
   	    <!-- Are these 2 needed? -->
         <remap from="/image" to="$(arg camera_name)/image_raw"/>
         <remap from="/camera_info" to="$(arg camera_name)/camera_info"/>
