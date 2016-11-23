@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<!--
+
+Launch the rviz file for visualizing the graphSLAM procedure in rviz
+-->
+
+<launch>
+    <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
+    <arg name="rviz_dir" value="$(find csl_robots_gazebo)/rviz" />
+
+    <!-- Start rviz -->
+    <group if="$(env MR_IS_MULTIROBOT_GRAPHSLAM)">
+        <!-- Multi-robot version of rviz -->
+        <arg name="slam_type" value="mr"/>
+        <arg name="rviz_file" default="$(arg slam_type)_graphslam.rviz" />
+        <arg name="rviz_file_full" value="$(arg rviz_dir)/$(arg rviz_file)"/>
+
+        <node pkg="rviz" type="rviz" name="rviz_visualizer" output="$(arg output)"
+            args="-d $(arg rviz_file_full)" />
+    </group>
+    <!-- Single-robot version of rviz -->
+    <group unless="$(env MR_IS_MULTIROBOT_GRAPHSLAM)">
+        <arg name="slam_type" value="sr"/>
+        <arg name="rviz_file" default="$(arg slam_type)_graphslam.rviz" />
+        <arg name="rviz_file_full" value="$(arg rviz_dir)/$(arg rviz_file)"/>
+
+        <node pkg="rviz" type="rviz" name="rviz_visualizer" output="$(arg output)"
+            args="-d $(arg rviz_file_full)" />
+    </group>
+
+</launch>
