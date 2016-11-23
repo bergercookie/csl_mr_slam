@@ -42,19 +42,6 @@ computations take place (see run_sr_graphslam.launch for the latter).
         <include file="$(arg plumb_dir)/setup_drivers_$(env MR_ROBOT_DRIVERS_NAME).launch">
         </include>
 
-        <group if="$(env MR_ROBOT_DRIVERS_USE_POULIAS)">
-            <include file="$(arg plumb_dir)/setup_drivers_pioneer_poulias.launch">
-            </include>
-        </group>
-        <group if="$(env MR_ROBOT_DRIVERS_USE_YOUBOT)">
-            <include file="$(arg plumb_dir)/setup_drivers_youbot.launch">
-            </include>
-        </group>
-        <group if="$(env MR_ROBOT_DRIVERS_USE_ARIA)">
-            <include file="$(arg plumb_dir)/setup_drivers_aria.launch">
-            </include>
-        </group>
-
         <!-- LaserScan Matcher -->
         <group if="$(env MR_USE_LASER)">
             <include file="$(arg plumb_dir)/setup_laser_$(env MR_LASER_NAME).launch">
@@ -68,18 +55,14 @@ computations take place (see run_sr_graphslam.launch for the latter).
         </group>
 
         <!-- Enable joystick teleoperation -->
+        <!-- TODO - test it real time again -->
         <group if="$(env MR_USE_JOYSTICK)">
-            <group if="$(env MR_ROBOT_DRIVERS_USE_POULIAS)">
-                <include file="$(arg plumb_dir)/teleop_poulias.launch">
-                    <arg name="joystick_port" default="$(env MR_JOYSTICK_PORT)" />
-                </include>
-            </group>
-            <group unless="$(env MR_ROBOT_DRIVERS_USE_POULIAS)">
-                <include file="$(arg plumb_dir)/teleop_generic.launch">
-                    <arg name="config" default="$(find csl_hw_setup)/config/joystick/youbot.config.yaml" />
-                    <arg name="joystick_port" default="$(env MR_JOYSTICK_PORT)" />
-                </include>
-            </group>
+            <include file="$(arg plumb_dir)/teleop_$(env MR_JOYSTICK_FOR).launch">
+                <arg
+                    name="config"
+                    value="$(find csl_hw_setup)/config/joystick/$(env MR_JOYSTICK_CONFIG_FNAME).config.yaml" />
+                <arg name="joystick_port" value="$(env MR_JOYSTICK_PORT)" />
+            </include>
         </group>
 
     </group>
