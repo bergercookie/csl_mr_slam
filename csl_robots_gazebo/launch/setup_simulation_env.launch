@@ -38,7 +38,8 @@ Refer to run_sr_graphSLAM_simul.launch file for the latter task.
 	    args="-file $(find csl_robots_gazebo)/models/ktM_second_floor_unused_office/model.sdf -z 0 -sdf -model ktM_building" />
 
     <!-- Setup the robots -->
-	<include file="$(find csl_robots_gazebo)/launch/setup_robots.launch" />
+    <!--<include file="$(find csl_robots_gazebo)/launch/setup_robots.launch" />-->
+    <node pkg="csl_robots_gazebo" type="robot_spawner.py" name="robot_spawner" output="$(arg output)"/>
 
     <!-- Launch rviz -->
     <group if="$(arg start_rviz)">

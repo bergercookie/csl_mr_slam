@@ -5,16 +5,19 @@ Mon Nov 21 17:30:20 EET 2016, Nikos Koukis
 
 Setup the model for a single robot agent in the Gazebo simulation environment.
 Launchfile *does not* set up the graphslam-related processes. Refer to
-setup_single_graphslam_agent_simul
+setup_single_graphslam_agent_simul.launch for the latter
 
 -->
 
-<launch
+<launch>
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
     <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
-    <arg name="robot_name" default="pioneer_3at" />
-    <arg name="position_args" default="-x 0.0 -y 0.0 -z 0.02" />
     <arg name="camera_name" value="camera1" />
+
+    <arg name="robot_name" default="pioneer_3at" />
+    <arg name="robot_type" default="pioneer_3at" />
+    <arg name="position_args" default="-x 0.0 -y 0.0 -z 0.02" />
+
 
     <!-- Launch ar_sys nodes only in multi-robot graphSLAM setup -->
     <arg name="launch_ar_sys" value="$(env MR_IS_MULTIROBOT_GRAPHSLAM)" />
@@ -23,7 +26,7 @@ setup_single_graphslam_agent_simul
 
     <!-- Upload the robot_description -->
     <param name="/robot_description"
-        command="$(find xacro)/xacro --inorder $(find csl_robot_descriptions)/defs/pioneer3at.xacro camera_name:=$(arg camera_name)" />
+        command="$(find xacro)/xacro.py --inorder $(find csl_robot_descriptions)/defs/$(arg robot_type).xacro camera_name:=$(arg camera_name)" />
 
     <!-- publish TFs for static links -->
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="$(arg output)">

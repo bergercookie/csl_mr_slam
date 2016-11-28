@@ -5,8 +5,18 @@ import os
 import sys
 import rospy
 import roslaunch
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, call
 from misc.custom_exceptions import RosLaunchSyntaxError
+
+# Sun Nov 27 20:04:28 EET 2016, Nikos Koukis
+# Gazebo is so fucking buggy...
+# For the whole operation to be launched correctly follow the following steps:
+# - Shutdown the roscore
+# - Shutdown Gazebo
+# - Launch the setup_simulation_env launchfile
+# - If the gzclient doesn't start up launch it manually `$ gzclient`
+# - Sometimes the /gazebo/spawn_model service isn't initiated for some reason. Repeat operation again.
+# - It takes about ~2m for the robots to be spawned
 
 
 class RobotSpawner(object):
@@ -29,6 +39,9 @@ class RobotSpawner(object):
         self.setup_robot_launchfile_path = os.path.join(csl_gazebo_pkg_path,
                                                         "launch",
                                                         setup_robot_fname)
+
+        # dict: robot_model <=> process for stopping the corresponding launchfiles afterwards
+        self.robot_model_to_process = {}
 
         # check the launchfile syntax first...
         errors = roslaunch.rlutil.check_roslaunch(self.setup_robot_launchfile_path)
@@ -61,12 +74,22 @@ class RobotSpawner(object):
         many robots are to be spawned and their numeric IDs
         """
 
-        robot_ID_keys = [key for key in os.environ.keys() if
-                         key.startswith(self.env_property_prefix) and
-                         key.endswith("_NAME")]
-        self.robot_IDs = [key.lstrip(self.env_property_prefix).rstrip("_NAME")
-                          for key in robot_ID_keys]
+        # Make sure that user has set the type of graphSLAM
+        multirobot_key = "MR_IS_MULTIROBOT_GRAPHSLAM" 
+        assert multirobot_key in os.environ.keys()
 
+        if (int(os.environ[multirobot_key]) is 1):
+
+            robot_ID_keys = [key for key in os.environ.keys() if
+                             key.startswith(self.env_property_prefix) and
+                             key.endswith("_NAME")]
+            self.robot_IDs = [key.lstrip(self.env_property_prefix).rstrip("_NAME")
+                              for key in robot_ID_keys]
+        else:
+            # we have only one robot - and that must have ID = 
+            self.robot_IDs = 1
+
+        assert len(self.robot_IDs)
         rospy.logwarn("Found the following robot_IDs: {}".format(self.robot_IDs))
 
     def start_launchfiles(self):
@@ -81,9 +104,29 @@ class RobotSpawner(object):
     def _start_setup_single_robot_launchfile(self, robot_model):
         """Method that spawns a robot in the Gazebo world."""
 
-        rospy.loginfo("Preparing to spawn robot_ID [{}]".format(robot_model.robot_name))
-        # Launch the setup_single_robot.launch file
-        # TODO
+        rospy.loginfo("Preparing to spawn robot_ID [{}]".format(
+            robot_model.robot_name))
+
+        cmd = "roslaunch"
+        path = self.setup_robot_launchfile_path
+
+        # Position args
+        pos_args_str = "".join(["-x {pos_x} -y {pos_y} -z {pos_z} ",
+                                "-R {rot_x} -P {rot_y} -Y {rot_z}"]).format(
+                                    pos_x=robot_model.pose_6D["pos_x"],
+                                    pos_y=robot_model.pose_6D["pos_y"],
+                                    pos_z=robot_model.pose_6D["pos_z"],
+                                    rot_x=robot_model.pose_6D["rot_x"],
+                                    rot_y=robot_model.pose_6D["rot_y"],
+                                    rot_z=robot_model.pose_6D["rot_z"])
+
+        self.robot_model_to_process[robot_model] = Popen(
+            [cmd, path,
+             "robot_name:={}".format(robot_model.robot_name),
+             "robot_type:={}".format(robot_model.robot_type),
+             "position_args:={}".format(pos_args_str)],
+            stdout=PIPE)
+
         pass
 
     def stop_launchfiles(self):
@@ -91,11 +134,17 @@ class RobotSpawner(object):
         Stop all the launchfiles that have previously been started.
 
         """
-        pass
 
-    def _stop_setup_single_robot(self, robot_name):
+        for robot_model in self.robot_model_to_process.keys():
+            self._stop_setup_single_robot(robot_model)
+
+    def _stop_setup_single_robot(self, robot_model):
         """Stop the robot model that has the robot_name provided."""
-        pass
+        rospy.logwarn("Killing launchfile for robot [{}]".format(
+            robot_model.robot_name))
+
+        p = self.robot_model_to_process[robot_model]
+        p.kill()
 
     def read_env_params(self):
         """Read the environment variables for the robot_IDs available."""
@@ -126,16 +175,18 @@ class RobotSpawner(object):
                            for kword in kwords
                            for axis in axes]
 
-        pose_6D_dict = {}
+        pose_6D = {}
         for pose_prop in pose_prop_combs:
             env_key = prefix + robot_ID + "_" + pose_prop.upper()
-            pose_6D_dict[pose_prop] = os.environ[env_key]
+            pose_6D[pose_prop] = os.environ[env_key]
 
-        robot_name = prefix + robot_ID + "_NAME"
-        robot_type = prefix + robot_ID + "_MODEL"
+        robot_name_field = prefix + robot_ID + "_NAME"
+        robot_type_field = prefix + robot_ID + "_MODEL"
+        robot_name = os.environ[robot_name_field]
+        robot_type = os.environ[robot_type_field]
 
         # initialize robot model instance - start corresponding launchfile
-        robot_model = RobotModel(robot_name, robot_type, pose_6D_dict)
+        robot_model = RobotModel(robot_name, robot_type, pose_6D)
         rospy.loginfo(robot_model)
 
         self.robot_model_instances[str(robot_ID)] = robot_model
@@ -160,9 +211,9 @@ class RobotModel(object):
         assert len(pose_6D) == 6 or len(pose_6D) == 3
 
         if len(pose_6D) == 3:
-            rot_dict = {"ROT_X": 0,
-                        "ROT_Y": 0,
-                        "ROT_Z": 0}
+            rot_dict = {"rot_x": 0,
+                        "rot_y": 0,
+                        "rot_z": 0}
             pose_6D.update(rot_dict)
 
         self.robot_name = robot_name
@@ -191,12 +242,12 @@ def main():
     spawner.read_env_params()
     spawner.start_launchfiles()
 
+    rospy.on_shutdown(spawner.stop_launchfiles)
 
     rospy.loginfo("Initialized {} node...".format(node_name))
     while not rospy.is_shutdown():
         rate.sleep()
 
-    spawner.stop_launchfiles()
     
 
 if __name__ == "__main__":

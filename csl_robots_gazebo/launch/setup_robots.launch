@@ -3,44 +3,43 @@
 <!--
 Spawn multiple robots in the (already running) gazebo simulation
 
+Note: File deprecated in favor of robot_spawner.py
 -->
 
 <launch>
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
+
     <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
-
-    <node pkg="csl_robots_gazebo" type="robot_spawner.py" name="robot_spawner" output="$(arg output)"/>
-
-    <!--[> Robot names - in case of MR-GRAPHSLAM simualation <]-->
-    <!--<arg name="robot" value="pioneer_3at"/>-->
-    <!--<arg name="robot1_name" value="$(arg robot)_1"/>-->
-    <!--<arg name="robot2_name" value="$(arg robot)_2"/>-->
-    <!--<arg name="robot1_pos" value="-x -1.49 -y -3 -z 0.051"/>-->
-    <!--<arg name="robot2_pos" value="-x 10 -y -6 -z 0 -R 0 -P 0 -Y 3.14"/>-->
+    <!-- Robot names - in case of MR-GRAPHSLAM simualationa --> 
+    <arg name="robot" value="pioneer_3at"/>
+    <arg name="robot1_name" value="$(arg robot)_1"/>
+    <arg name="robot2_name" value="$(arg robot)_2"/>
+    <arg name="robot1_pos" value="-x -1.49 -y -3 -z 0.051"/>
+    <arg name="robot2_pos" value="-x 10 -y -6 -z 0 -R 0 -P 0 -Y 3.14"/>
 
 
-    <!--[> In any case spawn at least one robot <]-->
-    <!--[> pioneer3at <]-->
-    <!--<group ns="$(arg robot1_name)">-->
-        <!--<param name="tf_prefix" value="$(arg robot1_name)" />-->
-        <!--<include file="$(arg launch_dir)/setup_single_robot.launch">-->
-            <!--<arg name="robot_name" value="$(arg robot1_name)"/>-->
-            <!--<arg name="position_args" value="$(arg robot1_pos)" />-->
-        <!--</include>-->
-    <!--</group>-->
+    <!-- In any case spawn at least one robot -->
+    <!-- pioneer3at -->
+    <group ns="$(arg robot1_name)">
+        <param name="tf_prefix" value="$(arg robot1_name)" />
+        <include file="$(arg launch_dir)/setup_single_robot.launch">
+            <arg name="robot_name" value="$(arg robot1_name)"/>
+            <arg name="position_args" value="$(arg robot1_pos)" />
+        </include>
+    </group>
 
-    <!--[> Spawn second robot <]-->
-    <!--<group if="$(env MR_IS_MULTIROBOT_GRAPHSLAM)">-->
-        <!--<group ns="$(arg robot2_name)">-->
-            <!--<param name="tf_prefix" value="$(arg robot2_name)" />-->
-            <!--<include file="$(arg launch_dir)/setup_single_robot.launch">-->
-                <!--<arg name="robot_name" value="$(arg robot2_name)"/>-->
-                <!--<arg name="position_args" value="$(arg robot2_pos)" />-->
-            <!--</include>-->
-        <!--</group>-->
-    <!--</group>-->
-    <!--<group unless="$(env MR_IS_MULTIROBOT_GRAPHSLAM)">-->
-    <!--</group>-->
+    <!--Spawn second robot-->
+    <group if="$(env MR_IS_MULTIROBOT_GRAPHSLAM)">
+        <group ns="$(arg robot2_name)">
+            <param name="tf_prefix" value="$(arg robot2_name)" />
+            <include file="$(arg launch_dir)/setup_single_robot.launch">
+                <arg name="robot_name" value="$(arg robot2_name)"/>
+                <arg name="position_args" value="$(arg robot2_pos)" />
+            </include>
+        </group>
+    </group>
+    <group unless="$(env MR_IS_MULTIROBOT_GRAPHSLAM)">
+    </group>
 
 </launch>
 
