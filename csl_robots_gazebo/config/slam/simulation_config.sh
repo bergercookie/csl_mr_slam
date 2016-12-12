@@ -8,7 +8,8 @@ export MR_IS_MULTIROBOT_GRAPHSLAM=1
 # All nodes read this variable and output the messages accordingly
 export MR_OUTPUT_MESSAGES_TO="screen"
 
-export MR_USE_RQT_ROBOT_STEERING=0
+# Open the rqt robot steering windows.
+export MR_USE_RQT_ROBOT_STEERING=1
 
 # TODO - fill in the necessary variables
 
@@ -53,7 +54,7 @@ export MR_ROBOT_2_ROT_Z=3.1415
 # TODO
 # define the robot name + corresponding namespace
 export MR_ROBOT_3_MODEL="pioneer_3at"
-export MR_ROBOT_3_NAME="pioneer_3at_3"
+#export MR_ROBOT_3_NAME="pioneer_3at_3"
 
 export MR_ROBOT_3_POS_X=-1.49
 export MR_ROBOT_3_POS_Y=-6

@@ -26,7 +26,7 @@ setup_single_graphslam_agent_simul.launch for the latter
 
     <!-- Upload the robot_description -->
     <param name="/robot_description"
-        command="$(find xacro)/xacro.py --inorder $(find csl_robot_descriptions)/defs/$(arg robot_type).xacro camera_name:=$(arg camera_name)" />
+        command="$(find xacro)/xacro --inorder $(find csl_robot_descriptions)/defs/$(arg robot_type).xacro camera_name:=$(arg camera_name)" />
 
     <!-- publish TFs for static links -->
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="$(arg output)">

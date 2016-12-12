@@ -3,7 +3,7 @@
 <!--
 Spawn multiple robots in the (already running) gazebo simulation
 
-Note: File deprecated in favor of robot_spawner.py
+WARNING: File deprecated in favor of csl_robots_gazebo/robot_spawner.py node
 -->
 
 <launch>
