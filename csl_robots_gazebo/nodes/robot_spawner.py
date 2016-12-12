@@ -37,14 +37,16 @@ class RobotSpawner(object):
         csl_gazebo_pkg_path = tmp.communicate()[0].rstrip()
         setup_robot_fname = "setup_single_robot.launch"
         self.setup_robot_launchfile_path = os.path.join(csl_gazebo_pkg_path,
-                                                        "launch",
+                                                        "launch", "plumbing",
                                                         setup_robot_fname)
 
-        # dict: robot_model <=> process for stopping the corresponding launchfiles afterwards
+        # dict: robot_model <=> process for stopping the corresponding
+        # launchfiles afterwards
         self.robot_model_to_process = {}
 
         # check the launchfile syntax first...
-        errors = roslaunch.rlutil.check_roslaunch(self.setup_robot_launchfile_path)
+        errors = roslaunch.rlutil.check_roslaunch(
+            self.setup_robot_launchfile_path)
         if errors is not None:
             raise RosLaunchSyntaxError(errors)
         assert errors is None
@@ -196,7 +198,7 @@ class RobotModel(object):
     """
     Model of a robot that can be spawned in the gazebo world.
 
-    Each robot that is to be spawned in Gazebo must have  the following
+    Each robot that is to be spawned in Gazebo must have the following
     properties defined:
     - Robot name: So that the robot namespace can be defined
     - Robot type: Type of the robot type - useful for specifying different

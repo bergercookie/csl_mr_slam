@@ -11,4 +11,36 @@ environment variables that are set.
 <launch>
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
 
+    <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
+	<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
+    <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
+
+    <arg name="anchor_frame_ID" default="map" /> <!-- TODO - change this -->
+
+    <!-- Deciders/Optimizer -->
+    <arg name="NRD" default="CFixedIntervalsNRD" />
+    <arg name="ERD" default="CLoopCloserERD_MR" />
+    <arg name="GSO" default="CLevMarqGSO" />
+
+    <arg name="disable_MRPT_visuals" default="false" />
+    <arg name="robot_name" default="pioneer_3at_1" /> <!-- TODO - change this -->
+
+	<group ns="$(arg robot_name)">
+
+		<include file="$(find mrpt_graphslam_2d)/launch/graphslam.launch">
+			<arg name="output" value="$(arg output)" />
+            <arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_MR.ini"  />
+            <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_laser_odometry.ini"  />-->
+            <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC.ini"  />-->
+			<arg name="anchor_frame_ID" value="$(arg anchor_frame_ID)" />
+			<arg name="NRD" value="$(arg NRD)" />
+			<!--<arg name="NRD" value="CICPCriteriaNRD" />-->
+            <arg name="ERD" value="$(arg ERD)" />
+            <!--<arg name="ERD" value="CLoopCloserERD" />-->
+			<arg name="GSO" value="$(arg GSO)" />
+            <arg name="disable_MRPT_visuals" value="$(arg disable_MRPT_visuals)" />
+		</include>
+
+	</group>
+
 </launch>

@@ -1,13 +1,19 @@
 <?xml version="1.0"?>
 
 <!--
-Setup the rqt widget for controlling the insatnce of simulated robot
+Setup the rqt widget for controlling the instance of simulated robot. Adjust
+the topic name accordingly
 
 -->
 
 
 <launch>
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
+
+    <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
+	<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
+    <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
+
     <arg name="robot_name"/>
     <arg name="cmd_vel_topic" value="/$(arg robot_name)/cmd_vel"/>
 

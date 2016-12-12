@@ -39,7 +39,7 @@
         <!-- Top -->
 	    <link name="top_plate">
 		    <inertial>
-			    <mass value="0.1"/>	
+			    <mass value="0.1"/>
 			    <origin xyz="-0.025 0 -0.223"/>
 			    <inertia ixx="1.0" ixy="0.0" ixz="0.0"
 				    iyy="1.0" iyz="0.0"
@@ -249,7 +249,7 @@
     <xacro:macro name="p3at_back" params="suffix reflect">
 	    <link name="p3at_back_${suffix}_axle">
 		    <inertial>
-			    <mass value="0.1"/>	
+			    <mass value="0.1"/>
 			    <origin xyz="0 0 0"/>
 			    <inertia ixx="1.0" ixy="0.0" ixz="0.0"
 				    iyy="1.0" iyz="0.0" izz="1.0"/>
@@ -384,7 +384,7 @@
             <robotBaseFrame>base_link</robotBaseFrame>
             <torque>200</torque>
 	        <commandTopic>cmd_vel</commandTopic>
-	        <odometryTopic>odom</odometryTopic>
+	        <odometryTopic>input/odom</odometryTopic>
         </plugin>
     </gazebo>
 

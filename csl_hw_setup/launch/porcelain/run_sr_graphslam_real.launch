@@ -48,7 +48,6 @@ note: This is a top-level launchfile that should be used for running *single*
             <arg name="ERD" value="CICPCriteriaERD" />
             <!--<arg name="ERD" value="CLoopCloserERD" />-->
 			<arg name="GSO" value="CLevMarqGSO" />
-			<arg name="play_own_rosbag" value="false" />
             <arg name="disable_MRPT_visuals" value="$(arg disable_MRPT_visuals)" />
 		</include>
 

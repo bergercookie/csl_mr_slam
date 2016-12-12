@@ -3,14 +3,16 @@
 <!--
 Spawn multiple robots in the (already running) gazebo simulation
 
-WARNING: File deprecated in favor of csl_robots_gazebo/robot_spawner.py node
+WARNING: File DEPRECATED in favor of csl_robots_gazebo/robot_spawner.py node
 -->
 
 <launch>
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
-
     <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
-    <!-- Robot names - in case of MR-GRAPHSLAM simualationa --> 
+	<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
+    <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
+
+    <!-- Robot names - in case of MR-GRAPHSLAM simualationa -->
     <arg name="robot" value="pioneer_3at"/>
     <arg name="robot1_name" value="$(arg robot)_1"/>
     <arg name="robot2_name" value="$(arg robot)_2"/>
@@ -22,7 +24,7 @@ WARNING: File deprecated in favor of csl_robots_gazebo/robot_spawner.py node
     <!-- pioneer3at -->
     <group ns="$(arg robot1_name)">
         <param name="tf_prefix" value="$(arg robot1_name)" />
-        <include file="$(arg launch_dir)/setup_single_robot.launch">
+        <include file="$(arg plumb_dir)/setup_single_robot.launch">
             <arg name="robot_name" value="$(arg robot1_name)"/>
             <arg name="position_args" value="$(arg robot1_pos)" />
         </include>
@@ -32,7 +34,7 @@ WARNING: File deprecated in favor of csl_robots_gazebo/robot_spawner.py node
     <group if="$(env MR_IS_MULTIROBOT_GRAPHSLAM)">
         <group ns="$(arg robot2_name)">
             <param name="tf_prefix" value="$(arg robot2_name)" />
-            <include file="$(arg launch_dir)/setup_single_robot.launch">
+            <include file="$(arg plumb_dir)/setup_single_robot.launch">
                 <arg name="robot_name" value="$(arg robot2_name)"/>
                 <arg name="position_args" value="$(arg robot2_pos)" />
             </include>

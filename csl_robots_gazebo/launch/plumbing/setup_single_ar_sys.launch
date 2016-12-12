@@ -3,13 +3,19 @@
 <!--
 Sun Oct 30 15:27:22 EET 2016, Nikos Koukis
 
-Launchfile sets up the ar_sys node for processing the camera images that the onboard
-camera is producing. Spots the Aruco markers that correspond to the rest of the agents
+Launchfile sets up the ar_sys node for processing the camera images that the
+onboard camera is producing. Spots the Aruco markers that are mounted on top of
+the other agents
 
 -->
 
 <launch>
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
+
+    <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
+	<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
+    <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
+
     <arg name="robot_name" default="pioneer_3at" />
     <arg name="camera_name" default="camera1" />
 

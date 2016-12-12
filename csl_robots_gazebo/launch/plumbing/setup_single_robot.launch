@@ -7,11 +7,18 @@ Setup the model for a single robot agent in the Gazebo simulation environment.
 Launchfile *does not* set up the graphslam-related processes. Refer to
 setup_single_graphslam_agent_simul.launch for the latter
 
+Note: ROS Topic namespace of the specific robot agent is going to be its *name* 
+      See the -namespace arg in the spawn_model node directive.
+
 -->
 
 <launch>
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
+
     <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
+	<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
+    <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
+
     <arg name="camera_name" value="camera1" />
 
     <arg name="robot_name" default="pioneer_3at" />
@@ -40,7 +47,7 @@ setup_single_graphslam_agent_simul.launch for the latter
 
     <!-- Launch rsys -->
     <group if="$(arg launch_ar_sys)">
-        <include file="$(find csl_robots_gazebo)/launch/setup_single_ar_sys.launch">
+        <include file="$(arg plumb_dir)/setup_single_ar_sys.launch">
             <arg name="robot_name" value="$(arg robot_name)" />
             <arg name="camera_name" value="$(arg camera_name)" />
         </include>
@@ -49,7 +56,7 @@ setup_single_graphslam_agent_simul.launch for the latter
     <!-- Launch controls -->
     <!-- rqt is shit at exporting/importing perspectives - do everything manually! -->
     <group if="$(arg start_robot_control)">
-        <include file="$(arg launch_dir)/setup_single_robot_control.launch">
+        <include file="$(arg plumb_dir)/setup_single_robot_control.launch">
             <arg name="robot_name" value="$(arg robot_name)"/>
         </include>
     </group>

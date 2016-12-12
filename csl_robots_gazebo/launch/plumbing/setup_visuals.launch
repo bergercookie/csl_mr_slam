@@ -7,6 +7,11 @@ Launch the rviz file for visualizing the graphSLAM procedure in rviz
 
 <launch>
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
+
+    <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
+	<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
+    <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
+
     <arg name="rviz_dir" value="$(find csl_robots_gazebo)/rviz" />
 
     <!-- Start rviz -->

@@ -11,7 +11,11 @@ Refer to run_sr_graphSLAM_simul.launch file for the latter task.
 
 <launch>
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
+
     <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
+	<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
+    <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
+
     <arg name="use_sim_time" default="true"/>
 
     <param name="/use_sim_time" value="$(arg use_sim_time)" />
@@ -43,7 +47,7 @@ Refer to run_sr_graphSLAM_simul.launch file for the latter task.
 
     <!-- Launch rviz -->
     <group if="$(arg start_rviz)">
-        <include file="$(arg launch_dir)/setup_visuals.launch"/>
+        <include file="$(arg plumb_dir)/setup_visuals.launch"/>
     </group>
 
 
