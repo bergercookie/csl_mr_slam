@@ -23,11 +23,17 @@
   <build_depend>rqt_robot_steering</build_depend>
   <build_depend>robot_state_publisher</build_depend>
   <build_depend>gazebo_ros</build_depend>
+  <build_depend>tf2_ros</build_depend>
+  <build_depend>rviz</build_depend>
+  <build_depend>mrpt_graphslam_2d</build_depend>
 
   <run_depend>ar_sys</run_depend>
   <run_depend>rqt_robot_steering</run_depend>
   <run_depend>robot_state_publisher</run_depend>
   <run_depend>gazebo_ros</run_depend>
+  <run_depend>tf2_ros</run_depend>
+  <run_depend>rviz</run_depend>
+  <run_depend>mrpt_graphslam_2d</run_depend>
 
   <buildtool_depend>catkin</buildtool_depend>
 

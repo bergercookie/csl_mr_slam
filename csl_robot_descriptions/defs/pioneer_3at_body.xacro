@@ -385,6 +385,11 @@
             <torque>200</torque>
 	        <commandTopic>cmd_vel</commandTopic>
 	        <odometryTopic>input/odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+	        <broadcastTF>true</broadcastTF>
+	        <covariance_x>0.01</covariance_x>
+	        <covariance_y>0.01</covariance_y>
+	        <covariance_yaw>0.01</covariance_yaw>
         </plugin>
     </gazebo>
 

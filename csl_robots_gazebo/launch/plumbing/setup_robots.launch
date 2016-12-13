@@ -23,7 +23,8 @@ WARNING: File DEPRECATED in favor of csl_robots_gazebo/robot_spawner.py node
     <!-- In any case spawn at least one robot -->
     <!-- pioneer3at -->
     <group ns="$(arg robot1_name)">
-        <param name="tf_prefix" value="$(arg robot1_name)" />
+        <!-- TF Prefix doesn't seem to provide any difference. -->
+        <!--<param name="tf_prefix" value="$(arg robot1_name)" />-->
         <include file="$(arg plumb_dir)/setup_single_robot.launch">
             <arg name="robot_name" value="$(arg robot1_name)"/>
             <arg name="position_args" value="$(arg robot1_pos)" />
@@ -33,7 +34,7 @@ WARNING: File DEPRECATED in favor of csl_robots_gazebo/robot_spawner.py node
     <!--Spawn second robot-->
     <group if="$(env MR_IS_MULTIROBOT_GRAPHSLAM)">
         <group ns="$(arg robot2_name)">
-            <param name="tf_prefix" value="$(arg robot2_name)" />
+            <!--<param name="tf_prefix" value="$(arg robot2_name)" />-->
             <include file="$(arg plumb_dir)/setup_single_robot.launch">
                 <arg name="robot_name" value="$(arg robot2_name)"/>
                 <arg name="position_args" value="$(arg robot2_pos)" />

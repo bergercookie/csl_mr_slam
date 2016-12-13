@@ -3,8 +3,9 @@
 <!--
 Mon Nov 21 18:06:41 EET 2016, Nikos Koukis
 
-Launch the nodes responsible for running graphSLAM according to the shell
-environment variables that are set.
+Wrapper for executing mrpt_graphslam_2d. Launchfile launches graphslam for a
+single robot. Use the nodes/graphslam_launcher.py in case you want to launch
+multiple nodes according to the set shell environment variables
 
 -->
 
@@ -15,7 +16,8 @@ environment variables that are set.
 	<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
     <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
 
-    <arg name="anchor_frame_ID" default="map" /> <!-- TODO - change this -->
+    <arg name="robot_name" default="pioneer_3at" />
+    <arg name="anchor_frame_ID" value="$(arg robot_name)/odom" />
 
     <!-- Deciders/Optimizer -->
     <arg name="NRD" default="CFixedIntervalsNRD" />
@@ -23,7 +25,6 @@ environment variables that are set.
     <arg name="GSO" default="CLevMarqGSO" />
 
     <arg name="disable_MRPT_visuals" default="false" />
-    <arg name="robot_name" default="pioneer_3at_1" /> <!-- TODO - change this -->
 
 	<group ns="$(arg robot_name)">
 

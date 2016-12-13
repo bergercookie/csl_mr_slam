@@ -23,7 +23,14 @@ Note: ROS Topic namespace of the specific robot agent is going to be its *name*
 
     <arg name="robot_name" default="pioneer_3at" />
     <arg name="robot_type" default="pioneer_3at" />
-    <arg name="position_args" default="-x 0.0 -y 0.0 -z 0.02" />
+
+    <arg name="pos_x" default="0.0" />
+    <arg name="pos_y" default="0.0" />
+    <arg name="pos_z" default="0.02" />
+    <arg name="rot_x" default="0.0" />
+    <arg name="rot_y" default="0.0" />
+    <arg name="rot_z" default="0.0" />
+    <arg name="position_args" value="-x $(arg pos_x) -y $(arg pos_y) -z $(arg pos_z) -R $(arg rot_x) -P $(arg rot_y) -Y $(arg rot_z)" />
 
 
     <!-- Launch ar_sys nodes only in multi-robot graphSLAM setup -->
@@ -31,34 +38,44 @@ Note: ROS Topic namespace of the specific robot agent is going to be its *name*
 
     <arg name="start_robot_control" value="$(env MR_USE_RQT_ROBOT_STEERING)"/>
 
-    <!-- Upload the robot_description -->
-    <param name="/robot_description"
-        command="$(find xacro)/xacro --inorder $(find csl_robot_descriptions)/defs/$(arg robot_type).xacro camera_name:=$(arg camera_name)" />
+    <group ns="$(arg robot_name)">
+        <param name="tf_prefix" value="$(arg robot_name)" />
 
-    <!-- publish TFs for static links -->
-    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="$(arg output)">
-        <param name="publish_frequency" type="double" value="30.0"/>
-    </node>
+        <!-- Upload the robot_description -->
+        <param name="/robot_description"
+            command="$(find xacro)/xacro --inorder $(find csl_robot_descriptions)/defs/$(arg robot_type).xacro camera_name:=$(arg camera_name)" />
 
-    <!-- push robot_description to factory and spawn robot in gazebo -->
-    <node name="spawn_pioneer" pkg="gazebo_ros" type="spawn_model"
-        args="$(arg position_args) -urdf -param /robot_description -model $(arg robot_name) -namespace /$(arg robot_name)"
-        respawn="false" output="$(arg output)" />
+        <!-- publish TFs for static links -->
+        <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="$(arg output)">
+            <param name="publish_frequency" type="double" value="30.0"/>
+        </node>
 
-    <!-- Launch rsys -->
-    <group if="$(arg launch_ar_sys)">
-        <include file="$(arg plumb_dir)/setup_single_ar_sys.launch">
-            <arg name="robot_name" value="$(arg robot_name)" />
-            <arg name="camera_name" value="$(arg camera_name)" />
-        </include>
-    </group>
+        <!-- push robot_description to factory and spawn robot in gazebo -->
+        <node name="spawn_pioneer" pkg="gazebo_ros" type="spawn_model"
+            args="$(arg position_args) -urdf -param /robot_description -model $(arg robot_name) -namespace /$(arg robot_name)"
+            respawn="false" output="$(arg output)" />
 
-    <!-- Launch controls -->
-    <!-- rqt is shit at exporting/importing perspectives - do everything manually! -->
-    <group if="$(arg start_robot_control)">
-        <include file="$(arg plumb_dir)/setup_single_robot_control.launch">
-            <arg name="robot_name" value="$(arg robot_name)"/>
-        </include>
+        <!-- Launch rsys -->
+        <group if="$(arg launch_ar_sys)">
+            <include file="$(arg plumb_dir)/setup_single_ar_sys.launch">
+                <arg name="robot_name" value="$(arg robot_name)" />
+                <arg name="camera_name" value="$(arg camera_name)" />
+            </include>
+        </group>
+
+        <!-- Launch controls -->
+        <!-- rqt is shit at exporting/importing perspectives - do everything manually! -->
+        <group if="$(arg start_robot_control)">
+            <include file="$(arg plumb_dir)/setup_single_robot_control.launch">
+                <arg name="robot_name" value="$(arg robot_name)"/>
+            </include>
+        </group>
+
+        <!-- Transform from the origin to the  -->
+        <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_robot_frame"
+            args="0 0 0 0 0 0 $(env MR_GLOBAL_FRAME_ID) $(arg robot_name)/odom" />
+            <!--args="$(arg pos_x) $(arg pos_y) $(arg pos_z) $(arg rot_x) $(arg rot_y) $(arg rot_z) $(env MR_GLOBAL_FRAME_ID) $(arg robot_name)_origin" />-->
+
     </group>
 
 </launch>

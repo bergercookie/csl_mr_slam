@@ -38,6 +38,10 @@ export MR_ROBOT_1_ROT_X=0
 export MR_ROBOT_1_ROT_Y=0
 export MR_ROBOT_1_ROT_Z=0
 
+export MR_ROBOT_1_NRD="CFixedIntervalsNRD"
+export MR_ROBOT_1_ERD="CLoopCloserERD_MR"
+export MR_ROBOT_1_GSO="CLevMarqGSO"
+
 # MR_ROBOT 2
 ######################
 export MR_ROBOT_2_MODEL="pioneer_3at"
@@ -50,6 +54,10 @@ export MR_ROBOT_2_POS_Z=0.051
 export MR_ROBOT_2_ROT_X=0
 export MR_ROBOT_2_ROT_Y=0
 export MR_ROBOT_2_ROT_Z=3.1415
+
+export MR_ROBOT_2_NRD="CICPCriteriaNRD"
+export MR_ROBOT_2_ERD="CLoopCloserERD_MR"
+export MR_ROBOT_2_GSO="CLevMarqGSO"
 
 # TODO
 # define the robot name + corresponding namespace
@@ -64,4 +72,4 @@ export MR_ROBOT_3_ROT_X=0
 export MR_ROBOT_3_ROT_Y=0
 export MR_ROBOT_3_ROT_Z=0
 
-
+export MR_GLOBAL_FRAME_ID="map"

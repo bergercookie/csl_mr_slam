@@ -12,22 +12,22 @@ Launch the rviz file for visualizing the graphSLAM procedure in rviz
 	<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
     <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
 
-    <arg name="rviz_dir" value="$(find csl_robots_gazebo)/rviz" />
+    <arg name="rviz_dir" value="$(find mrpt_graphslam_2d)/rviz" />
 
     <!-- Start rviz -->
     <group if="$(env MR_IS_MULTIROBOT_GRAPHSLAM)">
         <!-- Multi-robot version of rviz -->
         <arg name="slam_type" value="mr"/>
-        <arg name="rviz_file" default="$(arg slam_type)_graphslam.rviz" />
+        <arg name="rviz_file" default="$(arg slam_type)_graphslam_gazebo.rviz" />
         <arg name="rviz_file_full" value="$(arg rviz_dir)/$(arg rviz_file)"/>
 
         <node pkg="rviz" type="rviz" name="rviz_visualizer" output="$(arg output)"
             args="-d $(arg rviz_file_full)" />
     </group>
-    <!-- Single-robot version of rviz -->
     <group unless="$(env MR_IS_MULTIROBOT_GRAPHSLAM)">
+        <!-- Single-robot version of rviz -->
         <arg name="slam_type" value="sr"/>
-        <arg name="rviz_file" default="$(arg slam_type)_graphslam.rviz" />
+        <arg name="rviz_file" default="$(arg slam_type)_graphslam_gazebo.rviz" />
         <arg name="rviz_file_full" value="$(arg rviz_dir)/$(arg rviz_file)"/>
 
         <node pkg="rviz" type="rviz" name="rviz_visualizer" output="$(arg output)"
