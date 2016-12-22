@@ -18,7 +18,8 @@ class EnvironParser(object):
         ######################################################
 
         # Each robot environment property starts with this
-        self.env_property_prefix = "MR_ROBOT_"
+        self.env_mr_prefix = "MR"
+        self.env_property_prefix = "{}_ROBOT_".format(self.env_mr_prefix)
 
         # Make sure that user has set the type of graphSLAM
         self.multirobot_key = "MR_IS_MULTIROBOT_GRAPHSLAM" 
@@ -26,10 +27,28 @@ class EnvironParser(object):
 
         self.robot_IDs = self.fetch_robot_IDs()
 
+        # port at which the launchfile will be started
+        self.init_roscore_port = 11311
+        # *current* roscore port. Used only in multimaster setups so that we can
+        # simulate multiple robots in the same machine.
+        self.roscore_port = self.init_roscore_port
+
+        # Set to True if the launchfiles are to be started in different namespaces
+        use_different_roscores_key = self.env_mr_prefix + "_USE_DIFFERENT_ROSCORES"
+        assert use_different_roscores_key in os.environ
+        self.use_different_roscores = int(os.environ[use_different_roscores_key]) == 1
+        print "os.environ[use_different_roscores_key] =", os.environ[use_different_roscores_key]
+        print "use_different_roscores =", self.use_different_roscores
+
+        self.cmd = "roslaunch"
+        self.cmd_port_arg = ["-p", "{port}".format(port=self.roscore_port)]
+
 
         # get the full filepath of the csl_gazebo pkg
         csl_gazebo_pkg = "csl_robots_gazebo"
-        tmp = Popen(["rospack", "find", csl_gazebo_pkg], stdout=PIPE)
+        tmp = Popen(["rospack", "find", csl_gazebo_pkg],
+                    stdout=PIPE,
+                    stderr=PIPE)
         self.csl_gazebo_pkg_path = tmp.communicate()[0].rstrip()
 
         # Robot IDs that are to be initialized - Implicitly corresponds to the
@@ -69,7 +88,7 @@ class EnvironParser(object):
 
         for robot_ID in self.robot_IDs:
             res = self._read_env_params(robot_ID)
-            assert type(res) == dict
+            assert isinstance(res, dict)
 
             self.robot_ID_to_env_params[robot_ID] = res
 
@@ -81,7 +100,7 @@ class EnvironParser(object):
         Return: dictionary of defined basic properties
         
         """
-        assert type(robot_ID) == str
+        assert isinstance(robot_ID, str)
 
         # assert that the robot id actually exists
 
@@ -118,19 +137,24 @@ class EnvironParser(object):
 
         """
         for robot_ID in self.robot_IDs:
+            self.cmd_port_arg[-1] = "{port}".format(port=self.roscore_port)
+            if self.use_different_roscores:
+                self.roscore_port += 1
+
             res = self._start_launchfile(robot_ID)
-            assert type(res) == Popen
+            assert isinstance(res, Popen)
             self.robot_ID_to_proc[robot_ID] = res
 
     @abc.abstractmethod
     def _start_launchfile(self, robot_ID):
         """Start the launchfile for the given robot_ID.
-        
+
         Return the corresponding Popen object.
         """
         rospy.loginfo("Executing Launchfile for robot_ID: {}".format(robot_ID))
 
     def stop_launchfiles(self):
+        """Stop all the launchfiles that have been launched."""
         pass
     # def stop_launchfiles(self):
         # """ Stop all the launchfiles that have previously been started."""
@@ -146,7 +170,3 @@ class EnvironParser(object):
         # p = self.robot_ID_to_proc[robot_ID]
         # p.kill()
         # # TODO - make sure it's dead
-
-
-
-

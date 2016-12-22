@@ -11,6 +11,9 @@ export MR_OUTPUT_MESSAGES_TO="screen"
 # Open the rqt robot steering windows.
 export MR_USE_RQT_ROBOT_STEERING=1
 
+# Launch the graphSLAM-related nodes in differeent namespaces 
+export MR_USE_DIFFERENT_ROSCORES=1
+
 # TODO - fill in the necessary variables
 
 # Syntax for eaach robot properties

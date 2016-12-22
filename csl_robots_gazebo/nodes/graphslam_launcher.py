@@ -22,8 +22,8 @@ class GraphSLAMLauncher(EnvironParser):
         # get the launchfile full path
         fname = "run_single_graphSLAM_simul.launch"
         self.launchfile_path = os.path.join(self.csl_gazebo_pkg_path,
-                                              "launch", "plumbing",
-                                              fname)
+                                            "launch", "plumbing",
+                                            fname)
         # self.launchfile_errors_to_ignore.append(
             # "Missing package dependencies: csl_robots_gazebo/package.xml: mrpt_graphslam_2d")
 
@@ -50,19 +50,23 @@ class GraphSLAMLauncher(EnvironParser):
         params = self.robot_ID_to_env_params[robot_ID]
 
         # Compose the command
-        cmd = "roslaunch"
-        path = self.launchfile_path
-
-        cmd_list = [cmd, path,
-                    "robot_name:={name}".format(name=params["name"])]
-
+        # set the ROS_MASTER_URI environment variable as well - otherwise
+        # exception is thrown
+        cmd_list = ["export ROS_MASTER_URI=http://localhost:{port}; ".format(port=self.roscore_port)]
+        cmd_list.extend([self.cmd])
+        cmd_list.extend([self.launchfile_path,
+                         "robot_name:={name}".format(name=params["name"])])
         for i in ["nrd", "erd", "gso"]:
             cmd_list.append("{}:={}".format(i.upper(), params[i]))
 
         cmd_list.append("disable_MRPT_visuals:={}".format("True"))
+        cmd_list.extend(self.cmd_port_arg)
 
-        # print "cmd_list = ", cmd_list
-        return Popen(cmd_list, stdout=PIPE)
+        rospy.logwarn("cmd_list - graphslam_launcher = %s", cmd_list)
+        return Popen(cmd_list,
+                     stdout=PIPE,
+                     stderr=PIPE,
+                     shell=True)
 
 def main():
     """Main function"""

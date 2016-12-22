@@ -16,8 +16,9 @@ from environ_parser import EnvironParser
 # - Shutdown Gazebo
 # - Launch the setup_simulation_env launchfile
 # - If the gzclient doesn't start up launch it manually `$ gzclient`
-# - Sometimes the /gazebo/spawn_model service isn't initiated for some reason. Repeat operation again.
-# - It takes about ~2m for the robots to be spawned
+# - Sometimes the /gazebo/spawn_model service isn't initiated for some reason.
+# Repeat operation again.
+# - It takes about ~2m for the robots to be spawned - macbook pro - vmware
 #
 # UPDATE: Gazebo is buggy on a virtual machine without a dedicated graphics card. :-)
 
@@ -30,7 +31,7 @@ class RobotSpawner(EnvironParser):
 
     """
 
-    def __init__(self, *arg):
+    def __init__(self):
         super(RobotSpawner, self).__init__()
 
         # self.launchfile_errors_to_ignore.append(
@@ -39,11 +40,11 @@ class RobotSpawner(EnvironParser):
         # get the launchfile full path
         setup_robot_fname = "setup_single_robot.launch"
         self.launchfile_path = os.path.join(self.csl_gazebo_pkg_path,
-                                              "launch", "plumbing",
-                                              setup_robot_fname)
+                                            "launch", "plumbing",
+                                            setup_robot_fname)
 
         file_ok = self.check_launchfile_for_errors(self.launchfile_path)
-        assert(file_ok)
+        assert file_ok
 
         # Dict: robot_name <=> RobotModel instance
         self.robot_model_instances = {}
@@ -58,16 +59,18 @@ class RobotSpawner(EnvironParser):
             robot_model.robot_name))
 
         # Compose the command
-        cmd = "roslaunch"
-        path = self.launchfile_path
-
-        cmd_list = [cmd, path,
-                    "robot_name:={}".format(robot_model.robot_name),
-                    "robot_type:={}".format(robot_model.robot_type)]
+        cmd_list = [self.cmd]
+        cmd_list.extend([self.launchfile_path,
+                         "robot_name:={}".format(robot_model.robot_name),
+                         "robot_type:={}".format(robot_model.robot_type)])
         for k, v in robot_model.pose_6D.items():
             cmd_list.append("{k}:={v}".format(k=k, v=v))
+        # cmd_list.extend(self.cmd_suffix_args) # Launch in a different ROS master
 
-        return Popen(cmd_list, stdout=PIPE)
+        rospy.logwarn("cmd_list - robot_spanwer.py : %s", cmd_list)
+        return Popen(cmd_list,
+                     stdout=PIPE,
+                     stderr=PIPE)
 
     def _read_env_params(self, robot_ID):
         """
