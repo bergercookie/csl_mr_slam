@@ -62,11 +62,15 @@ class GraphSLAMLauncher(EnvironParser):
         cmd_list.append("disable_MRPT_visuals:={}".format("True"))
         cmd_list.extend(self.cmd_port_arg)
 
+        env = os.environ
+        env["ROS_MASTER_URI"] = self.cmd_port_arg[-1]
+
         rospy.logwarn("cmd_list - graphslam_launcher = %s", cmd_list)
         return Popen(cmd_list,
                      stdout=PIPE,
                      stderr=PIPE,
-                     shell=True)
+                     env=env)
+
 
 def main():
     """Main function"""
