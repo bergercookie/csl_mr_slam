@@ -37,8 +37,6 @@ class EnvironParser(object):
         use_different_roscores_key = self.env_mr_prefix + "_USE_DIFFERENT_ROSCORES"
         assert use_different_roscores_key in os.environ
         self.use_different_roscores = int(os.environ[use_different_roscores_key]) == 1
-        print "os.environ[use_different_roscores_key] =", os.environ[use_different_roscores_key]
-        print "use_different_roscores =", self.use_different_roscores
 
         self.cmd = "roslaunch"
         self.cmd_port_arg = ["-p", "{port}".format(port=self.roscore_port)]

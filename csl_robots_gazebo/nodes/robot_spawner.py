@@ -49,6 +49,8 @@ class RobotSpawner(EnvironParser):
         # Dict: robot_name <=> RobotModel instance
         self.robot_model_instances = {}
 
+        self.use_different_roscores = False
+
 
     def _start_launchfile(self, robot_ID):
         """Method that spawns a robot in the Gazebo world."""
@@ -69,8 +71,9 @@ class RobotSpawner(EnvironParser):
 
         rospy.logwarn("cmd_list - robot_spanwer.py : %s", cmd_list)
         return Popen(cmd_list,
-                     stdout=PIPE,
-                     stderr=PIPE)
+                     # stdout=PIPE,
+                     # stderr=PIPE
+                     )
 
     def _read_env_params(self, robot_ID):
         """

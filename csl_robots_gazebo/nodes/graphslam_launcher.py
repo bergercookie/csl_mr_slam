@@ -52,25 +52,25 @@ class GraphSLAMLauncher(EnvironParser):
         # Compose the command
         # set the ROS_MASTER_URI environment variable as well - otherwise
         # exception is thrown
-        cmd_list = ["export ROS_MASTER_URI=http://localhost:{port}; ".format(port=self.roscore_port)]
+        cmd_list = []
         cmd_list.extend([self.cmd])
         cmd_list.extend([self.launchfile_path,
                          "robot_name:={name}".format(name=params["name"])])
         for i in ["nrd", "erd", "gso"]:
             cmd_list.append("{}:={}".format(i.upper(), params[i]))
 
-        cmd_list.append("disable_MRPT_visuals:={}".format("True"))
+        cmd_list.append("disable_MRPT_visuals:={}".format("False"))
         cmd_list.extend(self.cmd_port_arg)
 
+        # Also set the ROS_MASTER_URI according to the roscore port that is to be used
         env = os.environ
-        env["ROS_MASTER_URI"] = self.cmd_port_arg[-1]
+        env["ROS_MASTER_URI"] = "http://localhost:" + self.cmd_port_arg[-1]
 
         rospy.logwarn("cmd_list - graphslam_launcher = %s", cmd_list)
         return Popen(cmd_list,
-                     stdout=PIPE,
-                     stderr=PIPE,
+                     # stdout=PIPE,
+                     # stderr=PIPE,
                      env=env)
-
 
 def main():
     """Main function"""
