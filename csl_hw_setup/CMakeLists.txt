@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   rviz
+  csl_common
+  mrpt_graphslam_2d
 )
 
 ## System dependencies are found with CMake's conventions

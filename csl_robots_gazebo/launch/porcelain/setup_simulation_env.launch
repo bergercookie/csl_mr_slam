@@ -28,6 +28,7 @@ Refer to run_sr_graphSLAM_simul.launch file for the latter task.
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
 
+    <!-- Spawn the building -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="world_name" value="$(find csl_robots_gazebo)/worlds/ktM_second_floor_unused_office.world"/>
         <arg name="debug" value="$(arg debug)" />
@@ -38,13 +39,17 @@ Refer to run_sr_graphSLAM_simul.launch file for the latter task.
     </include>
 
     <!-- Spawn the building -->
+    <!-- NOTE: Deprecated... -->
     <!--<node name="building_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="$(arg output)"-->
 		<!--args="-file $(find csl_robots_gazebo)/models/ktM_second_floor_unused_office/model.sdf -z 0 -sdf -model ktM_building" />-->
 
     <!-- Setup the robots -->
     <!--<include file="$(arg plumb_dir)/setup_robots.launch" />-->
     <node pkg="csl_robots_gazebo" type="robot_spawner.py" name="robot_spawner" output="$(arg output)"/>
-    <node pkg="csl_robots_gazebo" type="graphslam_launcher.py" name="graphslam_launcher" output="$(arg output)"/>
+    <!-- Each SLAM Agent is going to run in a different ROS core so that we can
+         simulate the network configuration. -->
+    <!--<node pkg="csl_robots_gazebo" type="graphslam_launcher.py"
+         name="graphslam_launcher" output="$(arg output)"/>-->
 
     <!-- Launch rviz -->
     <group if="$(arg start_rviz)">

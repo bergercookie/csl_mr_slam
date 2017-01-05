@@ -11,6 +11,7 @@ find_package(catkin REQUIRED
     tf2_ros
     rviz
     mrpt_graphslam_2d
+    csl_common
     )
 
 ## System dependencies are found with CMake's conventions

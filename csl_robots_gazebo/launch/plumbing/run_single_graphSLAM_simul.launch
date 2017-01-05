@@ -11,37 +11,52 @@ multiple nodes according to the set shell environment variables
 
 <launch>
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
+	<arg name="config_file" default="$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_MR.ini"  />
+	<arg name="do_publish_gridmap_topic" default="true" />
 
     <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
 	<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
     <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
+    <arg name="common_dir" value="$(find csl_common)/launch" />
 
     <arg name="robot_name" default="pioneer_3at" />
     <arg name="anchor_frame_ID" value="$(arg robot_name)/odom" />
+	<arg name="base_link_frame_ID" default="base_link"/>
+	<arg name="odometry_frame_ID" default="odometry"/>
+	<arg name="laser_frame_ID" default="laser"/>
 
     <!-- Deciders/Optimizer -->
     <arg name="NRD" default="CFixedIntervalsNRD" />
-    <arg name="ERD" default="CLoopCloserERD_MR" />
+    <arg name="ERD" default="CLoopCloserERD_CM" />
     <arg name="GSO" default="CLevMarqGSO" />
 
     <arg name="disable_MRPT_visuals" default="false" />
+	<arg name="verbosity" default="1"/>
 
 	<group ns="$(arg robot_name)">
 
 		<include file="$(find mrpt_graphslam_2d)/launch/graphslam.launch">
 			<arg name="output" value="$(arg output)" />
-            <arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_MR.ini"  />
+            <arg name = "config_file" value = "$(arg config_file)"  />
             <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_laser_odometry.ini"  />-->
             <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC.ini"  />-->
 			<arg name="anchor_frame_ID" value="$(arg anchor_frame_ID)" />
+		    <arg name="base_link_frame_ID" value="$(arg base_link_frame_ID)"/>
+		    <arg name="odometry_frame_ID" value="$(arg odometry_frame_ID)" />
+		    <arg name="laser_frame_ID" value="$(arg laser_frame_ID)"/>
+
 			<arg name="NRD" value="$(arg NRD)" />
 			<!--<arg name="NRD" value="CICPCriteriaNRD" />-->
             <arg name="ERD" value="$(arg ERD)" />
             <!--<arg name="ERD" value="CLoopCloserERD" />-->
 			<arg name="GSO" value="$(arg GSO)" />
             <arg name="disable_MRPT_visuals" value="$(arg disable_MRPT_visuals)" />
+            <arg name="is_mr_slam" value="$(env MR_IS_MULTIROBOT_GRAPHSLAM)" />
 		</include>
 
 	</group>
+
+    <!-- Setup the multimaster for the specific graphSLAM agent -->
+    <include file="$(arg common_dir)/setup_multimaster.launch" />
 
 </launch>

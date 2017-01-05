@@ -14,6 +14,7 @@ computations take place (see run_sr_graphslam.launch for the latter).
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"  />
     <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
     <arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
+    <arg name="common_dir" value="$(find csl_common)/launch" />
     <arg name="robot_ns" default="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
 
     <!--
@@ -34,7 +35,7 @@ computations take place (see run_sr_graphslam.launch for the latter).
 
         <!-- Use Multimaster? -->
         <group if="$(env MR_USE_MULTIMASTER)">
-            <include file="$(arg plumb_dir)/setup_multimaster.launch">
+            <include file="$(arg common_dir)/setup_multimaster.launch">
             </include>
         </group>
 

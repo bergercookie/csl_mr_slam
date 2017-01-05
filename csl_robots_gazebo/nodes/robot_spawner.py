@@ -125,7 +125,7 @@ class RobotModel(object):
 
     def __init__(self, robot_name, robot_type, pose_6D):
         super(RobotModel, self).__init__()
-        assert type(pose_6D) is dict
+        assert isinstance(pose_6D, dict)
         assert len(pose_6D) == 6 or len(pose_6D) == 3
 
         if len(pose_6D) == 3:
