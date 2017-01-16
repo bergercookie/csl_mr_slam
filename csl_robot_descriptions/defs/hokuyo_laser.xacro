@@ -49,6 +49,8 @@
                         <horizontal>
                             <samples>720</samples>
                             <resolution>1</resolution>
+							<!--<min_angle>${-pi/3}</min_angle>-->
+							<!--<max_angle>${pi/3}</max_angle>-->
                             <min_angle>${-pi/2}</min_angle>
                             <max_angle>${pi/2}</max_angle>
                         </horizontal>
@@ -68,7 +70,9 @@
                              reading.
                         -->
                         <mean>0.0</mean>
-                        <stddev>0.01</stddev>
+                        <!--<stddev>0.01</stddev>-->
+						<stddev>0.05</stddev>
+                        <!--<stddev>0.1</stddev>-->
                     </noise>
                 </ray>
                 <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">

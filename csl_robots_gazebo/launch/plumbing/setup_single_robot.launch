@@ -5,7 +5,7 @@ Mon Nov 21 17:30:20 EET 2016, Nikos Koukis
 
 Setup the model for a single robot agent in the Gazebo simulation environment.
 Launchfile *does not* set up the graphslam-related processes. Refer to
-setup_single_graphslam_agent_simul.launch for the latter
+ru_single_graphSLAM_simul.launch for the latter
 
 Note: ROS Topic namespace of the specific robot agent is going to be its *name* 
       See the -namespace arg in the spawn_model node directive.
@@ -71,10 +71,10 @@ Note: ROS Topic namespace of the specific robot agent is going to be its *name*
             </include>
         </group>
 
-        <!-- Transform from the origin to the  -->
-        <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_robot_frame"
-            args="0 0 0 0 0 0 $(env MR_GLOBAL_FRAME_ID) $(arg robot_name)/odom" />
-            <!--args="$(arg pos_x) $(arg pos_y) $(arg pos_z) $(arg rot_x) $(arg rot_y) $(arg rot_z) $(env MR_GLOBAL_FRAME_ID) $(arg robot_name)_origin" />-->
+        <!-- TODO -->
+        <!-- Transform from the origin to the  ground-truth frame-->
+        <!--<node pkg="tf2_ros" type="static_transform_publisher" name="map_to_robot_frame"-->
+            <!--args="0 0 0 0 0 0 $(env MR_GLOBAL_FRAME_ID) $(env )" />-->
 
     </group>
 

@@ -22,10 +22,15 @@ class EnvironParser(object):
         self.env_property_prefix = "{}_ROBOT_".format(self.env_mr_prefix)
 
         # Make sure that user has set the type of graphSLAM
-        self.multirobot_key = "MR_IS_MULTIROBOT_GRAPHSLAM" 
-        assert self.multirobot_key in os.environ.keys()
+        self.multi_robot_key = "MR_IS_MULTIROBOT_GRAPHSLAM"
+        assert self.multi_robot_key in os.environ.keys()
+        self.is_multi_robot_slam = int(os.environ[self.multi_robot_key]) == 1
 
         self.robot_IDs = self.fetch_robot_IDs()
+
+        if not self.is_multi_robot_slam and len(self.robot_IDs) > 1:
+            self.robot_IDs = [self.robot_IDs[-1]]
+            rospy.logwarn("SINGLE ROBOT GRAPHSLAM: Agent ID: %s", self.robot_IDs[-1])
 
         # port at which the launchfile will be started
         self.init_roscore_port = 11311
@@ -55,9 +60,7 @@ class EnvironParser(object):
         # dict: robot_ID <=> process for stopping the corresponding
         # launchfiles afterwards
         self.robot_ID_to_proc = {}
-
         self.robot_ID_to_env_params = {}
-
         self.launchfile_errors_to_ignore = []
 
     def fetch_robot_IDs(self):
@@ -79,6 +82,7 @@ class EnvironParser(object):
 
         assert len(robot_IDs)
         rospy.logwarn("Found the following robot_IDs: {}".format(robot_IDs))
+
         return robot_IDs
 
     def read_env_params(self):
@@ -110,6 +114,20 @@ class EnvironParser(object):
         env_params = {}
         env_params["name"] = os.environ[robot_name_key]
         env_params["model"] = os.environ[robot_type_key]
+
+        # build the 6D Pose (Position + Orientation)
+        # take care to use uppercase versions for env variables
+        kwords = ["pos", "rot"]
+        axes = ["x", "y", "z"]
+        pose_prop_combs = ["_".join([kword, axis])
+                           for kword in kwords
+                           for axis in axes]
+        pose_6D = {}
+        for pose_prop in pose_prop_combs:
+            env_key = self.env_property_prefix + robot_ID + "_" + pose_prop.upper()
+            pose_6D[pose_prop] = os.environ[env_key]
+        env_params.update({"pose_6D": pose_6D})
+
 
         return env_params
 

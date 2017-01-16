@@ -24,7 +24,7 @@ Refer to run_sr_graphSLAM_simul.launch file for the latter task.
 
     <!-- Launch the world -->
     <arg name="paused" default="false"/>
-    <arg name="gui" default="true"/>
+    <arg name="gui" default="false"/>
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
 
@@ -46,10 +46,11 @@ Refer to run_sr_graphSLAM_simul.launch file for the latter task.
     <!-- Setup the robots -->
     <!--<include file="$(arg plumb_dir)/setup_robots.launch" />-->
     <node pkg="csl_robots_gazebo" type="robot_spawner.py" name="robot_spawner" output="$(arg output)"/>
+    <!-- Currently this is run seperately at a different command line window -->
     <!-- Each SLAM Agent is going to run in a different ROS core so that we can
          simulate the network configuration. -->
-    <!--<node pkg="csl_robots_gazebo" type="graphslam_launcher.py"
-         name="graphslam_launcher" output="$(arg output)"/>-->
+    <!--<node pkg="csl_robots_gazebo" type="graphslam_launcher.py"-->
+         <!--name="graphslam_launcher" output="$(arg output)"/>-->
 
     <!-- Launch rviz -->
     <group if="$(arg start_rviz)">
