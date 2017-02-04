@@ -83,27 +83,11 @@ class RobotSpawner(EnvironParser):
         """
         env_params = super(RobotSpawner, self)._read_env_params(robot_ID)
 
-        # build the 6D Pose (Position + Orientation)
-
-        # take care to use uppercase versions for env variables
-        kwords = ["pos", "rot"]
-        axes = ["x", "y", "z"]
-        pose_prop_combs = ["_".join([kword, axis])
-                           for kword in kwords
-                           for axis in axes]
-
-        pose_6D = {}
-        for pose_prop in pose_prop_combs:
-            env_key = self.env_property_prefix + robot_ID + "_" + pose_prop.upper()
-            pose_6D[pose_prop] = os.environ[env_key]
-
         # initialize robot model instance
         robot_model = RobotModel(env_params["name"],
                                  env_params["model"],
-                                 pose_6D)
+                                 env_params["pose_6D"])
         rospy.loginfo(robot_model)
-
-        env_params.update({"pose_6D": pose_6D})
         self.robot_model_instances[robot_ID] = robot_model
 
         print env_params

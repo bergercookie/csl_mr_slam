@@ -5,7 +5,7 @@ Mon Nov 21 18:06:41 EET 2016, Nikos Koukis
 
 Wrapper for executing mrpt_graphslam_2d. Launchfile launches graphslam for a
 single robot. Use the nodes/graphslam_launcher.py in case you want to launch
-multiple nodes according to the set shell environment variables
+multiple nodes according to the shell environment variables that have been set
 
 -->
 
@@ -21,11 +21,24 @@ multiple nodes according to the set shell environment variables
   <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
   <arg name="common_dir" value="$(find csl_common)/launch" />
 
+  <!-- Initial position of anchor frame_ID with regards to the map origin 
+  		notation: X, Y, Z, YAW, PITCH, ROLL 
+  		-->
+  <arg name="pos_x" default="0.0" />
+  <arg name="pos_y" default="0.0" />
+  <arg name="pos_z" default="0.02" />
+  <arg name="rot_x" default="0.0" />
+  <arg name="rot_y" default="0.0" />
+  <arg name="rot_z" default="0.0" />
+  <arg name="map_to_anchor_tf" value="$(arg pos_x) $(arg pos_y) $(arg pos_z) $(arg rot_z) $(arg rot_y) $(arg rot_x)" />
+
+	<!-- This is set by graphslam_launcher.py -->
   <arg name="robot_name" default="pioneer_3at" />
-  <arg name="anchor_frame_ID" value="$(arg robot_name)/odom" />
-	<arg name="base_link_frame_ID" default="base_link"/>
-	<arg name="odometry_frame_ID" default="odometry"/>
-	<arg name="laser_frame_ID" default="laser"/>
+
+  <arg name="anchor_frame_ID" value="$(arg robot_name)_anchor" />
+	<arg name="base_link_frame_ID" value="$(arg robot_name)_base_link"/>
+	<arg name="odometry_frame_ID" value="$(arg robot_name)_odometry"/>
+	<arg name="laser_frame_ID" value="$(arg robot_name)_laser"/>
 
   <!-- Deciders/Optimizer -->
   <arg name="NRD" default="CFixedIntervalsNRD" />
@@ -53,6 +66,9 @@ multiple nodes according to the set shell environment variables
       <arg name="disable_MRPT_visuals" value="$(arg disable_MRPT_visuals)" />
       <arg name="is_mr_slam" value="$(env MR_IS_MULTIROBOT_GRAPHSLAM)" />
 		</include>
+
+		<node pkg="tf2_ros" type="static_transform_publisher" name="map_to_robot_frame"
+			args="$(arg map_to_anchor_tf) $(env MR_GLOBAL_FRAME_ID) $(arg anchor_frame_ID)" />
 
 	</group>
 

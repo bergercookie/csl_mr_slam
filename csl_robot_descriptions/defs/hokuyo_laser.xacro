@@ -68,7 +68,8 @@
                              reading.
                         -->
                         <mean>0.0</mean>
-                        <stddev>0.01</stddev>
+                        <!--<stddev>0.01</stddev>-->
+                        <stddev>0.1</stddev>
                     </noise>
                 </ray>
                 <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">

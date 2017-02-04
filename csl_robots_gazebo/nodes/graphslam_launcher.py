@@ -33,10 +33,14 @@ class GraphSLAMLauncher(EnvironParser):
     def _read_env_params(self, robot_ID):
         env_params = super(GraphSLAMLauncher, self)._read_env_params(robot_ID)
 
-        # TODO
         # deciders/optimizers
         for i in ["nrd", "erd", "gso"]:
-            env_params[i] = os.environ[self.env_property_prefix + robot_ID + "_" + i.upper()]
+            env_params[i] = os.environ[self.env_property_prefix
+                                       + robot_ID +
+                                       "_" + i.upper()]
+
+        # config file
+        # TODO
 
         return env_params
 
@@ -47,20 +51,30 @@ class GraphSLAMLauncher(EnvironParser):
         rospy.loginfo("Preparing to execute graphSLAM for robot_ID [{}]...".format(
             robot_ID))
 
-        params = self.robot_ID_to_env_params[robot_ID]
+        # parameters for specific robot_ID as set by environment variables
+        env_params = self.robot_ID_to_env_params[robot_ID]
 
         # Compose the command
         # set the ROS_MASTER_URI environment variable as well - otherwise
         # exception is thrown
         cmd_list = []
         cmd_list.extend([self.cmd])
-        cmd_list.extend([self.launchfile_path,
-                         "robot_name:={name}".format(name=params["name"])])
-        for i in ["nrd", "erd", "gso"]:
-            cmd_list.append("{}:={}".format(i.upper(), params[i]))
 
+        # robot_name
+        cmd_list.extend([self.launchfile_path,
+                         "robot_name:={name}".format(name=env_params["name"])])
+
+        # NRD, ERD, GSO
+        for i in ["nrd", "erd", "gso"]:
+            cmd_list.append("{}:={}".format(i.upper(), env_params[i]))
+
+        # disable_MRPT_visuals
         cmd_list.append("disable_MRPT_visuals:={}".format("False"))
         cmd_list.extend(self.cmd_port_arg)
+
+        # initial position for graphSLAM
+        for k, v in env_params["pose_6D"].items():
+            cmd_list.append("{k}:={v}".format(k=k, v=v))
 
         # Also set the ROS_MASTER_URI according to the roscore port that is to be used
         env = os.environ
