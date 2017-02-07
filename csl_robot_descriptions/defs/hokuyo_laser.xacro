@@ -49,8 +49,10 @@
                         <horizontal>
                             <samples>720</samples>
                             <resolution>1</resolution>
-                            <min_angle>${-pi/2}</min_angle>
-                            <max_angle>${pi/2}</max_angle>
+														<min_angle>${-pi/3}</min_angle>
+														<max_angle>${pi/3}</max_angle>
+                            <!--<min_angle>${-pi/2}</min_angle>-->
+                            <!--<max_angle>${pi/2}</max_angle>-->
                         </horizontal>
                     </scan>
                     <range>
