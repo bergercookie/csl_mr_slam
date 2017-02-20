@@ -22,10 +22,15 @@ class EnvironParser(object):
         self.env_property_prefix = "{}_ROBOT_".format(self.env_mr_prefix)
 
         # Make sure that user has set the type of graphSLAM
-        self.multirobot_key = "MR_IS_MULTIROBOT_GRAPHSLAM" 
-        assert self.multirobot_key in os.environ.keys()
+        self.multi_robot_key = "MR_IS_MULTIROBOT_GRAPHSLAM"
+        assert self.multi_robot_key in os.environ.keys()
+        self.is_multi_robot_slam = int(os.environ[self.multi_robot_key]) == 1
 
         self.robot_IDs = self.fetch_robot_IDs()
+
+        if not self.is_multi_robot_slam and len(self.robot_IDs) > 1:
+            self.robot_IDs = [self.robot_IDs[-1]]
+            rospy.logwarn("SINGLE ROBOT GRAPHSLAM: Agent ID: %s", self.robot_IDs[-1])
 
         # port at which the launchfile will be started
         self.init_roscore_port = 11311
@@ -77,6 +82,7 @@ class EnvironParser(object):
 
         assert len(robot_IDs)
         rospy.logwarn("Found the following robot_IDs: {}".format(robot_IDs))
+
         return robot_IDs
 
     def read_env_params(self):

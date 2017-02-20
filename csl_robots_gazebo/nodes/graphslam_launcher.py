@@ -27,6 +27,9 @@ class GraphSLAMLauncher(EnvironParser):
         # self.launchfile_errors_to_ignore.append(
             # "Missing package dependencies: csl_robots_gazebo/package.xml: mrpt_graphslam_2d")
 
+        # Use this in cases when you want to debug using gdb.
+        self.run_under_gdb = False
+
         file_ok = self.check_launchfile_for_errors(self.launchfile_path)
         assert(file_ok)
 
@@ -64,12 +67,17 @@ class GraphSLAMLauncher(EnvironParser):
         cmd_list.extend([self.launchfile_path,
                          "robot_name:={name}".format(name=env_params["name"])])
 
+        if self.run_under_gdb:
+            self.run_under_gdb = False
+            cmd_list.append("run_under_gdb:=true")
+
         # NRD, ERD, GSO
         for i in ["nrd", "erd", "gso"]:
             cmd_list.append("{}:={}".format(i.upper(), env_params[i]))
 
         # disable_MRPT_visuals
         cmd_list.append("disable_MRPT_visuals:={}".format("False"))
+        cmd_list.append("is_mr_slam:={}".format(self.is_multi_robot_slam))
         cmd_list.extend(self.cmd_port_arg)
 
         # initial position for graphSLAM
