@@ -30,6 +30,7 @@ note: File doesn't launch the nodes to compute the ground truth path of the
     <group if="$(env MR_RECORD_TOPICS)">
         <arg name="exclusion_topics" value="/top_left_camera/(.*)|/top_right_camera/(.*)|/(.*)/compressedDepth" />
 	    <node pkg="rosbag" type="record" name="rosbag_recorder" output="$(arg output)" args="--all -x '$(arg exclusion_topics)' -O records.bag" />
+this->logFmt(mrpt::utils::LVL_INFO, "TODO - Remove me. Kalimera %d", 7);
 	</group>
 
 	<!-- Initialize roof cameras -->
