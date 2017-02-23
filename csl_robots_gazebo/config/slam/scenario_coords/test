@@ -1,0 +1,23 @@
+# vi:syntax=sh
+a=false
+
+if [[ "$a" == "true" ]]; then
+    echo kalimera
+fi
+
+b=2
+
+if [[ "$b" == 1 ]]; then
+echo 1
+elif [[ "$b" == 2 ]]; then
+echo 2
+elif [[ "$b" == 3 ]]; then
+echo 3
+fi
+
+b=2
+if [[ "$b" -gt 2 ]] ; then
+echo "> 2"
+else 
+echo "<= 2"
+fi

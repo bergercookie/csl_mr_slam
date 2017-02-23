@@ -47,7 +47,7 @@ multiple nodes according to the shell environment variables that have been set
   <arg name="GSO" default="CLevMarqGSO" />
 
   <arg name="disable_MRPT_visuals" default="false" />
-  <arg name="verbosity" default="0"/>
+  <arg name="verbosity" default="2"/>
   <arg name="is_mr_slam" default="1"/>
 
   <group ns="$(arg robot_name)">
