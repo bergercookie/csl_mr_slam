@@ -65,7 +65,8 @@ class GraphSLAMLauncher(EnvironParser):
 
         # robot_name
         cmd_list.extend([self.launchfile_path,
-                         "robot_name:={name}".format(name=env_params["name"])])
+                         "robot_name:={name}".format(
+                             name=env_params["name"])])
 
         if self.run_under_gdb:
             self.run_under_gdb = False
@@ -76,7 +77,7 @@ class GraphSLAMLauncher(EnvironParser):
             cmd_list.append("{}:={}".format(i.upper(), env_params[i]))
 
         # disable_MRPT_visuals
-        cmd_list.append("disable_MRPT_visuals:={}".format("False"))
+        cmd_list.append("disable_MRPT_visuals:={}".format("True"))
         cmd_list.append("is_mr_slam:={}".format(self.is_multi_robot_slam))
         cmd_list.extend(self.cmd_port_arg)
 

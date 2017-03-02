@@ -39,7 +39,8 @@ export MR_ROBOT_1_MODEL="pioneer_3at"
 # define the robot name. This will also be the corresponding namespace
 export MR_ROBOT_1_NAME="${MR_HOSTNAME}_${MR_IP_LAST_FIELD}"
 
-export MR_ROBOT_1_NRD="CICPCriteriaNRD_CM"
+export MR_ROBOT_1_NRD="CFixedIntervalsNRD_CM"
+#export MR_ROBOT_1_NRD="CICPCriteriaNRD_CM"
 export MR_ROBOT_1_ERD="CLoopCloserERD_CM"
 export MR_ROBOT_1_GSO="CLevMarqGSO"
 
@@ -49,17 +50,17 @@ export MR_ROBOT_2_MODEL="pioneer_3at"
 export MR_ROBOT_2_NAME="${MR_HOSTNAME}_11312_${MR_IP_LAST_FIELD}"
 
 
-export MR_ROBOT_2_NRD="CICPCriteriaNRD_CM"
-#export MR_ROBOT_2_NRD="CFixedIntervalsNRD_CM"
+#export MR_ROBOT_2_NRD="CICPCriteriaNRD_CM"
+export MR_ROBOT_2_NRD="CFixedIntervalsNRD_CM"
 export MR_ROBOT_2_ERD="CLoopCloserERD_CM"
 export MR_ROBOT_2_GSO="CLevMarqGSO"
 
 ###########################################3
 # TODO - Run simulation with 3 robots
 
-# define the robot name + corresponding namespace
-#export MR_ROBOT_3_MODEL="pioneer_3at"
-#export MR_ROBOT_3_NAME="${MR_HOSTNAME}_11312_${MR_IP_LAST_FIELD}"
+ #define the robot name + corresponding namespace
+export MR_ROBOT_3_MODEL="pioneer_3at"
+#export MR_ROBOT_3_NAME="${MR_HOSTNAME}_11313_${MR_IP_LAST_FIELD}"
 
 export MR_ROBOT_3_NRD="CFixedIntervalsNRD_CM"
 export MR_ROBOT_3_ERD="CLoopCloserERD_CM"
@@ -67,7 +68,11 @@ export MR_ROBOT_3_GSO="CLevMarqGSO"
 
 #export gazebo_world="simul"
 export gazebo_world="ktM"
-export num_robots=2 # how many to spawn
+export num_robots=3 # how many to spawn
+
+# publish the initial robot position as ROS parameters under the corresponding
+# namespace. Mostly for debugging reasons.
+export MR_USE_INIT_POSITIONS=0
 
 
 # robot coordinates
