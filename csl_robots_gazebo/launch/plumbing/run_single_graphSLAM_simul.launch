@@ -47,7 +47,7 @@ multiple nodes according to the shell environment variables that have been set
   <arg name="GSO" default="CLevMarqGSO" />
 
   <arg name="disable_MRPT_visuals" default="false" />
-  <arg name="verbosity" default="2"/>
+  <arg name="verbosity" default="0"/>
   <arg name="is_mr_slam" default="1"/>
 
   <group ns="$(arg robot_name)">
@@ -74,6 +74,10 @@ multiple nodes according to the shell environment variables that have been set
 	  <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_robot_frame"
 		  args="$(arg map_to_anchor_tf) $(env MR_GLOBAL_FRAME_ID) $(arg anchor_frame_ID)" />
 
+  </group>
+
+  <group if="$(env MR_USE_INIT_POSITIONS)">
+  	<node pkg="csl_robots_gazebo" type="gt_poses_setter.py" name="gt_poses_setter"/>
   </group>
 
   <!-- Setup the multimaster for the specific graphSLAM agent -->
