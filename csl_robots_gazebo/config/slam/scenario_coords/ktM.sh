@@ -13,7 +13,7 @@ export MR_ROBOT_1_ROT_X=0
 export MR_ROBOT_1_ROT_Y=0
 export MR_ROBOT_1_ROT_Z=0
 
-if [[ "num_robots" -gt 1 ]]; then
+if [[ "MR_NUM_OF_ROBOTS" -gt 1 ]]; then
 
     # robot 2
     if [[ "$robot2_pos" == 0 ]]; then
@@ -44,11 +44,11 @@ if [[ "num_robots" -gt 1 ]]; then
 
     fi # end if robot2_pos
 
-fi # end if num_robots > 1
+fi # end if MR_NUM_OF_ROBOTS > 1
 
 # robot 3
 
-if [[ "num_robots" -gt 2 ]]; then
+if [[ "MR_NUM_OF_ROBOTS" -gt 2 ]]; then
 
     export MR_ROBOT_3_POS_X=-1.5
     export MR_ROBOT_3_POS_Y=-5.2
@@ -57,6 +57,6 @@ if [[ "num_robots" -gt 2 ]]; then
     export MR_ROBOT_3_ROT_Y=0
     export MR_ROBOT_3_ROT_Z=0
 
-fi # num_robots > 2
+fi # MR_NUM_OF_ROBOTS > 2
 
 

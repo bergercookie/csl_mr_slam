@@ -24,7 +24,9 @@ class EnvironParser(object):
         # Make sure that user has set the type of graphSLAM
         self.multi_robot_key = "MR_IS_MULTIROBOT_GRAPHSLAM"
         assert self.multi_robot_key in os.environ.keys()
-        self.is_multi_robot_slam = int(os.environ[self.multi_robot_key]) == 1
+        self.is_multi_robot_slam = \
+            os.environ[self.multi_robot_key].isdigit() and \
+            int(os.environ[self.multi_robot_key]) == 1
 
         self.robot_IDs = self.fetch_robot_IDs()
 

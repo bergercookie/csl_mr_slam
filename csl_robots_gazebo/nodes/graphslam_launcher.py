@@ -29,6 +29,7 @@ class GraphSLAMLauncher(EnvironParser):
 
         # Use this in cases when you want to debug using gdb.
         self.run_under_gdb = False
+        # self.run_under_gdb = True
 
         file_ok = self.check_launchfile_for_errors(self.launchfile_path)
         assert(file_ok)
@@ -69,7 +70,7 @@ class GraphSLAMLauncher(EnvironParser):
                              name=env_params["name"])])
 
         if self.run_under_gdb:
-            self.run_under_gdb = False
+            # self.run_under_gdb = False
             cmd_list.append("run_under_gdb:=true")
 
         # NRD, ERD, GSO

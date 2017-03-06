@@ -13,25 +13,13 @@ Launch the rviz file for visualizing the graphSLAM procedure in rviz
     <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
 
     <arg name="rviz_dir" value="$(find mrpt_graphslam_2d)/rviz" />
+    <arg name="num_robots" value="$(env MR_NUM_OF_ROBOTS)" />
 
     <!-- Start rviz -->
-    <group if="$(env MR_IS_MULTIROBOT_GRAPHSLAM)">
-        <!-- Multi-robot version of rviz -->
-        <arg name="slam_type" value="mr"/>
-        <arg name="rviz_file" default="$(arg slam_type)_graphslam_gazebo.rviz" />
-        <arg name="rviz_file_full" value="$(arg rviz_dir)/$(arg rviz_file)"/>
+    <arg name="rviz_file" default="graphslam_gazebo_$(arg num_robots).rviz" />
+    <arg name="rviz_file_full" value="$(arg rviz_dir)/$(arg rviz_file)"/>
 
-        <node pkg="rviz" type="rviz" name="rviz_visualizer" output="$(arg output)"
-            args="-d $(arg rviz_file_full)" />
-    </group>
-    <group unless="$(env MR_IS_MULTIROBOT_GRAPHSLAM)">
-        <!-- Single-robot version of rviz -->
-        <arg name="slam_type" value="sr"/>
-        <arg name="rviz_file" default="$(arg slam_type)_graphslam_gazebo.rviz" />
-        <arg name="rviz_file_full" value="$(arg rviz_dir)/$(arg rviz_file)"/>
-
-        <node pkg="rviz" type="rviz" name="rviz_visualizer" output="$(arg output)"
-            args="-d $(arg rviz_file_full)" />
-    </group>
+    <node pkg="rviz" type="rviz" name="rviz_visualizer" output="$(arg output)"
+        args="-d $(arg rviz_file_full)" />
 
 </launch>
