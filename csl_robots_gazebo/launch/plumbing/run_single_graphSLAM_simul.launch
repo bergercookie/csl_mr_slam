@@ -22,9 +22,7 @@ multiple nodes according to the shell environment variables that have been set
   <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
   <arg name="common_dir" value="$(find csl_common)/launch" />
 
-  <!-- Initial position of anchor frame_ID with regards to the map origin 
-  		notation: X, Y, Z, YAW, PITCH, ROLL 
-  		-->
+  <!-- Initial position of anchor frame_ID with regards to the map origin notation: X, Y, Z, YAW, PITCH, ROLL -->
   <arg name="pos_x" default="0.0" />
   <arg name="pos_y" default="0.0" />
   <arg name="pos_z" default="0.02" />

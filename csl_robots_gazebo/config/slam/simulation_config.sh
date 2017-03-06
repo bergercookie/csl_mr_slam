@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+# clear the already registered agents
+source "${BASH_SOURCE%/*}/unset_registered_agents.sh"
+
+export MR_NUM_OF_ROBOTS=3 # how many to spawn
+# state if this is MR-GRAPHSLAM
+export MR_IS_MULTIROBOT_GRAPHSLAM=
+if (("$MR_NUM_OF_ROBOTS" >= 2)) ; then
+    MR_IS_MULTIROBOT_GRAPHSLAM=1
+else 
+    MR_IS_MULTIROBOT_GRAPHSLAM=0
+fi
+export MR_IS_MULTIROBOT_GRAPHSLAM
+
 # Computer hostname
 export MR_HOSTNAME="$(hostname)"
 # Last field of the IP of the computer that runs the simulation
@@ -7,8 +20,6 @@ export MR_HOSTNAME="$(hostname)"
 # Used as a suffix in the name of the multimaster configuration
 export MR_IP_LAST_FIELD="$(ifconfig wlan0 | awk '/inet addr/{print substr($2,6)}' | cut -d "." -f4)"
 
-# Setup one or two graphslam agents in the simulation
-export MR_IS_MULTIROBOT_GRAPHSLAM=1
 
 # All nodes read this variable and output the messages accordingly
 export MR_OUTPUT_MESSAGES_TO="screen"
@@ -46,35 +57,34 @@ export MR_ROBOT_1_GSO="CLevMarqGSO"
 
 # MR_ROBOT 2
 ######################
-export MR_ROBOT_2_MODEL="pioneer_3at"
-export MR_ROBOT_2_NAME="${MR_HOSTNAME}_11312_${MR_IP_LAST_FIELD}"
-
-
-#export MR_ROBOT_2_NRD="CICPCriteriaNRD_CM"
-export MR_ROBOT_2_NRD="CFixedIntervalsNRD_CM"
-export MR_ROBOT_2_ERD="CLoopCloserERD_CM"
-export MR_ROBOT_2_GSO="CLevMarqGSO"
+if [[ "MR_NUM_OF_ROBOTS" -gt 1 ]]; then
+    export MR_ROBOT_2_MODEL="pioneer_3at"
+    export MR_ROBOT_2_NAME="${MR_HOSTNAME}_11312_${MR_IP_LAST_FIELD}"
+    export MR_ROBOT_2_NRD="CFixedIntervalsNRD_CM"
+    export MR_ROBOT_2_ERD="CLoopCloserERD_CM"
+    export MR_ROBOT_2_GSO="CLevMarqGSO"
+fi # end if MR_NUM_OF_ROBOTS > 1
 
 ###########################################3
-# TODO - Run simulation with 3 robots
 
- #define the robot name + corresponding namespace
-export MR_ROBOT_3_MODEL="pioneer_3at"
-#export MR_ROBOT_3_NAME="${MR_HOSTNAME}_11313_${MR_IP_LAST_FIELD}"
+if [[ "MR_NUM_OF_ROBOTS" -gt 2 ]]; then
+    #define the robot name + corresponding namespace
+    export MR_ROBOT_3_MODEL="pioneer_3at"
+    export MR_ROBOT_3_NAME="${MR_HOSTNAME}_11313_${MR_IP_LAST_FIELD}"
+    export MR_ROBOT_3_NRD="CFixedIntervalsNRD_CM"
+    export MR_ROBOT_3_ERD="CLoopCloserERD_CM"
+    export MR_ROBOT_3_GSO="CLevMarqGSO"
+fi # end if MR_NUM_OF_ROBOTS > 2
 
-export MR_ROBOT_3_NRD="CFixedIntervalsNRD_CM"
-export MR_ROBOT_3_ERD="CLoopCloserERD_CM"
-export MR_ROBOT_3_GSO="CLevMarqGSO"
-
-#export gazebo_world="simul"
-export gazebo_world="ktM"
-export num_robots=3 # how many to spawn
 
 # publish the initial robot position as ROS parameters under the corresponding
 # namespace. Mostly for debugging reasons.
 export MR_USE_INIT_POSITIONS=0
 
 
+#export MR_GAZEBO_WORLD="simul"
+#export MR_GAZEBO_WORLD="ktM"
+export MR_GAZEBO_WORLD="ktM2"
 # robot coordinates
 # http://stackoverflow.com/questions/6659689/referring-to-a-file-relative-to-executing-script
-source "${BASH_SOURCE%/*}/scenario_coords/${gazebo_world}.sh"
+source "${BASH_SOURCE%/*}/scenario_coords/${MR_GAZEBO_WORLD}.sh"

@@ -30,9 +30,8 @@ Refer to run_sr_graphSLAM_simul.launch file for the latter task.
 
   <!-- Spawn the building -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-		<!--<arg name="world_name" value="$(find csl_robots_gazebo)/worlds/ktM.world"/>-->
 		<!--<arg name="world_name" value="$(find csl_robots_gazebo)/worlds/simul.world"/>-->
-		<arg name="world_name" value="$(find csl_robots_gazebo)/worlds/$(env gazebo_world).world"/>
+		<arg name="world_name" value="$(find csl_robots_gazebo)/worlds/$(env MR_GAZEBO_WORLD).world"/>
     <arg name="debug" value="$(arg debug)" />
     <arg name="gui" value="$(arg gui)" />
     <arg name="paused" value="$(arg paused)"/>
