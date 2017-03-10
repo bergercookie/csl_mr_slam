@@ -17,7 +17,8 @@ Setup joystick teleoperation
     </node>
 
     <node pkg="teleop_twist_joy" name="teleop_twist_joy" type="teleop_node">
-        <remap from="cmd_vel" to="input/cmd_vel" />
+        <!--<remap from="cmd_vel" to="input/cmd_vel" />-->
+        <remap from="cmd_vel" to="cmd_vel" />
 
         <rosparam command="load" file="$(arg config)" />
     </node>
