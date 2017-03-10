@@ -3,7 +3,7 @@
 # clear the already registered agents
 source "${BASH_SOURCE%/*}/unset_registered_agents.sh"
 
-export MR_NUM_OF_ROBOTS=3 # how many to spawn
+export MR_NUM_OF_ROBOTS=2 # how many to spawn
 # state if this is MR-GRAPHSLAM
 export MR_IS_MULTIROBOT_GRAPHSLAM=
 if (("$MR_NUM_OF_ROBOTS" >= 2)) ; then
@@ -83,8 +83,7 @@ export MR_USE_INIT_POSITIONS=0
 
 
 #export MR_GAZEBO_WORLD="simul"
-#export MR_GAZEBO_WORLD="ktM"
-export MR_GAZEBO_WORLD="ktM2"
+export MR_GAZEBO_WORLD="ktM"
 # robot coordinates
 # http://stackoverflow.com/questions/6659689/referring-to-a-file-relative-to-executing-script
 source "${BASH_SOURCE%/*}/scenario_coords/${MR_GAZEBO_WORLD}.sh"
