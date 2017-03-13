@@ -41,7 +41,7 @@ multiple nodes according to the shell environment variables that have been set
 
   <!-- Deciders/Optimizer -->
   <arg name="NRD" default="CFixedIntervalsNRD" />
-  <arg name="ERD" default="CLoopCloserERD_CM" />
+  <arg name="ERD" default="CLoopCloserERD_MR" />
   <arg name="GSO" default="CLevMarqGSO" />
 
   <arg name="disable_MRPT_visuals" default="false" />

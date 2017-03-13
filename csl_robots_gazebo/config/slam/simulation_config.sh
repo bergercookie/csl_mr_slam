@@ -50,9 +50,9 @@ export MR_ROBOT_1_MODEL="pioneer_3at"
 # define the robot name. This will also be the corresponding namespace
 export MR_ROBOT_1_NAME="${MR_HOSTNAME}_${MR_IP_LAST_FIELD}"
 
-export MR_ROBOT_1_NRD="CFixedIntervalsNRD_CM"
-#export MR_ROBOT_1_NRD="CICPCriteriaNRD_CM"
-export MR_ROBOT_1_ERD="CLoopCloserERD_CM"
+export MR_ROBOT_1_NRD="CFixedIntervalsNRD_MR"
+#export MR_ROBOT_1_NRD="CICPCriteriaNRD_MR"
+export MR_ROBOT_1_ERD="CLoopCloserERD_MR"
 export MR_ROBOT_1_GSO="CLevMarqGSO"
 
 # MR_ROBOT 2
@@ -60,8 +60,8 @@ export MR_ROBOT_1_GSO="CLevMarqGSO"
 if [[ "MR_NUM_OF_ROBOTS" -gt 1 ]]; then
     export MR_ROBOT_2_MODEL="pioneer_3at"
     export MR_ROBOT_2_NAME="${MR_HOSTNAME}_11312_${MR_IP_LAST_FIELD}"
-    export MR_ROBOT_2_NRD="CFixedIntervalsNRD_CM"
-    export MR_ROBOT_2_ERD="CLoopCloserERD_CM"
+    export MR_ROBOT_2_NRD="CFixedIntervalsNRD_MR"
+    export MR_ROBOT_2_ERD="CLoopCloserERD_MR"
     export MR_ROBOT_2_GSO="CLevMarqGSO"
 fi # end if MR_NUM_OF_ROBOTS > 1
 
@@ -71,8 +71,8 @@ if [[ "MR_NUM_OF_ROBOTS" -gt 2 ]]; then
     #define the robot name + corresponding namespace
     export MR_ROBOT_3_MODEL="pioneer_3at"
     export MR_ROBOT_3_NAME="${MR_HOSTNAME}_11313_${MR_IP_LAST_FIELD}"
-    export MR_ROBOT_3_NRD="CFixedIntervalsNRD_CM"
-    export MR_ROBOT_3_ERD="CLoopCloserERD_CM"
+    export MR_ROBOT_3_NRD="CFixedIntervalsNRD_MR"
+    export MR_ROBOT_3_ERD="CLoopCloserERD_MR"
     export MR_ROBOT_3_GSO="CLevMarqGSO"
 fi # end if MR_NUM_OF_ROBOTS > 2
 
