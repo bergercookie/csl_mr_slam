@@ -20,7 +20,7 @@ from environ_parser import EnvironParser
 # Repeat operation again.
 # - It takes about ~2m for the robots to be spawned - macbook pro - vmware
 #
-# UPDATE: Gazebo is buggy on a virtual machine without a dedicated graphics card. :-)
+# UPDATE: Gazebo is buggy (on a virtual machine) without a dedicated graphics card. :-)
 
 
 class RobotSpawner(EnvironParser):

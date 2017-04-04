@@ -10,7 +10,19 @@ from subprocess import Popen, PIPE, call
 from misc.custom_exceptions import RosLaunchSyntaxError
 
 class EnvironParser(object):
-    """Provide the necessary methods for parsing graphslam-related environment variables."""
+    """Provide the necessary methods for parsing graphslam-related environment variables.
+
+    Class parses the graphSLAM related shell environment variables. Derived classes should implement
+    the abstract _start_launchfile method. Afterwards, during the
+    EnvironParser.start_launchfiles call the Derived._start_launchfile method
+    is going to be called as many times as the count or robots instances which
+    are to be launched.
+
+    For an example of a derived class see:
+    - robot_spawner.py
+    - graphslam_launcher.py
+
+    """
     __metaclass__ = abc.ABCMeta
 
     def __init__(self):

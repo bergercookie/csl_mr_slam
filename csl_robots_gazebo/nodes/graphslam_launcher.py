@@ -14,9 +14,13 @@ class GraphSLAMLauncher(EnvironParser):
     Launch the necessary instances of the mrpt_graphslam_2d node for all the
     robots defined in the shell environment.
 
+    Purpose of this class is to automate the launching of multiple instances of
+    graphSLAM. It derives from the lack of loops in ROS launchfiles (at least
+    up to ROS Jade).
+
     """
 
-    def __init__(self, *arg):
+    def __init__(self):
         super(GraphSLAMLauncher, self).__init__()
 
         # get the launchfile full path
@@ -32,7 +36,7 @@ class GraphSLAMLauncher(EnvironParser):
         # self.run_under_gdb = True
 
         file_ok = self.check_launchfile_for_errors(self.launchfile_path)
-        assert(file_ok)
+        assert file_ok
 
     def _read_env_params(self, robot_ID):
         env_params = super(GraphSLAMLauncher, self)._read_env_params(robot_ID)

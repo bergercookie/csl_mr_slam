@@ -11,10 +11,14 @@ from environ_parser import EnvironParser
 
 class GTPoseSetter(EnvironParser):
     """
-    Module that sets the Initial Ground-Truth poses in the global coordinates frame.
+    Class that sets the initial Ground-Truth poses in the global coordinates frame.
 
     Coordinates can be used in a multi-robot setup by other agents so that the
     incoming measurements can be used right away and build the map.
+
+    Warning:
+        As of 2017/04/04 current class remains unused. Remove it if not helpful.
+
     """
 
     def __init__(self):
