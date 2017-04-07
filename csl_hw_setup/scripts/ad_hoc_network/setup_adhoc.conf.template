@@ -1,0 +1,48 @@
+# testjob.conf
+# template for automated generation of upstart scripts. One for each of the
+# running agents
+# This is an upstart task, Should be placed in the /etc/init/ directory
+# If not connected to the adhoc on boot, eject/reinsert network adapter
+#
+# Users should run the setup_adhoc.py script which parses this template file
+# and replaces the following values accordingly
+# WLAN_INTERFACE
+# IP_ADDRESS
+
+description "Upstart task to connect node to a predefined ad-hoc network"
+author "Nikos Koukis"
+
+start on (
+        starting network-interface
+        or starting network-manager
+        or starting networking
+        or  net-device-up IFACE=WLAN_INTERFACE)
+
+stop on shutdown
+
+exec echo Test Job ran at  `date` >> /var/log/testjob.log
+
+script
+
+set +e
+sleep 2 # wait so that the interface is indeed up.
+
+path_debug="/var/log/multi_robot_exp_status"
+wlan_interface="WLAN_INTERFACE"
+ip_addr="IP_ADDRESS"
+
+# create file if not there
+if [ -f ${path_debug} ]; then
+    touch ${path_debug}
+fi
+
+echo > ${path_debug} # clear the file.
+/bin/date >> ${path_debug}
+/sbin/ifconfig ${wlan_interface} down >> ${path_debug}
+/sbin/iwconfig ${wlan_interface} mode Ad-hoc >> ${path_debug}
+/sbin/iwconfig ${wlan_interface} essid multi_robot_exp >> ${path_debug}
+/sbin/ifconfig ${wlan_interface} ${ip_addr} netmask 255.255.255.0 >> ${path_debug}
+
+printf "=======================\n" >> ${path_debug}
+
+end script

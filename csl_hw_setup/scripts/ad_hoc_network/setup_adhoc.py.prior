@@ -64,6 +64,13 @@ def main():
     if dry_run:
         print("[!] Script is running on a dry run! Specified commands will not be executed")
 
+    # at least one argument should be given
+    if len(sys.argv) == 1:
+        print(
+            "[!] At least one argument shoould be given. Specify \"--help\" to get a list of arguments\n",
+            "Exiting...")
+        sys.exit(1)
+
 
     if interactive:
         print("[!] In interactive mode:")
@@ -107,9 +114,9 @@ def main():
             "Automatically generated script - {date}".format(
                 date=strftime("%a, %d %b %Y %H:%M:%S", gmtime()))
         ]
-        directives = ["auto {wlan}".format(wlan=wlan_interface),
+        directives = ["auto {wlan}\nallow-hotplug {wlan}".format(wlan=wlan_interface),
                       "iface {wlan} inet static".format(wlan=wlan_interface),
-                      "   wireless-essid multi-robot-exp",
+                      "   wireless-essid multi_robot_exp",
                       "   wireless-mode ad-hoc",
                       "   wireless-channel 5",
                       "   wireless-enc off",
