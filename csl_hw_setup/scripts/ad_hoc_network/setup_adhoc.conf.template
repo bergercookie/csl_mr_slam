@@ -1,4 +1,4 @@
-# testjob.conf
+# multi_robot_adhoc.conf
 # template for automated generation of upstart scripts. One for each of the
 # running agents
 # This is an upstart task, Should be placed in the /etc/init/ directory
@@ -13,14 +13,13 @@ description "Upstart task to connect node to a predefined ad-hoc network"
 author "Nikos Koukis"
 
 start on (
-        starting network-interface
+        runlevel [2345]
+        or starting network-interface
         or starting network-manager
         or starting networking
         or  net-device-up IFACE=WLAN_INTERFACE)
 
 stop on shutdown
-
-exec echo Test Job ran at  `date` >> /var/log/testjob.log
 
 script
 
