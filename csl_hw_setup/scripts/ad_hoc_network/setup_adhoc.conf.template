@@ -1,13 +1,14 @@
-# multi_robot_adhoc.conf
+# setup_adhoc.conf
 # template for automated generation of upstart scripts. One for each of the
 # running agents
 # This is an upstart task, Should be placed in the /etc/init/ directory
 # If not connected to the adhoc on boot, eject/reinsert network adapter
-#
-# Users should run the setup_adhoc.py script which parses this template file
-# and replaces the following values accordingly
-# WLAN_INTERFACE
-# IP_ADDRESS
+# NOTE: 
+# - If not connected to the adhoc on boot, eject/reinsert network adapter
+# - Users should run the setup_adhoc.py script which parses this template file
+#   and replaces the following values accordingly
+#   + WLAN_INTERFACE
+#   + IP_ADDRESS
 
 description "Upstart task to connect node to a predefined ad-hoc network"
 author "Nikos Koukis"

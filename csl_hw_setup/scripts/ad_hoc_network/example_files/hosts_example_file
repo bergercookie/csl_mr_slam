@@ -1,15 +1,15 @@
 # File contains a sample configuration for using the multimaster ROS package
 # with the dnsmasq DNS server. This can be used  in just one of the nodes and
-# have the its address (in this case 192.168.100.1) be as a DNS server to each
+# have the its address (in this case 10.8.0.1) be as a DNS server to each
 # one of the other agents running SLAM in the ad-hoc network.
 
 127.0.0.1	localhost
 127.0.1.1	nickkouk-ubuntu
 
 # MR-SLAM agents
-192.168.100.1  nickkouk-ubuntu
-192.168.100.2 nickkouk-mac
-192.168.100.15 youbot2-desktop
-192.168.100.17 odroid-XU3
-192.168.100.18 odroid-U
+10.8.0.1 csl-desktop
+10.8.0.15 youbot2-desktop
+10.8.0.16  nickkouk-ubuntu
+10.8.0.17 odroid-XU3
+10.8.0.18 odroid-U2
 
