@@ -1,3 +1,6 @@
 [submodule "csl_hw_setup/ansible/roles/ansible-role-ros"]
 	path = csl_hw_setup/ansible/roles/ansible-role-ros
 	url = https://github.com/bergercookie/ansible-role-ros
+[submodule "csl_hw_setup/ansible/roles/ansible-role-mrpt"]
+	path = csl_hw_setup/ansible/roles/ansible-role-mrpt
+	url = https://github.com/bergercookie/ansible-role-mrpt
