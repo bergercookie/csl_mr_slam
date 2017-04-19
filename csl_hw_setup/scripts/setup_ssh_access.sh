@@ -12,14 +12,14 @@ if ! [[ -f ${ssh_key_path} ]]; then
     printf "\nPublic key not there (%s).\nPlease create a private/public key pair and rerun script\n" ${ssh_key_path}
     exit 1;
 else
-    echo "Done."
+    printf "Done.\n"
 fi
 
 
 
-echo "Input IP address of agent:"
+printf "Input IP address of agent: "
 read ssh_addr
-echo "Select the username for remote agent \"${ssh_addr}\":"
+printf "Select the username for remote agent \"%s\": " "${ssh_addr}"
 read ssh_user
 ssh_remote_full="${ssh_user}@${ssh_addr}"
 
@@ -30,3 +30,4 @@ printf "Initiating connection to \"%s\"...\n" "${ssh_remote_full}"
 
 cat ${ssh_key_path} | ssh ${ssh_remote_full} 'umask 0077; mkdir -p .ssh; cat >> .ssh/authorized_keys'
 echo "Key copied!"
+exit 0;
