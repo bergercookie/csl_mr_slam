@@ -1,0 +1,3 @@
+[submodule "csl_hw_setup/ansible/roles/ansible-role-ros"]
+	path = csl_hw_setup/ansible/roles/ansible-role-ros
+	url = https://github.com/bergercookie/ansible-role-ros

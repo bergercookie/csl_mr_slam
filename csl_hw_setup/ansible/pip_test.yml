@@ -1,0 +1,9 @@
+---
+
+- name: "Test pip installation on the hosts"
+  hosts: all
+
+  tasks:
+      - pip:
+          name: ansible
+          version: version

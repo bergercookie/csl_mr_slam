@@ -1,0 +1,7 @@
+---
+
+- name: Setup Software
+  hosts: robots
+  roles:
+    - soft_downloader
+

@@ -1,0 +1,44 @@
+---
+- hosts: robots
+  vars:
+    var_str: "kalimera"
+    var_int: 1
+    var_float: 1.2
+
+
+  tasks:
+    - debug: 
+    - debug:
+
+
+- name: "Test play"
+  hosts: all
+  tags: slam_prior
+  tasks:
+    - name: "Another set of example tasks"
+      shell: /usr/bin/uptime
+      register: result
+
+    - name: "Debug usage"
+      debug:
+        msg: "Resuls is: {{ result }}"
+
+    ## take a dict. value using the "." notation (not the [] )
+    #- name: Debug usage 2
+      #debug:
+        #msg: "Everything is a dict, stdout_lines: {{ result.stdout_lines }}"
+
+    #- name: Variable usage - ansible_env refers to the control node
+      #debug:
+        #msg: "HOME_DIR = {{ ansible_env.HOME }}"
+    
+    - name: "Variable specific to the current host, declared in an inventory file"
+      debug:
+          msg: "kalimera = {{ kalimera_var }}"
+
+    ## Print all hostvars
+    #- name: Variable usage - env refers to the current host
+      #debug:
+        #msg: "hostvars = {{ hostvars }}"
+
+

@@ -1,0 +1,22 @@
+---
+
+- name: something
+  hosts: robots
+  tasks:
+    #- name: source bashrc
+      #shell: source /home/nick/a && env && cmake ~/mrpt2 && make
+      #args:
+        #executable: /bin/bash
+        #chdir: ~/mrpt_build2
+      #register: cmake_mrpt_output
+
+    #- debug: var=cmake_output.stdout_lines
+
+
+    # use -DDISABLE_ROS=1 if you want to
+    - name: Compile MRPT
+      shell: cmake ~/mrpt2
+      args:
+        chdir: ~/mrpt_build2
+      register: cmake_mrpt_output
+    - debug: var=cmake_mrpt_output.stdout_lines

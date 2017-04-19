@@ -1,0 +1,16 @@
+# Inventory File
+# may contain numeric IPs or DNS entries
+# Public key should be in the authorized_keys of all these machines
+
+# specify connection type
+# ansible_connection=local/ssh
+
+# localhost - no need to ssh
+# http://docs.ansible.com/ansible/intro_getting_started.html
+
+localhost ansible_connection=local ansible_python_interpreter="/usr/bin/env python"
+
+[robots]
+
+# TODO - Add the robot agents' IPs
+192.168.3.5 ansible_connection=ssh ansible_user=nick

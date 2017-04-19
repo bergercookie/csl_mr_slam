@@ -1,0 +1,36 @@
+---
+
+
+- name: Install using apt
+  hosts: robots
+
+  tasks:
+    - name: Install necessary packages
+      apt: name={{item}} state=present
+      with_items:
+        - git
+        - vim
+
+    - name: Compile MRPT
+      debug:
+        msg: TODO
+
+    - name: Install ROS
+      debug:
+        msg: TODO
+
+    - name: Initialize catkin_ws repository
+      debug:
+        msg: TODO
+
+    - name: Clone necessary ROS packages
+      git:
+        clone: true
+        #repo: https://github.com/bergercookie/catkin_ws
+        repo: ~/catkin_ws/src
+        dest: "{{catkin_ws_loc_path}}"
+        version: "{{catkin_ws_git_version}}"
+        recursive: true
+      async: 1200
+      poll: 15
+
