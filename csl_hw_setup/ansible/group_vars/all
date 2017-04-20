@@ -1,0 +1,13 @@
+---
+# Wed Apr 19 15:51:55 EEST 2017, Nikos Koukis
+# Global variables. These can also override role variables as well
+
+mrpt_remote_repo_gh: "http://github.com/{{github_user}}/mrpt"
+mrpt_git_branch: graphslam-devel2 # branch to track
+mrpt_loc_path: "~/mrpt"
+mrpt_build_path: "~/mrpt_build"
+
+catkin_src_remote_repo_gh: "http://github.com/{{github_user}}/mrpt"
+catkin_src_git_branch: master # branch to track
+catkin_src_loc_path: "~/catkin_ws/src"
+

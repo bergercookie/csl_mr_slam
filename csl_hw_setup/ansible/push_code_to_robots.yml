@@ -1,0 +1,54 @@
+---
+
+# Sync the changes between the central node's git repositories and the
+# repositories of all the other hosts
+# Repositories that are to be in sync after the current playbook is run are the
+# following:
+# - mrpt
+# - catkin_ws + submodules
+#
+# Notice that only diffs between previous and current state of the
+# corresponding repository are exchanged, not actuall commits. Changes are to be
+# commited and pushed exclusively from the central-node
+# WARNING: Do not use this script for pushing changes from a single host.
+# Instead use the pull_code_from_robot.yml and specify the robot to pull changes from
+
+- name: Sync git repos for multi-robot SLAM
+  hosts: robots
+  strategy: linear
+  serial: 5
+  tasks:
+    - name: MRPT synchronization
+      synchronize:
+        src: "{{hostvars['localhost']['mrpt_loc_path']}}/"
+        dest: "{{mrpt_loc_path}}/"
+        mode: push
+        delete: true
+        archive: true
+        rsync_opts:
+          #- "--exclude=.git"
+          #- "--exclude=.gitmodules"
+          - "--verbose"
+      register: mrpt_sync
+
+    - name: MRPT sync output
+      debug: var=mrpt_sync.stdout_lines
+
+    - name: catkin synchronization
+      synchronize:
+        src: "{{hostvars['localhost']['catkin_src_loc_path']}}/"
+        dest: "{{catkin_src_loc_path}}/"
+        mode: push
+        delete: true
+        archive: true
+        rsync_opts:
+          #- "--exclude=.git"
+          #- "--exclude=.gitmodules"
+          - "--verbose"
+      register: catkin_sync
+
+    - name: catkin sync output
+      debug: var=catkin_sync.stdout_lines
+
+
+

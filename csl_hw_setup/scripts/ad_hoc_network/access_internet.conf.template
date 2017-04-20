@@ -1,0 +1,15 @@
+#
+# Setup DNS entries for inter-robot and internet communication
+#
+
+wlan_interface="WLAN_INTERFACE"
+ip_addr="IP_ADDRESS"
+path_debug="DEBUG_FILE"
+internet_link="INTERNET_LINK"
+
+# set the DNS nameserver - used both for internet access and for inter-robot communication
+echo "nameserver ${internet_link}" >> /etc/resolv.conf | tee -a ${path_debug} 2>&1
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf | tee -a ${path_debug} 2>&1
+
+# default gateway
+route add default gw ${internet_link} ${wlan_interface} >> ${path_debug} 2>&1

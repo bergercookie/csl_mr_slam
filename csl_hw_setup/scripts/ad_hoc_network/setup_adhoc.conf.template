@@ -27,7 +27,7 @@ script
 set +e
 sleep 2 # wait so that the interface is indeed up.
 
-path_debug="/var/log/multi_robot_exp_status"
+path_debug="DEBUG_FILE"
 wlan_interface="WLAN_INTERFACE"
 ip_addr="IP_ADDRESS"
 
@@ -37,12 +37,11 @@ if [ -f ${path_debug} ]; then
 fi
 
 echo > ${path_debug} # clear the file.
-/bin/date >> ${path_debug}
-/sbin/ifconfig ${wlan_interface} down >> ${path_debug}
-/sbin/iwconfig ${wlan_interface} mode Ad-hoc >> ${path_debug}
-/sbin/iwconfig ${wlan_interface} essid multi_robot_exp >> ${path_debug}
-/sbin/ifconfig ${wlan_interface} ${ip_addr} netmask 255.255.255.0 >> ${path_debug}
+/bin/date >> ${path_debug} 2>&1
+/sbin/ifconfig ${wlan_interface} down >> ${path_debug} 2>&1
+/sbin/iwconfig ${wlan_interface} mode Ad-hoc >> ${path_debug} 2>&1
+/sbin/iwconfig ${wlan_interface} essid multi_robot_exp >> ${path_debug} 2>&1
+/sbin/ifconfig ${wlan_interface} ${ip_addr} netmask 255.255.255.0 >> ${path_debug} 2>&1
 
-printf "=======================\n" >> ${path_debug}
-
+printf "=======================\n" >> ${path_debug} 2>&1
 end script

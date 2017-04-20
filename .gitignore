@@ -40,3 +40,6 @@ Thumbs.db
 Session.vim
 
 csl_hw_setup/datasets
+
+# Ansible
+*.retry

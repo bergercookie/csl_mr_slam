@@ -56,26 +56,31 @@ parser.add_argument(
     "-i", "--interactive",
     action="store_true",
     help="Run script in interactive mode")
-args = vars(parser.parse_args())
 
+internet_related = parser.add_mutually_exclusive_group(required=False)
+internet_related.add_argument(
+    "-m", "--dnsmasq",
+    action="store_true",
+    help="Enable dnsmasq service on current host. Use this option only in the computer that is to run as the DNS provider")
+internet_related.add_argument(
+    "-a", "--access_internet_via",
+    default="0.0.0.0",
+    help="Enable internet access to current host via another host in the common ad-hoc network. Specify the address of that link.")
+
+parser_args = vars(parser.parse_args())
 
 def main():
     """Main."""
 
-    interactive = args["interactive"]
-    dry_run = args["dry_run"]
+    interactive = parser_args["interactive"]
+    dry_run = parser_args["dry_run"]
+    dnsmasq_enable = parser_args["dnsmasq"]
+    access_internet_via = parser_args["access_internet_via"]
+    debug_file = "/var/log/multi_robot_exp_status"
 
     # Specify whether we are running for real or on a dry-run
     if dry_run:
         print("[!] Script is running on a dry run! Specified commands will not be executed")
-
-    # at least one argument should be given
-    if len(sys.argv) == 1:
-        print(
-            "[!] At least one argument shoould be given. Specify \"--help\" to get a list of arguments\n",
-            "Exiting...")
-        sys.exit(1)
-
 
     if interactive:
         print("[!] In interactive mode:")
@@ -84,10 +89,10 @@ def main():
         ip_address = raw_input(
             "Current host's IP address in ad-hoc: [Default = {}] ".format(ip_address_default))
     else:
-        wlan_interface = args["wlan_interface"]
-        ip_address = args["ip_address"]
+        wlan_interface = parser_args["wlan_interface"]
+        ip_address = parser_args["ip_address"]
 
-    check_reqs(ip_address=ip_address, wlan_interface=wlan_interface)
+    check_reqs(ip_address=ip_address, wlan_interface=wlan_interface, dry_run=dry_run)
 
     # check if upstart file already exists
     upstart_fname = "setup_adhoc.conf"
@@ -101,11 +106,24 @@ def main():
     script_dir = os.path.dirname(os.path.realpath(__file__))
     template_conts = open(os.path.join(script_dir, "setup_adhoc.conf.template"), 'r').readlines()
 
+    if dnsmasq_enable: # add line to restart dnsmasq
+        print("dnsmasq is to be restarted.")
+        dnsmasq_line = "service dnsmasq restart"
+        template_conts.insert(-3, dnsmasq_line)
+    elif access_internet_via: # add the internet-access related contents
+        internet_template_conts = open(
+            os.path.join(
+                script_dir, "access_internet.conf.template"), 'r').readlines()
+        for l in internet_template_conts:
+            template_conts.insert(-3, l)
+
     # write the correct wlan interface and ip address
     # ignore comment lines
     fun = lambda l: l if l.startswith("#") else l.\
         replace("IP_ADDRESS", ip_address).\
-        replace("WLAN_INTERFACE", wlan_interface)
+        replace("WLAN_INTERFACE", wlan_interface).\
+        replace("INTERNET_LINK", access_internet_via).\
+        replace("DEBUG_FILE", debug_file)
 
     template_conts_modified = map(fun, template_conts)
 
@@ -128,7 +146,7 @@ def check_reqs(**kargs):
     """Check if the reuired tools exist in the system."""
 
     # root access?
-    if os.getuid() != 0:
+    if os.getuid() != 0 and not kargs["dry_run"]:
         raise NoRootAccessError()
 
     # ifconfig installed?

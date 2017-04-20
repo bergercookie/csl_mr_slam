@@ -1,0 +1,2 @@
+# there is a shared ~/catkin_ws which I don't want to mess with
+catkin_src_loc_path: "{{ansible_env.HOME}}/catkin_ws_nickkouk/src"

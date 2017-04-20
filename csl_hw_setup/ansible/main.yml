@@ -1,7 +1,13 @@
 ---
 
+#- name: Central node configuration
+  #hosts: central-node
+  #roles:
+    #- setup_central_node
+
 - name: Setup Software
   hosts: robots
   roles:
-    - soft_downloader
+      #- ansible-role-ros
+      #- ansible-role-mrpt
 

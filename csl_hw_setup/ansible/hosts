@@ -8,9 +8,14 @@
 # localhost - no need to ssh
 # http://docs.ansible.com/ansible/intro_getting_started.html
 
-localhost ansible_connection=local ansible_python_interpreter="/usr/bin/env python"
+central-node ansible_host=localhost ansible_connection=local ansible_python_interpreter="/usr/bin/env python"
 
 [robots]
+nickkouk-ubuntu ansible_user=nick
+odroid-XU3 ansible_user=odroid
+odroid-U2 ansible_user=odroid
 
-# TODO - Add the robot agents' IPs
-192.168.3.5 ansible_connection=ssh ansible_user=nick
+[odroids]
+odroid-XU3 ansible_user=odroid
+odroid-U2 ansible_user=odroid
+
