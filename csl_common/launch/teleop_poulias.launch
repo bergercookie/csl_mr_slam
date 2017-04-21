@@ -3,7 +3,9 @@
 <!--
 Thu Nov 3 14:37:40 EET 2016, Nikos Koukis
 
-Setup joystick teleoperation with the arduino controlling the robot motion
+Setup joystick teleoperation with the arduino controlling the robot motion.
+This is different to the generic, since the *special* joy_to_arduino node has
+to be launched instead of the generic teleop_twist_joy node
 
 -->
 
@@ -14,7 +16,6 @@ Setup joystick teleoperation with the arduino controlling the robot motion
 	<!-- TODO - This should set some kind of gains for controlling the pioneer
 	     more smoothly -->
 	<arg name="config" default="" />
-
     <param name="joy_node/dev" value="$(arg joystick_port)" />
 
     <node pkg="joy" type="joy_node" name="joy_node" output="$(arg output)" />

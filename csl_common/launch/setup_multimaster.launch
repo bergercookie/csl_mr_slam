@@ -10,6 +10,6 @@ Current node correctly sets up the mutlimaster configuration.
 <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
 
 <node pkg="master_discovery_fkie" type="master_discovery" name="master_discovery" output="$(arg output)" />
-<node pkg="master_sync_fkie" type="master_sync" name="master_sync" output="$(arg output )" />
+<node pkg="master_sync_fkie" type="master_sync" name="master_sync" output="$(arg output)" />
 
 </launch>

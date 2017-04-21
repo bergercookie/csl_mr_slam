@@ -3,12 +3,13 @@
 # running agents
 # This is an upstart task, Should be placed in the /etc/init/ directory
 # If not connected to the adhoc on boot, eject/reinsert network adapter
-# NOTE: 
+# NOTE:
 # - If not connected to the adhoc on boot, eject/reinsert network adapter
 # - Users should run the setup_adhoc.py script which parses this template file
 #   and replaces the following values accordingly
 #   + WLAN_INTERFACE
 #   + IP_ADDRESS
+#   + DEBUG_FILE
 
 description "Upstart task to connect node to a predefined ad-hoc network"
 author "Nikos Koukis"
@@ -42,6 +43,9 @@ echo > ${path_debug} # clear the file.
 /sbin/iwconfig ${wlan_interface} mode Ad-hoc >> ${path_debug} 2>&1
 /sbin/iwconfig ${wlan_interface} essid multi_robot_exp >> ${path_debug} 2>&1
 /sbin/ifconfig ${wlan_interface} ${ip_addr} netmask 255.255.255.0 >> ${path_debug} 2>&1
+
+# redirect multicast packets for multimaster_fkie package to work correctly
+route add -net 224.0.0.0 netmask 224.0.0.0 ${wlan_interface}
 
 printf "=======================\n" >> ${path_debug} 2>&1
 end script

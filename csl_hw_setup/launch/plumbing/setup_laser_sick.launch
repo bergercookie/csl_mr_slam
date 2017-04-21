@@ -10,19 +10,16 @@ been set.
 
 <launch>
 
-<arg name="NotImplementedYet"/>
-
 <node
     pkg="sicktoolbox_wrapper"
     type="sicklms"
     name="sick_laser_scanner"
 	output="$(env MR_OUTPUT_MESSAGES_TO)"
 	required="true"
-	args="$(arg NotImplementedYet)"
 	>
     <param
         name="port"
-        value="$(env MR_LASER_PORT)"
+            value="$(arg laser_port[)"
         type="string"
         />
 	<remap from="scan" to="input/laser_scan" />

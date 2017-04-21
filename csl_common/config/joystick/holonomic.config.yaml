@@ -1,15 +1,15 @@
 # Fri Nov 4 12:06:39 EET 2016, Nikos Koukis
 #
-# Instructions on how to use with youbot:
-# Use wireless Logitech joystick
+# Robot: Youbot
+# Joystick: Logitech Wireless Gamepad F710
 # - Have Mode "off"
-# - Have right axes "pressed in" when you want to give any command
-# - Left Axes <-> => Move left/right
+# - Have right axes *pressed in* when you want to give any command
+# - Left Axes <--> => Move left/right
 #             ^
 # - Left Axes |   => Move forward backwards
 #             v
 #
-# - Right Axes <-> => Yaw turn left/right
+# - Right Axes <--> => Yaw turn left/right
 
 axis_linear:
   x: 1 # Forward/Back

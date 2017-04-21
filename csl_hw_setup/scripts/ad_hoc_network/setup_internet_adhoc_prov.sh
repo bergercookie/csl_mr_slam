@@ -6,7 +6,7 @@
 # inside the ad-hoc towards the interface that connects to the world and
 # vice-versa
 
-# Note that script should be run only once in the central node. Afterwards, you
+# NOTE: Script should be run only once in the central node. Afterwards, you
 # should save the configuration and autoload it on system startup (e.g using
 # the iptables-persistent package)
 

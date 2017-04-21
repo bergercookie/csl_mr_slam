@@ -15,13 +15,14 @@ computations take place (see run_sr_graphslam.launch for the latter).
     <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
     <arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
     <arg name="common_dir" value="$(find csl_common)/launch" />
+    <arg name="joy_config_dir" value="$(find csl_common)/config/joystick"/>
     <arg name="robot_ns" default="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
 
     <!--
         Should this node record topics as well? Argument *should not* be the
         same as the MR_RECORD_TOPICS env variable since this launchfile is run
         on the data acquisition machine which may not share the same roscore as
-        the machine doing the ground-truth (so in this case we should be
+        the machine computing the ground-truth (so in this case we should be
         recording the topics on both the data-acquisition machine as well as in
         the machine that computes the ground-truth.
     -->
@@ -56,12 +57,9 @@ computations take place (see run_sr_graphslam.launch for the latter).
         </group>
 
         <!-- Enable joystick teleoperation -->
-        <!-- TODO - test it real time again -->
         <group if="$(env MR_USE_JOYSTICK)">
-            <include file="$(arg plumb_dir)/teleop_$(env MR_JOYSTICK_FOR).launch">
-                <arg
-                    name="config"
-                    value="$(find csl_hw_setup)/config/joystick/$(env MR_JOYSTICK_CONFIG_FNAME).config.yaml" />
+            <include file="$(arg common_dir)/teleop_$(env MR_JOYSTICK_FOR).launch">
+                <arg name="config" value="$(arg joy_config_dir)/$(env MR_JOYSTICK_CONFIG_FNAME).config.yaml" />
                 <arg name="joystick_port" value="$(env MR_JOYSTICK_PORT)" />
             </include>
         </group>
