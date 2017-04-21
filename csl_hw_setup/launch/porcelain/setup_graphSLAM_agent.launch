@@ -16,7 +16,7 @@ computations take place (see run_sr_graphslam.launch for the latter).
     <arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
     <arg name="common_dir" value="$(find csl_common)/launch" />
     <arg name="joy_config_dir" value="$(find csl_common)/config/joystick"/>
-    <arg name="robot_ns" default="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
+    <arg name="robot_ns" default="$(env MR_ROBOT_NS)" />
 
     <!--
         Should this node record topics as well? Argument *should not* be the
@@ -26,7 +26,6 @@ computations take place (see run_sr_graphslam.launch for the latter).
         recording the topics on both the data-acquisition machine as well as in
         the machine that computes the ground-truth.
     -->
-
     <arg name="do_record_topics" default="false" />
 
     <!-- Simulation Time? -->

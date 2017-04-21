@@ -1,3 +1,5 @@
+# set vim:filetype=ansible
+# set vim:syntax=ansible
 ---
 
 # Sync the changes between the central node's git repositories and the
@@ -19,6 +21,7 @@
   serial: 5
   tasks:
     - name: MRPT synchronization
+      tags: mrpt
       synchronize:
         src: "{{hostvars['localhost']['mrpt_loc_path']}}/"
         dest: "{{mrpt_loc_path}}/"
@@ -32,9 +35,11 @@
       register: mrpt_sync
 
     - name: MRPT sync output
+      tags: mrpt
       debug: var=mrpt_sync.stdout_lines
 
     - name: catkin synchronization
+      tags: ros
       synchronize:
         src: "{{hostvars['localhost']['catkin_src_loc_path']}}/"
         dest: "{{catkin_src_loc_path}}/"
@@ -48,6 +53,7 @@
       register: catkin_sync
 
     - name: catkin sync output
+      tags: ros
       debug: var=catkin_sync.stdout_lines
 
 

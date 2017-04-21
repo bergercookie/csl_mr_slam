@@ -18,7 +18,7 @@ note: This is a top-level launchfile that should be used for running *single*
 <launch>
 	<arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
     <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
-    <arg name="robot_ns" default="$(env MR_ROBOT_MODEL)_$(env MR_ROBOT_ID)" />
+    <arg name="robot_ns" default="$(env MR_ROBOT_NS)" />
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
 
     <arg name="gt_ns" default="/ground_truth" />

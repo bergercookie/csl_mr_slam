@@ -6,16 +6,14 @@ library for communication with the drivers
 -->
 
 <launch>
+	<arg name="communication_port" default="$(env MR_DRIVERS_PORT)"/>
+	<arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
+    <arg name="robot_ns" value="$(env MR_ROBOT_NS)" />
 
-	<arg name="communication_port" value="$(env MR_DRIVERS_PORT)"/>
-	<arg name="robot_model"   default="$(env MR_ROBOT_MODEL)"/>
-	<arg name="robot_id" default="$(env MR_ROBOT_ID)"/>
-    <arg name="robot_ns" default="$(arg robot_model)_$(arg robot_id)" />
-
-    <remap from="/RosAria/cmd_vel" to="$(arg robot_ns)/input/cmd_vel" />
-    <remap from="/RosAria/odom" to="$(arg robot_ns)/input/odom" />
-    <node pkg="rosaria" type="RosAria" name="$(arg robot_ns)_drivers" output="$(arg output)">
-        <param name="port" value="(arg communication_port)"/>
+    <remap from="$(arg robot_ns)/cmd_vel" to="$(arg robot_ns)/input/cmd_vel" />
+    <remap from="$(arg robot_ns)/pose" to="$(arg robot_ns)/input/odom" />
+    <node pkg="rosaria" type="RosAria" name="$(arg robot_ns)" output="$(arg output)">
+        <param name="port" value="$(arg communication_port)" />
     </node>
 
 </launch>

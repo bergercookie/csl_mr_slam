@@ -12,10 +12,22 @@ export MR_USE_MULTIMASTER=0
 
 export MR_IS_MULTIROBOT_GRAPHSLAM=1
 
-export MR_ROBOT_ID=15
+# This is used only in the case the Poulias Pioneer drivers are used. No need
+# to define it otherwise
+#
+# Available options:
+# - pioneer_3dx # yeah, its 2dx, but not worth changing code for this..
+# - pioneer_2at
+# - youbot
 export MR_ROBOT_MODEL="youbot"
 
-# Topics are to be recorded in the Ubuntu machine
+# ROS namespace under which all nodes are started
+# NOTE: Previous convention was that the namespace would be
+# ${MR_ROBOT_MODEL}_${MR_ROBOT_ID} but this was not handy in multi-robot
+# communication proc
+export MR_ROBOT_NS="$(hostname)"
+
+# Record topics on current host?
 export MR_RECORD_TOPICS=1
 
 # Robot HW Drivers
@@ -55,9 +67,9 @@ export MR_USE_JOYSTICK=1
 export MR_JOYSTICK_PORT="/dev/input/js0"
 # Available options are:
 # - poulias -- Custom poulias teleoperation
-# - generic -- Standard holonomic vehicle...
-# - youbot
-export MR_JOYSTICK_CONFIG_FNAME="youbot"
+# - non-holonomic
+# - holonomic
+export MR_JOYSTICK_CONFIG_FNAME="non-holonomic" # configuration files are found in $(rospack find csl_common)/config/joystick
 # Available options are:
 # - poulias
 # - generic
