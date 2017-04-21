@@ -47,9 +47,6 @@ class GraphSLAMLauncher(EnvironParser):
                                        + robot_ID +
                                        "_" + i.upper()]
 
-        # config file
-        # TODO
-
         return env_params
 
     def _start_launchfile(self, robot_ID):

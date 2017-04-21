@@ -11,6 +11,7 @@
 export MR_USE_MULTIMASTER=0
 
 export MR_IS_MULTIROBOT_GRAPHSLAM=1
+export MR_DISABLE_MRPT_VISUALS=0
 
 # This is used only in the case the Poulias Pioneer drivers are used. No need
 # to define it otherwise
@@ -76,12 +77,15 @@ export MR_JOYSTICK_CONFIG_FNAME="non-holonomic" # configuration files are found 
 export MR_JOYSTICK_FOR="generic"
 
 # Marker IDs for  common origin and ground-truth paths
+# These should exist even when no ground truth is acquired. This is because the
+# names of the frames of the robots are initialized based on these.
 export MR_ORIGIN_MARKER_ID="mf7"
-export MR_ROBOT_MARKER_ID="mf1" # Just for initializing the robot path at anchor_frame_ID
+# Just for initializing the robot path at anchor_frame_ID - make sure this is unique for every running agent
+export MR_ROBOT_MARKER_ID="mf1"
 
 # if true, Odd Aruco markers are used for tracking the agents' ground truth
 # paths while even aruco markers for inter-robot meetings
-export MR_USE_ODD_ARUCO_MARKERS_FOR_GT=1
+export MR_USE_ODD_ARUCO_MARKERS_FOR_GT=1 # always needed.
 
 # Read by the computer handling the ground-truth cameras - If True the cameras
 # are initialized so that we have an estimation of the ground-truth of the

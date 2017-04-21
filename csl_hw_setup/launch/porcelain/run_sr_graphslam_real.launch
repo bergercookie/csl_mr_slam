@@ -27,8 +27,9 @@ note: This is a top-level launchfile that should be used for running *single*
     <arg name="gt_ns" value="/ground_truth" />
     <arg name="origin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
     <arg name="robot_marker_ID" value="$(env MR_ROBOT_MARKER_ID)" />
-    <arg name="disable_MRPT_visuals" default="false" />
-    <arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans.ini"  />
+    <arg name="track_odd_marker_IDs" value="$(env MR_USE_ODD_ARUCO_MARKERS_FOR_GT)" />
+    <arg name="disable_MRPT_visuals" value="(env MR_DISABLE_MRPT_VISUALS)" />
+	<arg name="config_file" default="$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_MR_real.ini"  />
     <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_laser_odometry.ini"  />-->
     <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_version.ini"  />-->
 

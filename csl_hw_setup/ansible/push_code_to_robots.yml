@@ -28,9 +28,10 @@
         mode: push
         delete: true
         archive: true
+        times: false
         rsync_opts:
-          #- "--exclude=.git"
-          #- "--exclude=.gitmodules"
+          - "--exclude=.git"
+          - "--exclude=.gitmodules"
           - "--verbose"
       register: mrpt_sync
 
@@ -45,10 +46,11 @@
         dest: "{{catkin_src_loc_path}}/"
         mode: push
         delete: true
+        times: false
         archive: true
         rsync_opts:
-          #- "--exclude=.git"
-          #- "--exclude=.gitmodules"
+          - "--exclude=.git"
+          - "--exclude=.gitmodules"
           - "--verbose"
       register: catkin_sync
 

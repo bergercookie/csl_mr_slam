@@ -11,11 +11,11 @@
 central-node ansible_host=localhost ansible_connection=local ansible_python_interpreter="/usr/bin/env python"
 
 [robots]
-nickkouk-ubuntu ansible_user=nick
-odroid-XU3 ansible_user=odroid
-odroid-U2 ansible_user=odroid
+nickkoukubuntu ansible_user=nick
+odroidxu3 ansible_user=odroid
+odroidu2 ansible_user=odroid
 
 [odroids]
-odroid-XU3 ansible_user=odroid
-odroid-U2 ansible_user=odroid
+odroidxu3 ansible_user=odroid
+odroidu2 ansible_user=odroid
 

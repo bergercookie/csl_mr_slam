@@ -8,6 +8,11 @@
 
 export MR_USE_MULTIMASTER=1
 export MR_IS_MULTIROBOT_GRAPHSLAM=1
+export MR_DISABLE_MRPT_VISUALS=0
+
+export MR_ORIGIN_MARKER_ID="mf7"
+export MR_ROBOT_MARKER_ID="mf1"
+export MR_USE_ODD_ARUCO_MARKERS_FOR_GT=1
 
 export MR_ROBOT_NS="$(hostname)"
 export MR_RECORD_TOPICS=0
@@ -33,3 +38,5 @@ export MR_USE_JOYSTICK=1
 export MR_JOYSTICK_PORT="/dev/input/js0"
 export MR_JOYSTICK_CONFIG_FNAME="non-holonomic"
 export MR_JOYSTICK_FOR="generic"
+
+export MR_COMPUTE_GROUND_TRUTH=0

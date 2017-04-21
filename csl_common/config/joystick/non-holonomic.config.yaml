@@ -11,7 +11,7 @@
 
 axis_linear: 1
 scale_linear: 0.5
-scale_linear_turbo: 0.8
+scale_linear_turbo: 0.5
 
 axis_angular: 0
 scale_angular: 0.4

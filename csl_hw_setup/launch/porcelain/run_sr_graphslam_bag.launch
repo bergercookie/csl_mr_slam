@@ -25,8 +25,16 @@ note: This is a top-level launchfile that should be used for running *single*
     <arg name="origin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
     <arg name="robot_marker_ID" value="$(env MR_ROBOT_MARKER_ID)" />
     <arg name="track_odd_marker_IDs" value="$(env MR_USE_ODD_ARUCO_MARKERS_FOR_GT)" />
-    <arg name="disable_MRPT_visuals" default="false" />
+    <arg name="disable_MRPT_visuals" value="$(env MR_DISABLE_MRPT_VISUALS" />
+    <arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans.ini"  />
+    <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_laser_odometry.ini"  />-->
+    <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_version.ini"  />-->
 
+    <!-- Deciders/Optimizer -->
+    <arg name="NRD" default="CFixedIntervalsNRD" />
+    <arg name="ERD" default="CLoopCloserERD" />
+    <arg name="GSO" default="CLevMarqGSO" />
+	
     <!-- Should we also start an instance of rviz ? -->
     <arg name="start_rviz" default="false" />
     <arg name="rviz_file" default="$(find mrpt_graphslam_2d)/rviz/graphslam_bag.rviz" />
@@ -45,16 +53,11 @@ note: This is a top-level launchfile that should be used for running *single*
 		<!-- Run single-robot graphSLAM -->
 		<include file="$(find mrpt_graphslam_2d)/launch/graphslam.launch">
 			<arg name="output" value="$(arg output)" />
-            <arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans.ini"  />
-            <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_laser_odometry.ini"  />-->
-            <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_version.ini"  />-->
+            <arg name = "config_file" value = "$(arg config_file)"  />
 			<arg name="anchor_frame_ID" value="$(arg robot_marker_ID)_anchor" />
             <arg name="NRD" value="CFixedIntervalsNRD" />
-            <!--<arg name="NRD" value="CICPCriteriaNRD" />-->
-            <arg name="ERD" value="CICPCriteriaERD" />
-            <!--<arg name="ERD" value="CLoopCloserERD" />-->
-			<arg name="GSO" value="CLevMarqGSO" />
-			<arg name="play_own_rosbag" value="false" />
+            <arg name="ERD" value="CLoopCloserERD" />
+            <arg name="GSO" value="CLevMarqGSO" />
             <arg name="disable_MRPT_visuals" value="$(arg disable_MRPT_visuals)" />
 		</include>
 	</group>

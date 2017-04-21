@@ -13,7 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
   rviz
   csl_common
   mrpt_graphslam_2d
-  youbot_driver_ros_interface
 )
 
 ## System dependencies are found with CMake's conventions
