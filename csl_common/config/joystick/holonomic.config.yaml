@@ -1,9 +1,9 @@
 # Fri Nov 4 12:06:39 EET 2016, Nikos Koukis
 #
-# Robot: Youbot
-# Joystick: Logitech Wireless Gamepad F710
-# - Have Mode "off"
-# - Have right axes *pressed in* when you want to give any command
+# Components tested
+# - Robot: Youbot
+# - Joystick: Logitech Wireless Gamepad F710
+#
 # - Left Axes <--> => Move left/right
 #             ^
 # - Left Axes |   => Move forward backwards
@@ -17,10 +17,14 @@ axis_linear:
 scale_linear:
   x: 0.2
   y: 0.1
+scale_linear_turbo:
+  x: 0.5
+  y: 0.4
+
 axis_angular:
   yaw: 3
 scale_angular:
   yaw: 0.5
 
-enable_button: 10  # L1 shoulder button
-enable_turbo_button: 8  # L2 shoulder button
+enable_button: 2 # "X"
+enable_turbo_button: 1  # "O" - change to -1 to disable

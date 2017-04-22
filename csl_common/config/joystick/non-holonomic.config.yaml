@@ -1,9 +1,14 @@
 # configuration has been tested online with the following:
 #
-# - Note: Have the  *L1* shoulder button pressed, used as a lock button -
-#   otherwise robot velocity commands aren't sent
-# - Robot: Pioneer-2dx robot
+# Components tested:
+# - Robot: Pioneer-2dx robot, macbook
+# - Joystick: Logitech Wireless Gamepad F710
+# ---
+# - Robot: Pioneer-2dx robot, macbook, odroidxu3
 # - Joystick: Digital Element, GM-400
+ 
+#
+# Notes:
 # - Left Axes <--> => Yaw turn left/right
 #             ^
 # - Left Axes |   => Move forward backwards
@@ -11,10 +16,11 @@
 
 axis_linear: 1
 scale_linear: 0.5
-scale_linear_turbo: 0.5
+scale_linear_turbo: 1
 
 axis_angular: 0
 scale_angular: 0.4
 
-enable_button: 8  # L2 shoulder button
-enable_turbo_button: 10  # L1 shoulder button
+enable_button: 2 # "X"
+enable_turbo_button: 1  # "O" - change to -1 to disable
+

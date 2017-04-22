@@ -63,6 +63,7 @@
   <run_depend>csl_common</run_depend>
   <run_depend>mrpt_graphslam_2d</run_depend>
   <run_depend>youbot_driver_ros_interface</run_depend>
+  <run_depend>uvc_camera</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

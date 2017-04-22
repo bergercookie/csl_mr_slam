@@ -10,7 +10,7 @@
 
 export MR_USE_MULTIMASTER=0
 
-export MR_IS_MULTIROBOT_GRAPHSLAM=1
+export MR_IS_MULTIROBOT_GRAPHSLAM=0
 export MR_DISABLE_MRPT_VISUALS=0
 
 # This is used only in the case the Poulias Pioneer drivers are used. No need
@@ -61,7 +61,7 @@ export MR_LASER_PORT="/dev/ttyACM0"
 
 # Camera
 export MR_USE_ONBOARD_CAMERA=0
-export MR_ONBOARD_CAMERA_PORT="dev/video0"
+export MR_ONBOARD_CAMERA_PORT="/dev/video0"
 
 # Teleoperation
 export MR_USE_JOYSTICK=1
@@ -91,3 +91,8 @@ export MR_USE_ODD_ARUCO_MARKERS_FOR_GT=1 # always needed.
 # are initialized so that we have an estimation of the ground-truth of the
 # robot paths
 export MR_COMPUTE_GROUND_TRUTH=1
+
+# Deciders/Optimizers to be used
+export MR_NRD="CFixedIntervalsNRD"
+export MR_ERD="CICPCriteriaERD"
+export MR_GSO="CLevMarqGSO"

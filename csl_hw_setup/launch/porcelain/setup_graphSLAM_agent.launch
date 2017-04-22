@@ -31,13 +31,13 @@ computations take place (see run_sr_graphslam.launch for the latter).
     <!-- Simulation Time? -->
     <param name="/use_sim_time" value="false" />
 
-    <group ns="$(arg robot_ns)">
+    <!-- Use Multimaster? -->
+    <group if="$(env MR_USE_MULTIMASTER)">
+        <include file="$(arg common_dir)/setup_multimaster.launch">
+        </include>
+    </group>
 
-        <!-- Use Multimaster? -->
-        <group if="$(env MR_USE_MULTIMASTER)">
-            <include file="$(arg common_dir)/setup_multimaster.launch">
-            </include>
-        </group>
+    <group ns="$(arg robot_ns)">
 
         <!-- Robot HW Drivers -->
         <include file="$(arg plumb_dir)/setup_drivers_$(env MR_ROBOT_DRIVERS_NAME).launch">

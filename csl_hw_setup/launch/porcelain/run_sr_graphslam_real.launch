@@ -34,9 +34,9 @@ note: This is a top-level launchfile that should be used for running *single*
     <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_version.ini"  />-->
 
     <!-- Deciders/Optimizer -->
-    <arg name="NRD" default="CFixedIntervalsNRD" />
-    <arg name="ERD" default="CLoopCloserERD" />
-    <arg name="GSO" default="CLevMarqGSO" />
+    <arg name="NRD" default="$(env MR_NRD)" />
+    <arg name="ERD" default="$(env MR_ERD)" />
+    <arg name="GSO" default="$(env MR_GSO)" />
 
     <arg name="start_rviz" default="false" />
     <arg name="rviz_file" default="$(find mrpt_graphslam_2d)/rviz/graphslam_bag.rviz" />
@@ -53,6 +53,7 @@ note: This is a top-level launchfile that should be used for running *single*
 			<arg name="NRD" value="$(arg NRD)" />
             <arg name="ERD" value="$(arg ERD)" />
 		    <arg name="GSO" value="$(arg GSO)" />
+		    <arg name="is_mr_slam" value="$(env MR_IS_MULTIROBOT_GRAPHSLAM)" />
             <arg name="disable_MRPT_visuals" value="$(arg disable_MRPT_visuals)" />
 		</include>
 
