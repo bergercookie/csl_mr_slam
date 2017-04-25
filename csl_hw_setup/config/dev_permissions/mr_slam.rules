@@ -1,0 +1,8 @@
+# Device rules for allowing unristricted read/write access to ttyACM* and
+# ttyUSB devices commonly used during the multi-robot SLAM experiments
+#
+# Tue Apr 25 14:50:24 EEST 2017, Nikos Koukis
+
+ACTION=="add", KERNEL=="ttyACM[0-9]*", MODE="0666"
+ACTION=="add", KERNEL=="ttyUSB[0-9]*", MODE="0666"
+ACTION=="add", KERNEL=="video[0-9]*", MODE="0666"

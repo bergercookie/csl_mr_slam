@@ -31,7 +31,7 @@ export MR_LASER_SKIP_NUM_MESSAGES="1"
 export MR_LASER_PORT="/dev/ttyACM0"
 export MR_DRIVERS_PORT="/dev/ttyUSB0"
 
-export MR_USE_ONBOARD_CAMERA=0
+export MR_USE_ONBOARD_CAMERA=1
 export MR_ONBOARD_CAMERA_PORT="/dev/video0"
 
 export MR_USE_JOYSTICK=1
