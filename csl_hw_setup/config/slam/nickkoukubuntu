@@ -6,6 +6,8 @@
 # Source this file on both the ubuntu machine and youbot
 #########################################################
 
+#export ROS_IP=10.8.0.16
+#export ROS_MASTER_URI=http://nickkoukubuntu:11311
 export MR_USE_MULTIMASTER=1
 export MR_IS_MULTIROBOT_GRAPHSLAM=1
 export MR_DISABLE_MRPT_VISUALS=0
@@ -15,7 +17,7 @@ export MR_ROBOT_MARKER_ID="mf1"
 export MR_USE_ODD_ARUCO_MARKERS_FOR_GT=1
 
 export MR_ROBOT_NS="$(hostname)"
-export MR_RECORD_TOPICS=0
+export MR_RECORD_TOPICS=1
 export MR_ROBOT_DRIVERS_NAME="aria"
 export MR_OUTPUT_MESSAGES_TO="screen"
 export MR_USE_LASER=1

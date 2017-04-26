@@ -4,8 +4,8 @@
 
 Setup the hardware drivers and other platform-specific nodes for a SLAM agent.
 Launchfile is to be run on the platform that traverses the environment during
-the SLAM procedure. That platform is not necessarily the platform that the SLAM
-computations take place (see run_sr_graphslam.launch for the latter).
+the SLAM procedure. That platform is not necessarily the one that SLAM
+is executed on (see run_graphslam_real.launch for the latter).
 
 -->
 

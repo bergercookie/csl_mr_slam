@@ -3,20 +3,20 @@
 <!--
 Tue Nov 1 23:06:10 EET 2016, Nikos Koukis
 
-Launchfile provides a wrapper for running mrpt_graphslam_2d in an online setup.
-It is assumed that the underlying drivers (laserScanners, cameras have already
-been configured and are running so that their corresponding measurements are
-available (see setup_graphSLAM_agent.launch for the latter).
+Launchfile provides a wrapper for running mrpt_graphslam_2d from data stored
+in a rosbag.
 
-warning: Node launches the necessary nodes for running grahpslam and for
-         computing the ground truth paths of the robots but *does not* launch
-         the nodes for grabbing the sensor measurements (laser, odometry etc)
-         or for controlling the robot movement (e.g. joystick).  For this, see
-         the setup_graphSLAM_agent.launch file
+note: Similar to this is the run_graphslam_real.launch file in which however
+      data is acquired from sensors at the same time as the algorithm is running.
+
+note: For multi-robot graphSLAM where each robot stores its own
+      rosbag, you'll have to launch this once for every agent by using the
+      corresponding rosbag each time.
 
 note: This is a top-level launchfile that should be used for running *single*
-      robot graphslam - The data is assumed be available in the
-      corresponding topics see /input topic namespace.
+      robot graphslam provided the data have already being recorded in the
+      rosbag format
+
 -->
 
 <launch>
@@ -24,31 +24,40 @@ note: This is a top-level launchfile that should be used for running *single*
     <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
     <arg name="robot_ns" default="$(env MR_ROBOT_NS)" />
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
-    <arg name="gt_ns" value="/ground_truth" />
+
+    <arg name="gt_ns" default="/ground_truth" />
     <arg name="origin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
     <arg name="robot_marker_ID" value="$(env MR_ROBOT_MARKER_ID)" />
     <arg name="track_odd_marker_IDs" value="$(env MR_USE_ODD_ARUCO_MARKERS_FOR_GT)" />
-    <arg name="disable_MRPT_visuals" value="(env MR_DISABLE_MRPT_VISUALS)" />
-	<arg name="config_file" default="$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_MR_real.ini"  />
-    <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_laser_odometry.ini"  />-->
-    <!--<arg name = "config_file" value = "$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_version.ini"  />-->
+    <arg name="disable_MRPT_visuals" value="$(env MR_DISABLE_MRPT_VISUALS)" />
+    <arg name="config_file" value="$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_MR.ini"  />
+    <!--<arg name="config_file" value="$(find mrpt_graphslam_2d)/config/ros_laser_odometry.ini"  />-->
+    <!--<arg name="config_file" value="$(find mrpt_graphslam_2d)/config/ros_odometry_2DRangeScans_LC_version.ini"  />-->
 
     <!-- Deciders/Optimizer -->
     <arg name="NRD" default="$(env MR_NRD)" />
     <arg name="ERD" default="$(env MR_ERD)" />
     <arg name="GSO" default="$(env MR_GSO)" />
 
+    <!-- Should we also start an instance of rviz ? -->
     <arg name="start_rviz" default="false" />
-    <arg name="rviz_file" default="$(find mrpt_graphslam_2d)/rviz/graphslam_bag.rviz" />
+    <arg name="rviz_file" default="$(find mrpt_graphslam_2d)/rviz/graphslam_real_1.rviz" />
+
+    <arg name="bag_file"/>
+
+    <param name="/use_sim_time" value="true" />
+
+    <!-- Let the nodes know what the ground-truth topic namespace is each time.. -->
+    <param name="/ground_truth_ns" value="$(arg gt_ns)" />
 
     <param name="$(arg gt_ns)/origin_marker_ID" value="$(arg origin_marker_ID)" />
     <param name="$(arg gt_ns)/track_odd_marker_IDs" value="$(arg track_odd_marker_IDs)" type="bool"/>
 
 	<group ns="$(arg robot_ns)">
-
+		<!-- Run single-robot graphSLAM -->
 		<include file="$(find mrpt_graphslam_2d)/launch/graphslam.launch">
 			<arg name="output" value="$(arg output)" />
-            <arg name = "config_file" value = "$(arg config_file)"  />
+            <arg name="config_file" value="$(arg config_file)"  />
 			<arg name="anchor_frame_ID" value="$(arg robot_marker_ID)_anchor" />
 			<arg name="NRD" value="$(arg NRD)" />
             <arg name="ERD" value="$(arg ERD)" />
@@ -56,28 +65,20 @@ note: This is a top-level launchfile that should be used for running *single*
 		    <arg name="is_mr_slam" value="$(env MR_IS_MULTIROBOT_GRAPHSLAM)" />
             <arg name="disable_MRPT_visuals" value="$(arg disable_MRPT_visuals)" />
 		</include>
-
 	</group>
 
 	<group if="$(env MR_COMPUTE_GROUND_TRUTH)">
-
 		<!-- Get ground-truth estimation of the robot paths -->
-		<include file="$(find ground_truth_fetcher)/launch/ground_truth_real.launch">
+		<include file="$(find ground_truth_fetcher)/launch/ground_truth_bag.launch">
 			<arg name="origin_marker_ID" value="$(env MR_ORIGIN_MARKER_ID)" />
 		</include>
-
 	</group>
 
-    <!-- Record topics -->
-    <group if="$(env MR_RECORD_TOPICS)">
-        <arg name="exclusion_topics" value="/top_left_camera/(.*)|/top_right_camera/(.*)|/(.*)/compressedDepth" />
-	    <node pkg="rosbag" type="record" name="rosbag_recorder" output="$(arg output)" args="--all -x '$(arg exclusion_topics)' -O records.bag" />
-	</group>
+	<node pkg="rosbag" type="play" name="rosbag_player" output="$(arg output)" args="--clock $(arg bag_file)" />
 
 	<!-- Start rviz -->
 	<group if="$(arg start_rviz)">
 		<node pkg="rviz" type="rviz" name="rviz_visualization" output="$(arg output)" args="-d $(arg rviz_file)" />
 	</group>
-
 
 </launch>
