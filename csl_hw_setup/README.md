@@ -1,18 +1,18 @@
-Fri Oct 21 19:30:58 EEST 2016, Nikos Koukis
+# csl_hw_setup
 
-# Description - Purpose
+## Description - Purpose
 
-Package holds the scripts for setting up a robot to run as an MR-SLAM agent.
-Most of the scripts correspond to the hardware setup and equipment available in
-the Control-Systems Lab of the Mechanical Engineering Department of NTUA.
+Contains shell scripts, launchfiles as well as miscellaneous configuration
+files for setting up and launching single-and multi robot graphSLAM. Overall
+package is designed based on the hardware available in the Control Systems
+Lab of the Mechanical Engineering Department of NTUA.
 
-# Usage Information
-
-# See also
+## See also
 
 To get the full picture of using this ROS package, refer to the following links.
 Design guidelines are also provided in the last one.
 
-% TODO - Add link to mrpt_graphslam_2d
-% TODO - MRPT mrp-graphslam library
-% TODO - Link to diploma thesis - specific paragraph - Online graphSLAM
+- [MRPT graphslam-engine application](http://www.mrpt.org/list-of-mrpt-apps/application-graphslamengine/)
+- [Online multi-robot graphSLAM demo](https://www.youtube.com/watch?v=4RKS2jrvsYE)
+- [MR-SLAM diploma thesis](http://147.102.51.10:3000/bergercookie/mr-slam-thesis-text/src/master/report.pdf)
+
