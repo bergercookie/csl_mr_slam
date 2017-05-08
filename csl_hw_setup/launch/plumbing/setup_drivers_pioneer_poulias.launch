@@ -19,11 +19,10 @@ Communication with the arduino is achived via a /dev device.
 	<arg name="robot_model" value="$(env MR_ROBOT_MODEL)"/>
 	<arg name="robot_ns" value="$(env MR_ROBOT_NS)"/>
 
-
-    <!-- LAUNCH PARAMETERS -->
-	<param name="arduino/port" value="$(arg communication_port)"  />
-
 	<!-- NODES TO BE LAUNCHED -->
-	<node pkg="arduino_mr" type="$(arg robot_model).py" name="$(arg robot_ns)" output="$(arg output)" args="odom:=input/odom" />
+	<remap from="odom" to="/$(arg robot_ns)/input/odom"/>
+	<node pkg="arduino_mr" type="$(arg robot_model).py" name="drivers" output="$(arg output)">
+	    <param name="~port" value="$(arg communication_port)"  />
+	</node>
 
 </launch>

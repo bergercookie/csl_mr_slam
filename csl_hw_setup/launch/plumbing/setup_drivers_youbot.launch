@@ -7,7 +7,7 @@ Launchifle launches the necessary nodes for setting a youbot
 <launch>
     <arg name="robot_ns" default="$(env MR_ROBOT_NS)" />
 
-    <remap from="/cmd_vel" to="$(arg robot_ns)/input/cmd_vel" />
+   <remap from="/cmd_vel" to="$(arg robot_ns)/input/cmd_vel" />
     <remap from="/odom" to="$(arg robot_ns)/input/odom" />
     <include file="$(find youbot_driver_ros_interface)/launch/youbot_driver.launch"/>
 </launch>

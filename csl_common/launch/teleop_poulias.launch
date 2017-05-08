@@ -13,8 +13,6 @@ to be launched instead of the generic teleop_twist_joy node
     <arg name="joystick_port" default="/dev/input/js0"/>
 	<arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
 	<!-- configuration file -->
-	<!-- TODO - This should set some kind of gains for controlling the pioneer
-	     more smoothly -->
 	<arg name="config" default="" />
     <param name="joy_node/dev" value="$(arg joystick_port)" />
 

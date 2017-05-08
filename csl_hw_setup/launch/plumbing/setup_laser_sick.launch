@@ -17,11 +17,7 @@ been set.
 	output="$(env MR_OUTPUT_MESSAGES_TO)"
 	required="true"
 	>
-    <param
-        name="port"
-            value="$(arg laser_port[)"
-        type="string"
-        />
+    <param name="port" value="$(env MR_LASER_PORT)" type="string" />
 	<remap from="scan" to="input/laser_scan" />
 </node>
 
