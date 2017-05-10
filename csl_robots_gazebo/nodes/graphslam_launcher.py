@@ -32,8 +32,8 @@ class GraphSLAMLauncher(EnvironParser):
             # "Missing package dependencies: csl_robots_gazebo/package.xml: mrpt_graphslam_2d")
 
         # Use this in cases when you want to debug using gdb.
+        # self.run_under_gdb = False
         self.run_under_gdb = False
-        # self.run_under_gdb = True
 
         file_ok = self.check_launchfile_for_errors(self.launchfile_path)
         assert file_ok

@@ -17,6 +17,9 @@ import os
 import sys
 from time import gmtime, strftime
 
+import logging as lg
+lg.basicConfig(level=lg.DEBUG)
+
 
 # Import the modules directory
 modules_dir = os.path.join(os.path.dirname(__file__), "../../misc")
@@ -25,72 +28,216 @@ if modules_dir not in sys.path:
 from custom_exceptions import NoRootAccessError, \
     ProgramNotFoundError, InterfaceNotFoundError
 
-wlan_interface_default="wlan0"
-ip_address_default="10.8.0.1"
+# dictionary of help messages for the cmd line arguments
+arg_defaults = {
+    "loglevel": "INFO",
+    "wlan_interface": "wlan0",
+    "interactive": False,
+    "dnsmasq": False,
+    "dry_run": False,
+    "ip_address": "10.8.0.1",
+    "access_internet_via" : "",
+}
+help_msgs = {
+    "loglevel": "Set the logging level of the current script",
+    "wlan_interface": "Specify the wireless interface",
+    "dry_run": "Write potential configuration contents to console only (dry run)",
+    "ip_address": "Specify the IP address of the current host",
+    "interactive": "Run script in interactive mode",
+    "dnsmasq": ("Enable dnsmasq service on current host? "
+                 "Use this option only in the computer that is to run as the "
+                 "DNS provider"),
+    "access_internet_via": ("Enable internet access to current host via another host "
+                            "in the common ad-hoc network. "
+                            "Specify the address of that link")
+}
+
+def format_help_msg(cmd_var):
+    """Get the help message in a formatted version.
+
+    Function takes in account the default value and initial help message set
+    for the given variable name
+    """
+
+    assert cmd_var in help_msgs.keys()
+    help_msg = help_msgs[cmd_var]
+
+    # append a string indicating the default value
+    if cmd_var in arg_defaults.keys():
+        default_str = " [default: {}]".format(arg_defaults[cmd_var])
+
+        if help_msg.endswith(": "):
+            help_msg = help_msg[:-2] + default_str + ": "
+        else:
+            help_msg = help_msg + default_str
+
+    return help_msg
+
 
 # Arguement Parsing
 parser = argparse.ArgumentParser(
     description='Setup Ad-Hoc network configuration for multi-robot SLAM')
 
-# wireless interface
+# logging level
+arg_name = "loglevel"
 parser.add_argument(
-    '-w', '--wlan_interface',
-    default=wlan_interface_default,
-    help='Specify the wireless interface [default = {}]'.format(wlan_interface_default))
+    '-l', '--{}'.format(arg_name),
+    default=arg_defaults[arg_name],
+    help=format_help_msg(arg_name))
 
-# dry-run flag
+# wireless interface
+arg_name = "wlan_interface"
 parser.add_argument(
-    '-d', '--dry-run',
-    default=False,
+    '-w', '--{}'.format(arg_name),
+    default=arg_defaults[arg_name],
+    help=format_help_msg(arg_name))
+
+# dry-run
+arg_name = "dry_run"
+parser.add_argument(
+    '-d', '--{}'.format(arg_name),
     action="store_true",
-    help="Monitor the actions that the script will take if executed")
+    help=format_help_msg(arg_name))
 
 # ip-address of current host
+arg_name = "ip_address"
 parser.add_argument(
-    '-I', '--ip_address',
-    default=ip_address_default,
-    help="Specify the IP address of the current host [default = {}]".format(ip_address_default))
+    '-I', '--{}'.format(arg_name),
+    default=arg_defaults[arg_name],
+    help=format_help_msg(arg_name))
 
 # Run interactively
+arg_name = "interactive"
 parser.add_argument(
-    "-i", "--interactive",
+    "-i", "--{}".format(arg_name),
+    default=arg_defaults[arg_name],
     action="store_true",
-    help="Run script in interactive mode")
+    help=format_help_msg(arg_name))
 
+# Mutually exclusive, internet-related arguments
 internet_related = parser.add_mutually_exclusive_group(required=False)
+
+arg_name = "dnsmasq"
 internet_related.add_argument(
-    "-m", "--dnsmasq",
-    action="store_true",
-    help="Enable dnsmasq service on current host. Use this option only in the computer that is to run as the DNS provider")
+    "-m", "--{}".format(arg_name),
+    action="store_true", # defaults to opposite
+    help=format_help_msg(arg_name))
+
+arg_name = "access_internet_via"
 internet_related.add_argument(
-    "-a", "--access_internet_via",
-    default="0.0.0.0",
-    help="Enable internet access to current host via another host in the common ad-hoc network. Specify the address of that link.")
+    "-a", "--{}".format(arg_name),
+    default=arg_defaults[arg_name],
+    help=format_help_msg(arg_name))
+
+# Strings to their boolean correspondence
+str_to_bool = {
+    "Yes": True,
+    "True": True,
+    "1": True,
+    "Yup": True,
+    True: True,
+
+    "No": False,
+    "False": False,
+    "0": False,
+    "Nope": False,
+    False: False
+}
+
 
 parser_args = vars(parser.parse_args())
+
+def raw_input_wrapper(help_msg):
+    """Wrapper around the raw_input function."""
+
+    str_append = ": "
+    if not help_msg.endswith(str_append):
+        help_msg += str_append
+
+    ret = raw_input(help_msg)
+    return ret
+
+
+def raw_input_wrapper_cmd_var(cmd_var, cmd_var_type=str):
+    """
+    Wrapper around the raw_input_wrapper function.
+
+    Takes the name of an argparse cmd variable instead and uses that to fetch
+    the corresponding help message
+
+    :param cmd_var: Name of variable
+    :type cmd_var: str
+
+    :param cmd_var_type: Type of input variable
+    :type cmd_var_type: Python type
+    """
+
+    help_msg = format_help_msg(cmd_var)
+    if cmd_var in arg_defaults.keys():
+        default_val = arg_defaults[cmd_var]
+    else:
+        default_val = ""
+
+    ret = raw_input_wrapper(help_msg)
+    if ret is "":
+        ret = default_val
+
+    # input validation
+    if cmd_var_type == bool and isinstance(ret, str):
+        if not ret in str_to_bool.keys():
+            raise ValueError('Invalid value of boolean %s argument: %s' %(cmd_var, ret))
+        else:
+            ret = str_to_bool[ret]
+
+        ret = str_to_bool[ret]
+    if not isinstance(ret, cmd_var_type):
+        raise ValueError('Invalid value of %s argument: %s' %(cmd_var, ret))
+
+    return ret
+
+
 
 def main():
     """Main."""
 
-    interactive = parser_args["interactive"]
-    dry_run = parser_args["dry_run"]
-    dnsmasq_enable = parser_args["dnsmasq"]
-    access_internet_via = parser_args["access_internet_via"]
     debug_file = "/var/log/multi_robot_exp_status"
+
+    # fetch the arguments
+    interactive = parser_args["interactive"]
+    # with no arguments given, run in interactive
+    if len(sys.argv) == 1:
+        interactive = True
+
+    if interactive:
+        lg.warn("In interactive mode:")
+        wlan_interface = raw_input_wrapper_cmd_var("wlan_interface")
+        ip_address = raw_input_wrapper_cmd_var("ip_address")
+        dnsmasq = raw_input_wrapper_cmd_var("dnsmasq", bool)
+        access_internet_via = raw_input_wrapper_cmd_var("access_internet_via")
+        dry_run = raw_input_wrapper_cmd_var("dry_run", bool)
+        loglevel = raw_input_wrapper_cmd_var("loglevel")
+
+        # only one of dnsmasq and access_internet_via should be specified
+        assert bool(dnsmasq) != bool(access_internet_via) and \
+            ("Both dnsmasq and access_internet_via arguments have been set."
+             "Set exclusively one of them and rerun")
+    else: # fetch from argparse
+        wlan_interface = parser_args["wlan_interface"]
+        ip_address = parser_args["ip_address"]
+        dnsmasq = parser_args["dnsmasq"]
+        access_internet_via = parser_args["access_internet_via"]
+        dry_run = parser_args["dry_run"]
+        loglevel = parser_args["loglevel"]
+
+    # validate the loglevel input
+    numeric_level = getattr(lg, loglevel.upper(), None)
+    if not isinstance(numeric_level, int):
+        raise ValueError('Invalid log level: %s' % loglevel)
+    lg.basicConfig(level=numeric_level)
 
     # Specify whether we are running for real or on a dry-run
     if dry_run:
-        print("[!] Script is running on a dry run! Specified commands will not be executed")
-
-    if interactive:
-        print("[!] In interactive mode:")
-        wlan_interface = raw_input(
-            "wlan interface to be used: [Default = {}] ".format(wlan_interface_default))
-        ip_address = raw_input(
-            "Current host's IP address in ad-hoc: [Default = {}] ".format(ip_address_default))
-    else:
-        wlan_interface = parser_args["wlan_interface"]
-        ip_address = parser_args["ip_address"]
+        lg.warn("Script is running on a dry run! Specified commands will not be executed")
 
     check_reqs(ip_address=ip_address, wlan_interface=wlan_interface, dry_run=dry_run)
 
@@ -100,22 +247,23 @@ def main():
     if not dry_run:
         assert\
             not os.path.isfile("/etc/init/setup_adhoc.conf") and\
-            "/etc/init/setup_adhoc.conf already exists. Remove it in case you want the script to write it again."
+            "/etc/init/setup_adhoc.conf already exists. "\
+            "Remove it in case you want the script to write it again."
 
     # read template configuration file
     script_dir = os.path.dirname(os.path.realpath(__file__))
     template_conts = open(os.path.join(script_dir, "setup_adhoc.conf.template"), 'r').readlines()
 
-    if dnsmasq_enable: # add line to restart dnsmasq
-        print("dnsmasq is to be restarted.")
+    if dnsmasq: # add line to restart dnsmasq
+        lg.info("dnsmasq is to be restarted.")
         dnsmasq_line = "service dnsmasq restart"
         template_conts.insert(-3, dnsmasq_line)
     elif access_internet_via: # add the internet-access related contents
         internet_template_conts = open(
             os.path.join(
                 script_dir, "access_internet.conf.template"), 'r').readlines()
-        for l in internet_template_conts:
-            template_conts.insert(-3, l)
+        for line in internet_template_conts:
+            template_conts.insert(-3, line)
 
     # write the correct wlan interface and ip address
     # ignore comment lines
@@ -128,19 +276,18 @@ def main():
     template_conts_modified = map(fun, template_conts)
 
     if not dry_run:
-        print("Writing upstart job...")
+        lg.info("Writing upstart job...")
         with open(upstart_fname_full, "w") as upstart_f:
             upstart_f.writelines(template_conts_modified)
-        print("Successfully written ad-hoc configuration to upstart job: {}".format(
-            upstart_fname_full))
+        lg.info("Successfully written ad-hoc configuration to upstart job: %s", upstart_fname_full)
     else:
         header = "Contents of file to be written (dry run):\n"
         header += "="*40
-        print(header)
+        lg.info(header)
         for line in template_conts_modified:
             print(line)
 
-    print("Exiting...")
+    lg.info("Exiting...")
 
 def check_reqs(**kargs):
     """Check if the reuired tools exist in the system."""
@@ -150,21 +297,20 @@ def check_reqs(**kargs):
         raise NoRootAccessError()
 
     # ifconfig installed?
-    print("Checking if ifconfig command is available...")
+    lg.info("Checking if ifconfig command is available...")
     if call(["which", "ifconfig"]) != 0:
         raise ProgramNotFoundError("ifconfig")
-    print("OK")
+    lg.info("OK")
 
     # wlan interface exists?
-    print("Checking if given interface is valid...")
+    lg.info("Checking if given interface is valid...")
     if call(["iwconfig", kargs["wlan_interface"]]) != 0:
         print("")
         raise InterfaceNotFoundError(kargs["wlan_interface"])
-    print("OK")
+    lg.info("OK")
 
 
 
 if __name__ == "__main__":
     main()
-
 

@@ -5,8 +5,8 @@
 # already has internet access and needs to forward packets that originate from
 # inside the ad-hoc towards the interface that connects to the world and
 # vice-versa
-
-# NOTE: Script should be run only once in the central node. Afterwards, you
+#
+# NOTE: Script should be executed only once in the central node. Afterwards, you
 # should save the configuration and autoload it on system startup (e.g using
 # the iptables-persistent package)
 
@@ -24,6 +24,7 @@ read ad_hoc_iface
 printf "Input the interface that has internet access: "
 read internet_iface
 
+printf "Writing the firewall configuration...\n"
 iptables -A FORWARD -o ${internet_iface} -i ${ad_hoc_iface}  -s 192.168.100.0/24 -m conntrack --ctstate NEW -j ACCEPT
 iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 iptables -t nat -F POSTROUTING

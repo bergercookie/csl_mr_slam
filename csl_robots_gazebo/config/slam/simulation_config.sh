@@ -3,7 +3,7 @@
 # clear the already registered agents
 source "${BASH_SOURCE%/*}/unset_registered_agents.sh"
 
-export MR_NUM_OF_ROBOTS=2 # how many to spawn
+export MR_NUM_OF_ROBOTS=3 # how many to spawn
 # state if this is MR-GRAPHSLAM
 export MR_IS_MULTIROBOT_GRAPHSLAM=
 if (("$MR_NUM_OF_ROBOTS" >= 2)) ; then
