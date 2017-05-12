@@ -23,9 +23,14 @@ printf "Input the ad-hoc interface: "
 read ad_hoc_iface
 printf "Input the interface that has internet access: "
 read internet_iface
+printf "Input the IP address domain (e.g. 10.8.0.0): "
+read ip_domain
 
 printf "Writing the firewall configuration...\n"
-iptables -A FORWARD -o ${internet_iface} -i ${ad_hoc_iface}  -s 192.168.100.0/24 -m conntrack --ctstate NEW -j ACCEPT
+iptables \
+    -A FORWARD -o ${internet_iface} -i ${ad_hoc_iface} \
+    -s ${ip_domain} -m conntrack \
+    --ctstate NEW -j ACCEPT
 iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 iptables -t nat -F POSTROUTING
 iptables -t nat -A POSTROUTING -o ${internet_iface} -j MASQUERADE

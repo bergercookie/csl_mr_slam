@@ -10,7 +10,6 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  rviz
   csl_common
   mrpt_graphslam_2d
 )

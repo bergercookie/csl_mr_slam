@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
   master_sync_fkie
   roscpp
   rospy
-  rviz
 )
 
 ## System dependencies are found with CMake's conventions

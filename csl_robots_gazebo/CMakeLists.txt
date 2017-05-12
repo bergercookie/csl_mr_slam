@@ -9,7 +9,6 @@ find_package(catkin REQUIRED
     rospy
     std_msgs
     tf2_ros
-    rviz
     mrpt_graphslam_2d
     csl_common
     )
