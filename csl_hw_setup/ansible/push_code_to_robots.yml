@@ -14,7 +14,6 @@
 # commited and pushed exclusively from the central-node
 #
 # WARNING: Do not use this script for pushing changes from a single host.
-# Instead use the pull_code_from_robot.yml and specify the robot to pull changes from
 
 - name: Sync git repos for multi-robot SLAM
   hosts: robots
@@ -31,8 +30,8 @@
         archive: true
         #times: false
         rsync_opts:
-          #- "--exclude=.git"
-          #- "--exclude=.gitmodules"
+          - "--exclude=.git"
+          - "--exclude=.gitmodules"
           - "--verbose"
       register: mrpt_sync
 
@@ -50,8 +49,9 @@
         #times: false
         archive: true
         rsync_opts:
-          #- "--exclude=.git"
-          #- "--exclude=.gitmodules"
+          - "--exclude=.git"
+          - "--exclude=.gitmodules"
+          - "--exclude=/CMakeLists.txt"
           - "--verbose"
       register: catkin_sync
 
