@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<!--
+
+Launch the rviz file for visualizing the graphSLAM procedure in rviz
+Different rviz file is used based on the number of robot agents that are
+launched in the simulation.
+-->
+
+<launch>
+    <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
+
+    <arg name="rviz_dir" value="$(find mrpt_graphslam_2d)/rviz" />
+    <arg name="num_robots" value="$(env MR_NUM_OF_ROBOTS)" />
+    <!-- Specify whether to visualize simulation or real-time topics 
+         Possible values: gazebo, real
+    -->
+    <arg name="execution_type" default="gazebo" />
+
+    <!-- Start rviz -->
+    <arg name="rviz_file" default="graphslam_$(arg execution_type)_$(arg num_robots).rviz" />
+    <arg name="rviz_file_full" value="$(arg rviz_dir)/$(arg rviz_file)"/>
+
+    <node pkg="rviz" type="rviz" name="rviz_visualizer" output="$(arg output)"
+        args="-d $(arg rviz_file_full)" />
+
+</launch>

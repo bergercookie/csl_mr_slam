@@ -17,6 +17,8 @@ is executed on (see run_graphslam_real.launch for the latter).
     <arg name="common_dir" value="$(find csl_common)/launch" />
     <arg name="joy_config_dir" value="$(find csl_common)/config/joystick"/>
     <arg name="robot_ns" default="$(env MR_ROBOT_NS)" />
+	<arg name="base_link_frame_ID" value="$(env MR_BASE_LINK_FRAME_ID)"/>
+	<arg name="laser_frame_ID" value="$(env MR_LASER_FRAME_ID)"/>
 
     <!--
         Should this node record topics as well? Argument *should not* be the
@@ -71,5 +73,7 @@ is executed on (see run_graphslam_real.launch for the latter).
 	    <node pkg="rosbag" type="record" name="rosbag_recorder" output="$(arg output)" args="--all -x '$(arg exclusion_topics)' -O records.bag" />
 	</group>
 
+	<!-- Robot Geometrical Configuration -->
+	<include file="$(arg plumb_dir)/pub_geom_transforms.launch"/>
 
 </launch>

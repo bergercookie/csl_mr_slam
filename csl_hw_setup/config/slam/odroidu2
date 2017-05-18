@@ -16,6 +16,11 @@ export MR_ORIGIN_MARKER_ID="mf7"
 export MR_ROBOT_MARKER_ID="mf5"
 export MR_USE_ODD_ARUCO_MARKERS_FOR_GT=1
 
+export MR_ANCHOR_FRAME_ID="${MR_ROBOT_MARKER_ID}_anchor"
+export MR_BASE_LINK_FRAME_ID="${MR_ROBOT_MARKER_ID}_base_link"
+export MR_ODOMETRY_FRAME_ID="${MR_ROBOT_MARKER_ID}_odometry"
+export MR_LASER_FRAME_ID="${MR_ROBOT_MARKER_ID}_laser"
+
 export MR_ROBOT_NS="$(hostname)"
 export MR_RECORD_TOPICS=0
 export MR_ROBOT_DRIVERS_NAME="aria"

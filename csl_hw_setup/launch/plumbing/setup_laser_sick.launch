@@ -10,14 +10,9 @@ been set.
 
 <launch>
 
-<node
-    pkg="sicktoolbox_wrapper"
-    type="sicklms"
-    name="sick_laser_scanner"
-	output="$(env MR_OUTPUT_MESSAGES_TO)"
-	required="true"
-	>
+<node pkg="sicktoolbox_wrapper" type="sicklms" name="sick_laser_scanner" output="$(env MR_OUTPUT_MESSAGES_TO)" required="true" >
     <param name="port" value="$(env MR_LASER_PORT)" type="string" />
+    <param name="frame_id" value="$(env MR_LASER_FRAME_ID)" type="string" />
 	<remap from="scan" to="input/laser_scan" />
 </node>
 

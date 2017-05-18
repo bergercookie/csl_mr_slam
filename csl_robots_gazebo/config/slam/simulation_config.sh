@@ -3,7 +3,7 @@
 # clear the already registered agents
 source "${BASH_SOURCE%/*}/unset_registered_agents.sh"
 
-export MR_NUM_OF_ROBOTS=3 # how many to spawn
+export MR_NUM_OF_ROBOTS=2 # how many to spawn
 # state if this is MR-GRAPHSLAM
 export MR_IS_MULTIROBOT_GRAPHSLAM=
 if (("$MR_NUM_OF_ROBOTS" >= 2)) ; then
@@ -44,24 +44,39 @@ export MR_USE_DIFFERENT_ROSCORES=1
 # youbot - TODO
 # pioneer_3dx - TODO
 # pioneer_2dx - TODO
-export MR_ROBOT_1_MODEL="pioneer_3at"
+
+robot_id=1
+robot_prefix="MR_ROBOT_${robot_id}"
+robot_name="${MR_HOSTNAME}"
+
+export ${robot_prefix}_MODEL="pioneer_3at"
 
 # define the robot name. This will also be the corresponding namespace
-export MR_ROBOT_1_NAME="${MR_HOSTNAME}"
+export ${robot_prefix}_NAME="${robot_name}"
 
-export MR_ROBOT_1_NRD="CFixedIntervalsNRD_MR"
-#export MR_ROBOT_1_NRD="CICPCriteriaNRD_MR"
-export MR_ROBOT_1_ERD="CLoopCloserERD_MR"
-export MR_ROBOT_1_GSO="CLevMarqGSO"
+# deciders optimizers for the current robot agent
+export ${robot_prefix}_NRD="CFixedIntervalsNRD_MR"
+export ${robot_prefix}_ERD="CLoopCloserERD_MR"
+export ${robot_prefix}_GSO="CLevMarqGSO"
+
+# frames of reference
+export ${robot_prefix}_ANCHOR_FRAME_ID="${robot_name}/anchor"
 
 # MR_ROBOT 2
 ######################
 if [[ "MR_NUM_OF_ROBOTS" -gt 1 ]]; then
-    export MR_ROBOT_2_MODEL="pioneer_3at"
-    export MR_ROBOT_2_NAME="${MR_HOSTNAME}_11312"
-    export MR_ROBOT_2_NRD="CFixedIntervalsNRD_MR"
-    export MR_ROBOT_2_ERD="CLoopCloserERD_MR"
-    export MR_ROBOT_2_GSO="CLevMarqGSO"
+    robot_id=2
+    robot_prefix="MR_ROBOT_${robot_id}"
+    core_port=11312
+    robot_name="${MR_HOSTNAME}_${core_port}"
+
+    export ${robot_prefix}_MODEL="pioneer_3at"
+    export ${robot_prefix}_NAME="${robot_name}"
+    export ${robot_prefix}_NRD="CFixedIntervalsNRD_MR"
+    export ${robot_prefix}_ERD="CLoopCloserERD_MR"
+    export ${robot_prefix}_GSO="CLevMarqGSO"
+
+    export ${robot_prefix}_ANCHOR_FRAME_ID="${robot_name}/anchor"
 fi # end if MR_NUM_OF_ROBOTS > 1
 
 ###########################################3
@@ -73,6 +88,19 @@ if [[ "MR_NUM_OF_ROBOTS" -gt 2 ]]; then
     export MR_ROBOT_3_NRD="CFixedIntervalsNRD_MR"
     export MR_ROBOT_3_ERD="CLoopCloserERD_MR"
     export MR_ROBOT_3_GSO="CLevMarqGSO"
+
+    robot_id=2
+    robot_prefix="MR_ROBOT_${robot_id}"
+    core_port=11313
+    robot_name="${MR_HOSTNAME}_${core_port}"
+
+    export ${robot_prefix}_MODEL="pioneer_3at"
+    export ${robot_prefix}_NAME="${robot_name}"
+    export ${robot_prefix}_NRD="CFixedIntervalsNRD_MR"
+    export ${robot_prefix}_ERD="CLoopCloserERD_MR"
+    export ${robot_prefix}_GSO="CLevMarqGSO"
+
+    export ${robot_prefix}_ANCHOR_FRAME_ID="${robot_name}/anchor"
 fi # end if MR_NUM_OF_ROBOTS > 2
 
 

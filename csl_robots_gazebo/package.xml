@@ -45,6 +45,7 @@
   <run_depend>ar_sys</run_depend>
   <run_depend>rqt_robot_steering</run_depend>
   <run_depend>robot_state_publisher</run_depend>
+  <run_depend>joint_state_publisher</run_depend>
   <run_depend>gazebo_ros</run_depend>
   <run_depend>tf2_ros</run_depend>
   <run_depend>rviz</run_depend>

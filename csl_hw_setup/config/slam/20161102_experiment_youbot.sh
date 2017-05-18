@@ -83,6 +83,12 @@ export MR_ORIGIN_MARKER_ID="mf7"
 # Just for initializing the robot path at anchor_frame_ID - make sure this is unique for every running agent
 export MR_ROBOT_MARKER_ID="mf1"
 
+# Frame IDs of the current agent
+export MR_ANCHOR_FRAME_ID="${MR_ROBOT_MARKER_ID}_anchor"
+export MR_BASE_LINK_FRAME_ID="${MR_ROBOT_MARKER_ID}_base_link"
+export MR_ODOMETRY_FRAME_ID="${MR_ROBOT_MARKER_ID}_odometry"
+export MR_LASER_FRAME_ID="${MR_ROBOT_MARKER_ID}_laser"
+
 # if true, Odd Aruco markers are used for tracking the agents' ground truth
 # paths while even aruco markers for inter-robot meetings
 export MR_USE_ODD_ARUCO_MARKERS_FOR_GT=1 # always needed.

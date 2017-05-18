@@ -16,8 +16,10 @@ Note: ROS Topic namespace of the specific robot agent is going to be its *name*
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
 
     <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
-		<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
+	<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
     <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
+    <arg name="common_dir" value="$(find csl_common)/launch" />
+
 
     <arg name="camera_name" value="camera1" />
 
@@ -39,43 +41,34 @@ Note: ROS Topic namespace of the specific robot agent is going to be its *name*
     <arg name="start_robot_control" value="$(env MR_USE_RQT_ROBOT_STEERING)"/>
 
     <group ns="$(arg robot_name)">
-      <param name="tf_prefix" value="$(arg robot_name)" />
 
-      <!-- Upload the robot_description -->
-      <param name="/robot_description"
-        command="$(find xacro)/xacro --inorder $(find csl_robot_descriptions)/defs/$(arg robot_type).xacro camera_name:=$(arg camera_name)" />
-
-      <!-- publish TFs for static links -->
-      <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="$(arg output)">
-        <param name="publish_frequency" type="double" value="30.0"/>
-      </node>
-
-      <!-- push robot_description to factory and spawn robot in gazebo -->
-      <node name="spawn_pioneer" pkg="gazebo_ros" type="spawn_model"
-        args="$(arg position_args) -urdf -param /robot_description -model $(arg robot_name) -namespace /$(arg robot_name)"
-        respawn="false" output="$(arg output)" />
-
-      <!-- Launch rsys -->
-      <group if="$(arg launch_ar_sys)">
-        <include file="$(arg plumb_dir)/setup_single_ar_sys.launch">
-          <arg name="robot_name" value="$(arg robot_name)" />
-          <arg name="camera_name" value="$(arg camera_name)" />
+        <!-- State publishers for rviz robot models-->
+        <include file="$(arg common_dir)/setup_state_publishers.launch">
+            <arg name="tf_prefix" value="$(arg robot_name)"/>
+            <arg name="robot_description" value="$(find xacro)/xacro --inorder $(find csl_robot_descriptions)/defs/$(arg robot_type).xacro camera_name:=$(arg camera_name)"/>
         </include>
-      </group>
 
-      <!-- Launch controls -->
-      <!-- rqt is shit at exporting/importing perspectives - do everything manually! -->
-      <group if="$(arg start_robot_control)">
-        <include file="$(arg plumb_dir)/setup_single_robot_control.launch">
-          <arg name="robot_name" value="$(arg robot_name)"/>
-        </include>
-      </group>
+        <!-- Spawn robot in gazebo based on xacro
+             robot_description should is filled in the include call to setup_state_publishers.launch
+             -->
+        <node name="spawn_pioneer" pkg="gazebo_ros" type="spawn_model"
+            args="$(arg position_args) -urdf -param /robot_description -model $(arg robot_name) -namespace /$(arg robot_name)"
+            respawn="false" output="$(arg output)" />
 
-      <!-- TODO -->
-      <!-- Transform from the origin to the  ground-truth frame-->
-      <!--<node pkg="tf2_ros" type="static_transform_publisher" name="map_to_robot_frame"-->
-        <!--args="0 0 0 0 0 0 $(env MR_GLOBAL_FRAME_ID) $(env )" />-->
+        <!-- Launch rsys -->
+        <group if="$(arg launch_ar_sys)">
+            <include file="$(arg plumb_dir)/setup_single_ar_sys.launch">
+                <arg name="robot_name" value="$(arg robot_name)" />
+                <arg name="camera_name" value="$(arg camera_name)" />
+            </include>
+        </group>
 
+        <!-- Launch controls -->
+        <!-- rqt is shit at exporting/importing perspectives - do everything manually! -->
+        <group if="$(arg start_robot_control)">
+            <include file="$(arg plumb_dir)/setup_single_robot_control.launch">
+                <arg name="robot_name" value="$(arg robot_name)"/>
+            </include>
+        </group>
     </group>
-
-	</launch>
+</launch>

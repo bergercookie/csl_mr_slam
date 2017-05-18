@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 
 <!--
-Fri Oct 21 19:57:25 EEST 2016, Nikos Koukis
-Current node correctly sets up the mutlimaster configuration.
+    Fri Oct 21 19:57:25 EEST 2016, Nikos Koukis
+    Current node correctly sets up the mutlimaster configuration.
 -->
 
 <launch>
 
-<arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
+    <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)" />
 
-<node pkg="master_discovery_fkie" type="master_discovery" name="master_discovery" output="$(arg output)" />
-<node pkg="master_sync_fkie" type="master_sync" name="master_sync" output="$(arg output)" />
+    <node pkg="master_discovery_fkie" type="master_discovery" name="master_discovery" output="$(arg output)" />
+    <node pkg="master_sync_fkie" type="master_sync" name="master_sync" output="$(arg output)" />
 
 </launch>

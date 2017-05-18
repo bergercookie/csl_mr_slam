@@ -10,50 +10,51 @@ Refer to run_sr_graphSLAM_simul.launch OR to the graphslam_launcher.py file for 
 -->
 
 <launch>
-  <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
+    <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"/>
 
-  <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
+    <arg name="launch_dir" value="$(find csl_robots_gazebo)/launch" />
 	<arg name="porcelain_dir" value="$(arg launch_dir)/porcelain" />
-  <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
+    <arg name="plumb_dir" value="$(arg launch_dir)/plumbing" />
 
-  <arg name="use_sim_time" default="true"/>
+    <arg name="use_sim_time" default="true"/>
 
-  <param name="/use_sim_time" value="$(arg use_sim_time)" />
+    <param name="/use_sim_time" value="$(arg use_sim_time)" />
 
-  <arg name="start_rviz" default="true" />
+    <arg name="start_rviz" default="true" />
 
-  <!-- Launch the world -->
-  <arg name="paused" default="false"/>
-  <arg name="gui" default="false"/>
-  <arg name="headless" default="false"/>
-  <arg name="debug" default="false"/>
+    <!-- Launch the world -->
+    <arg name="paused" default="false"/>
+    <arg name="gui" default="false"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
 
-  <!-- Spawn the building -->
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!-- Spawn the building -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
 		<!--<arg name="world_name" value="$(find csl_robots_gazebo)/worlds/simul.world"/>-->
 		<arg name="world_name" value="$(find csl_robots_gazebo)/worlds/$(env MR_GAZEBO_WORLD).world"/>
-    <arg name="debug" value="$(arg debug)" />
-    <arg name="gui" value="$(arg gui)" />
-    <arg name="paused" value="$(arg paused)"/>
-    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
-    <arg name="headless" value="$(arg headless)"/>
-  </include>
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="headless" value="$(arg headless)"/>
+    </include>
 
-  <!-- Setup the robots -->
-  <!--<include file="$(arg plumb_dir)/setup_robots.launch" />-->
-  <node pkg="csl_robots_gazebo" type="robot_spawner.py" name="robot_spawner" output="$(arg output)"/>
-  <!-- NOTE:
+    <!-- Setup the robots -->
+    <!--<include file="$(arg plumb_dir)/setup_robots.launch" />-->
+    <node pkg="csl_robots_gazebo" type="robot_spawner.py" name="robot_spawner" output="$(arg output)"/>
+    <!-- NOTE:
   		 To make the graphSLAM independent of setting the environment and the
   		 robots, we don't run this launchfile along with the environment. We do
   		 it in a separate call -->
-  <!-- Each SLAM Agent is going to run in a different ROS core so that we can
+    <!-- Each SLAM Agent is going to run in a different ROS core so that we can
          simulate the network configuration. -->
     <!--<node pkg="csl_robots_gazebo" type="graphslam_launcher.py"-->
-      <!--name="graphslam_launcher" output="$(arg output)"/>-->
+        <!--name="graphslam_launcher" output="$(arg output)"/>-->
 
     <!-- Launch rviz -->
     <group if="$(arg start_rviz)">
-      <include file="$(arg plumb_dir)/setup_visuals.launch"/>
+        <node pkg="csl_common" type="setup_visuals_delayed.sh" name="setup_visuals_delayed" output="$(arg output)"/>
+        <!--<include file="$(arg plumb_dir)/setup_visuals.launch"/>-->
     </group>
 
-	</launch>
+</launch>
