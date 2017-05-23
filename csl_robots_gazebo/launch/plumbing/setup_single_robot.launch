@@ -52,7 +52,7 @@ Note: ROS Topic namespace of the specific robot agent is going to be its *name*
              robot_description should is filled in the include call to setup_state_publishers.launch
              -->
         <node name="spawn_pioneer" pkg="gazebo_ros" type="spawn_model"
-            args="$(arg position_args) -urdf -param /robot_description -model $(arg robot_name) -namespace /$(arg robot_name)"
+            args="$(arg position_args) -urdf -param robot_description -model $(arg robot_name) -namespace /$(arg robot_name)"
             respawn="false" output="$(arg output)" />
 
         <!-- Launch rsys -->

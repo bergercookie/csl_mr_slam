@@ -3,7 +3,7 @@
 # clear the already registered agents
 source "${BASH_SOURCE%/*}/unset_registered_agents.sh"
 
-export MR_NUM_OF_ROBOTS=2 # how many to spawn
+export MR_NUM_OF_ROBOTS=3 # how many to spawn
 # state if this is MR-GRAPHSLAM
 export MR_IS_MULTIROBOT_GRAPHSLAM=
 if (("$MR_NUM_OF_ROBOTS" >= 2)) ; then
@@ -60,7 +60,6 @@ export ${robot_prefix}_ERD="CLoopCloserERD_MR"
 export ${robot_prefix}_GSO="CLevMarqGSO"
 
 # frames of reference
-export ${robot_prefix}_ANCHOR_FRAME_ID="${robot_name}/anchor"
 
 # MR_ROBOT 2
 ######################
@@ -76,7 +75,6 @@ if [[ "MR_NUM_OF_ROBOTS" -gt 1 ]]; then
     export ${robot_prefix}_ERD="CLoopCloserERD_MR"
     export ${robot_prefix}_GSO="CLevMarqGSO"
 
-    export ${robot_prefix}_ANCHOR_FRAME_ID="${robot_name}/anchor"
 fi # end if MR_NUM_OF_ROBOTS > 1
 
 ###########################################3
@@ -89,7 +87,7 @@ if [[ "MR_NUM_OF_ROBOTS" -gt 2 ]]; then
     export MR_ROBOT_3_ERD="CLoopCloserERD_MR"
     export MR_ROBOT_3_GSO="CLevMarqGSO"
 
-    robot_id=2
+    robot_id=3
     robot_prefix="MR_ROBOT_${robot_id}"
     core_port=11313
     robot_name="${MR_HOSTNAME}_${core_port}"
@@ -100,7 +98,6 @@ if [[ "MR_NUM_OF_ROBOTS" -gt 2 ]]; then
     export ${robot_prefix}_ERD="CLoopCloserERD_MR"
     export ${robot_prefix}_GSO="CLevMarqGSO"
 
-    export ${robot_prefix}_ANCHOR_FRAME_ID="${robot_name}/anchor"
 fi # end if MR_NUM_OF_ROBOTS > 2
 
 

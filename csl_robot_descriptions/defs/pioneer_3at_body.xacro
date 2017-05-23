@@ -375,21 +375,21 @@
         <gazebo>
             <plugin name="drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
                 <updateRate>100.0</updateRate>
-	            <broadcastTF>false</broadcastTF>
+	            <broadcastTF>true</broadcastTF>
                 <leftFrontJoint>p3at_front_left_wheel_joint</leftFrontJoint>
                 <rightFrontJoint>p3at_front_right_wheel_joint</rightFrontJoint>
                 <leftRearJoint>p3at_back_left_wheel_joint</leftRearJoint>
                 <rightRearJoint>p3at_back_right_wheel_joint</rightRearJoint>
                 <wheelSeparation>0.4</wheelSeparation>
                 <wheelDiameter>0.215</wheelDiameter>
-                <robotBaseFrame>base_link</robotBaseFrame>
+                <robotBaseFrame>base_link_gz</robotBaseFrame>
                 <torque>200</torque>
 	            <commandTopic>cmd_vel</commandTopic>
 	            <odometryTopic>input/odom</odometryTopic>
-                <odometryFrame>odom</odometryFrame>
-                <covariance_x>0.01</covariance_x>
-	            <covariance_y>0.01</covariance_y>
-	            <covariance_yaw>0.01</covariance_yaw>
+                <odometryFrame>odom_gz</odometryFrame>
+                <covariance_x>0.10</covariance_x>
+	            <covariance_y>0.10</covariance_y>
+	            <covariance_yaw>0.10</covariance_yaw>
             </plugin>
         </gazebo>
 

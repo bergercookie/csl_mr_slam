@@ -41,9 +41,7 @@ if [[ "MR_NUM_OF_ROBOTS" -gt 1 ]]; then
         export MR_ROBOT_2_ROT_Y=0
         export MR_ROBOT_2_ROT_Z=3.1415
 
-
     fi # end if robot2_pos
-
 fi # end if MR_NUM_OF_ROBOTS > 1
 
 # robot 3

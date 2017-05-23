@@ -12,17 +12,16 @@
     <param name="tf_prefix" value="$(arg tf_prefix)"/>  <!-- Needed for correct splitting of TF frames -->
     <arg name="robot_description"/>
 
-    <!-- This is read by the ROBOT_state_publisher -->
-    <param name="/robot_description" command="$(arg robot_description)" />
     <!-- This is read by the JOINT_state_publisher -->
     <param name="robot_description" command="$(arg robot_description)" />
+    <!--<param name="/robot_description" command="$(arg robot_description)" />-->
 
-    <!-- publish TFs for continuous links -->
+    <!-- inform robot_state_publisher of TFs for continuous links -->
     <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" output="$(arg output)">
     </node>
 
     <!-- publish TFs for fixed links -->
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="$(arg output)">
-        <param name="publish_frequency" type="double" value="30.0"/>
+        <param name="~publish_frequency" type="double" value="30.0"/>
     </node>
 </launch>

@@ -35,10 +35,9 @@ have been set
     <!-- This is set by graphslam_launcher.py -->
     <arg name="robot_name" default="pioneer_3at" />
 
-    <arg name="anchor_frame_ID" value="$(arg robot_name)_anchor" />
-    <arg name="base_link_frame_ID" value="$(arg robot_name)_base_link"/>
-    <arg name="odometry_frame_ID" value="$(arg robot_name)_odometry"/>
-    <arg name="laser_frame_ID" value="$(arg robot_name)_laser"/>
+    <arg name="anchor_frame_ID" default="$(arg robot_name)/anchor" />
+    <arg name="base_link_frame_ID" default="$(arg robot_name)/base_link"/>
+    <arg name="odometry_frame_ID" default="$(arg robot_name)/odometry"/>
 
     <!-- Deciders/Optimizer -->
     <arg name="NRD" default="CFixedIntervalsNRD" />
@@ -57,7 +56,6 @@ have been set
 		    <arg name="anchor_frame_ID" value="$(arg anchor_frame_ID)" />
 		    <arg name="base_link_frame_ID" value="$(arg base_link_frame_ID)"/>
 		    <arg name="odometry_frame_ID" value="$(arg odometry_frame_ID)" />
-		    <arg name="laser_frame_ID" value="$(arg laser_frame_ID)"/>
 		    <arg name="verbosity" value="$(arg verbosity)"/>
 		    <arg name="run_under_gdb" value="$(arg run_under_gdb)" />
 
@@ -68,7 +66,7 @@ have been set
             <arg name="is_mr_slam" value="$(arg is_mr_slam)" />
 	    </include>
 
-	    <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_robot_frame"
+	    <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_anchor_frame_publisher"
 		    args="$(arg map_to_anchor_tf) $(env MR_GLOBAL_FRAME_ID) $(arg anchor_frame_ID)" />
 
     </group>
