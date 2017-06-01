@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<!--
+# Thu Jun 1 16:53:08 EEST 2017, Nikos Koukis
+
+Launchfile launches nodes responsible for inspecting the overall graphSLAM
+procedure, most likely, from a Central Node. The inspection actions that we
+take care for, include:
+
+- Communication with running agents via the multimaster_fkie ROS packages
+- Launching the corresponding rviz file for visualizing the graphSLAM
+operation.
+
+note: This is a top-level launchfile that should be used for running graphSLAM
+      on a single agent.  The data is assumed to be available in the corresponding
+      topics (see /input topic namespace).
+
+-->
+
+<launch>
+
+    <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"  />
+    <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
+    <arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
+    <arg name="common_dir" value="$(find csl_common)/launch" />
+    <arg name="rviz_dir_prefix" value="$(find mrpt_graphslam_2d)/rviz/graphslam_real"/>
+
+    <!-- Number of agents used during the experiment -->
+    <arg name="agents_num"/>
+
+
+    <!-- Launch multimaster nodes -->
+	<include file="$(arg common_dir)/setup_multimaster.launch"/>
+
+	<!-- Run the corresponding rviz file -->
+	<node pkg="rviz" type="rviz" name="rviz_visualizer"
+	    args="--display-config $(arg rviz_dir_prefix)_$(arg agents_num).rviz"/>
+
+
+</launch>
