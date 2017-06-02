@@ -22,7 +22,7 @@ export MR_ODOMETRY_FRAME_ID="${MR_ROBOT_MARKER_ID}_odometry"
 export MR_LASER_FRAME_ID="${MR_ROBOT_MARKER_ID}_laser"
 
 export MR_ROBOT_NS="$(hostname)"
-export MR_RECORD_TOPICS=1
+export MR_RECORD_TOPICS=0
 export MR_ROBOT_DRIVERS_NAME="aria"
 export MR_OUTPUT_MESSAGES_TO="screen"
 export MR_USE_LASER=1
@@ -40,7 +40,7 @@ export MR_DRIVERS_PORT="/dev/ttyUSB0"
 
 # not used in algorithm but fancy to have anyway..
 export MR_USE_ONBOARD_CAMERA=1
-export MR_ONBOARD_CAMERA_PORT="/dev/video0"
+export MR_ONBOARD_CAMERA_PORT="/dev/video1"
 
 export MR_USE_JOYSTICK=1
 export MR_JOYSTICK_PORT="/dev/input/js0"
