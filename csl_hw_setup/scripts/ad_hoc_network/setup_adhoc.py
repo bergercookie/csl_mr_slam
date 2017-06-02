@@ -218,7 +218,7 @@ def main():
         loglevel = raw_input_wrapper_cmd_var("loglevel")
 
         # only one of dnsmasq and access_internet_via should be specified
-        assert bool(dnsmasq) != bool(access_internet_via) and \
+        assert not (dnsmasq and access_internet_via) and \
             ("Both dnsmasq and access_internet_via arguments have been set."
              "Set exclusively one of them and rerun")
     else: # fetch from argparse
