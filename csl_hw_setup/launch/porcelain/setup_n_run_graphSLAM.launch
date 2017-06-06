@@ -9,14 +9,14 @@ graphSLAM in a single command. Refer to those files for further documentation
 -->
 
 <launch>
-
     <arg name="output" value="$(env MR_OUTPUT_MESSAGES_TO)"  />
     <arg name="plumb_dir" value="$(find csl_hw_setup)/launch/plumbing" />
     <arg name="porcelain_dir" value="$(find csl_hw_setup)/launch/porcelain" />
     <arg name="common_dir" value="$(find csl_common)/launch" />
 
-    <include file="$(porcelain_dir)/setup_graphSLAM_agent.launch">
+    <include file="$(arg porcelain_dir)/setup_graphSLAM_agent.launch">
     </include>
-    <include file="$(porcelain_dir)/run_graphSLAM_real.launch">
+    <include file="$(arg porcelain_dir)/run_graphSLAM_real.launch">
     </include>
+
 </launch>

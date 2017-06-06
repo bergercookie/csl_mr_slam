@@ -280,6 +280,10 @@ def main():
         with open(upstart_fname_full, "w") as upstart_f:
             upstart_f.writelines(template_conts_modified)
         lg.info("Successfully written ad-hoc configuration to upstart job: %s", upstart_fname_full)
+        lg.warn("Restarting networking for changes to take effect...")
+        call(["service", "networking", "restart"]);
+        lg.info("Done.")
+
     else:
         header = "Contents of file to be written (dry run):\n"
         header += "="*40
