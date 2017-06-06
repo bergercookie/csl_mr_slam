@@ -30,8 +30,9 @@
         archive: true
         #times: false
         rsync_opts:
-          - "--exclude=.git"
+          #- "--exclude=.git"
           - "--exclude=.gitmodules"
+          - "--exclude=CMakeFiles/"
           - "--verbose"
       register: mrpt_sync
 
@@ -49,7 +50,7 @@
         #times: false
         archive: true
         rsync_opts:
-          - "--exclude=.git"
+          #- "--exclude=.git"
           - "--exclude=.gitmodules"
           - "--exclude=/CMakeLists.txt"
           - "--verbose"
