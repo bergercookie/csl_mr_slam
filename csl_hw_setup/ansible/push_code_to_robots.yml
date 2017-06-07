@@ -53,6 +53,7 @@
           #- "--exclude=.git"
           - "--exclude=.gitmodules"
           - "--exclude=/CMakeLists.txt"
+          - "--exclude=CMakeFiles/"
           - "--verbose"
       register: catkin_sync
 
