@@ -22,7 +22,7 @@ export MR_ODOMETRY_FRAME_ID="${MR_ROBOT_MARKER_ID}_odometry"
 export MR_LASER_FRAME_ID="${MR_ROBOT_MARKER_ID}_laser"
 
 export MR_ROBOT_NS="$(hostname)"
-export MR_RECORD_TOPICS=0
+export MR_RECORD_TOPICS=1
 export MR_ROBOT_DRIVERS_NAME="aria"
 export MR_OUTPUT_MESSAGES_TO="screen"
 export MR_USE_LASER=1

@@ -57,6 +57,9 @@ class EnvironParser(object):
         assert use_different_roscores_key in os.environ
         self.use_different_roscores = int(os.environ[use_different_roscores_key]) == 1
 
+        # Set this to False in the derived class if you don't need this.
+        self.read_robot_6D_pose = True
+
         self.cmd = "roslaunch"
         self.cmd_port_arg = ["-p", "{port}".format(port=self.roscore_port)]
 
@@ -94,6 +97,9 @@ class EnvironParser(object):
         robot_IDs = [key.lstrip(self.env_property_prefix).rstrip("_NAME")
                           for key in robot_ID_keys]
 
+        # robot IDs are natural numbers.
+        robot_IDs = [key for key in robot_IDs if key.isdigit()]
+
         assert len(robot_IDs)
         rospy.logwarn("Found the following robot_IDs: {}".format(robot_IDs))
 
@@ -129,18 +135,19 @@ class EnvironParser(object):
         env_params["name"] = os.environ[robot_name_key]
         env_params["model"] = os.environ[robot_type_key]
 
-        # build the 6D Pose (Position + Orientation)
-        # take care to use uppercase versions for env variables
-        kwords = ["pos", "rot"]
-        axes = ["x", "y", "z"]
-        pose_prop_combs = ["_".join([kword, axis])
-                           for kword in kwords
-                           for axis in axes]
-        pose_6D = {}
-        for pose_prop in pose_prop_combs:
-            env_key = self.env_property_prefix + robot_ID + "_" + pose_prop.upper()
-            pose_6D[pose_prop] = os.environ[env_key]
-        env_params.update({"pose_6D": pose_6D})
+        if self.read_robot_6D_pose:
+            # build the 6D Pose (Position + Orientation)
+            # take care to use uppercase versions for env variables
+            kwords = ["pos", "rot"]
+            axes = ["x", "y", "z"]
+            pose_prop_combs = ["_".join([kword, axis])
+                               for kword in kwords
+                               for axis in axes]
+            pose_6D = {}
+            for pose_prop in pose_prop_combs:
+                env_key = self.env_property_prefix + robot_ID + "_" + pose_prop.upper()
+                pose_6D[pose_prop] = os.environ[env_key]
+            env_params.update({"pose_6D": pose_6D})
 
 
         return env_params
