@@ -46,8 +46,6 @@ export ${robot_prefix}_GSO="CLevMarqGSO"
 # indicates the namespace of the robot as recorded in the rosbag
 export ${robot_prefix}_OLD_ROBOT_NS="nickkoukubuntu"
 
-# frames of reference
-
 # MR_ROBOT 2
 ###########################################
 

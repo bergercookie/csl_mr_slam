@@ -12,9 +12,9 @@ from environ_parser import EnvironParser
 class DemoLauncher(EnvironParser):
     """
 
-    Current class provides an automated way of running multi-robot graphSLAM
-    from multiple rosbags, each one holding the measurements of a single
-    graphSLAM agent.
+    Current class provides an automated way of running multi-robot graphSLAM by
+    launching the setup_robot_for_mr_demo.launch file as many times as there are
+    agents.
 
     """
 
@@ -37,11 +37,6 @@ class DemoLauncher(EnvironParser):
         # Use this in cases when you want to debug using gdb.
         # self.run_under_gdb = False
         self.run_under_gdb = False
-
-        # start rviz only once
-        self.has_started_rviz = False
-
-        self.has_used_clock = False
 
         # This raises errors in the launchfile even in cases that the Launchfile
         # is set up correctly
@@ -97,19 +92,7 @@ class DemoLauncher(EnvironParser):
             cmd_list.append("{}:={}".format(i.upper(), env_params[i]))
 
         # launch rviz
-        start_rviz_val = "True" if not self.has_started_rviz  else "False"
-        cmd_list.append("start_rviz:={}".format(start_rviz_val))
-        self.has_started_rviz = True
-
-        use_clock = "True" if not self.has_used_clock  else "False"
-        if use_clock:
-            cmd_list.append("rosbag_prim_args:={}".format("--clock"))
-
-        self.has_used_clock = True
-
-        # disable_MRPT_visuals
-        cmd_list.append("disable_MRPT_visuals:={}".format("False"))
-        cmd_list.extend(self.cmd_port_arg)
+        cmd_list.append("start_rviz:={}".format(False))
 
         # Also set the ROS_MASTER_URI according to the roscore port that is to
         # be used
