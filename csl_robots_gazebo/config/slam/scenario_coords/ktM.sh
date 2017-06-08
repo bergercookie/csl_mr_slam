@@ -9,13 +9,19 @@ export MR_ROBOT_1_ROT_Y=0
 export MR_ROBOT_1_ROT_Z=0
 
 if [[ "MR_NUM_OF_ROBOTS" -gt 1 ]]; then
-
     export MR_ROBOT_2_POS_X=10
-    export MR_ROBOT_2_POS_Y=-6
+    export MR_ROBOT_2_POS_Y=-4
     export MR_ROBOT_2_POS_Z=0.051
     export MR_ROBOT_2_ROT_X=0
     export MR_ROBOT_2_ROT_Y=0
     export MR_ROBOT_2_ROT_Z=3.1415
+
+    #export MR_ROBOT_2_POS_X=10
+    #export MR_ROBOT_2_POS_Y=-6
+    #export MR_ROBOT_2_POS_Z=0.051
+    #export MR_ROBOT_2_ROT_X=0
+    #export MR_ROBOT_2_ROT_Y=0
+    #export MR_ROBOT_2_ROT_Z=3.1415
 
 
 fi # end if MR_NUM_OF_ROBOTS > 1

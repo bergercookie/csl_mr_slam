@@ -119,7 +119,7 @@ export MR_USE_INIT_POSITIONS=0
 
 
 #export MR_GAZEBO_WORLD="simul"
-export MR_GAZEBO_WORLD="ktM"
+export MR_GAZEBO_WORLD="ktM2"
 
 # Load the robot coordinates
 # http://stackoverflow.com/questions/6659689/referring-to-a-file-relative-to-executing-script

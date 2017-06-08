@@ -55,6 +55,8 @@
           - "--exclude=/CMakeLists.txt"
           - "--exclude=CMakeFiles/"
           - "--verbose"
+          - "--exclude=.*_multi_robot_graphSLAM_.*/"
+          - "--exclude=sr_graphslam_demo/"
       register: catkin_sync
 
     - name: catkin sync output
