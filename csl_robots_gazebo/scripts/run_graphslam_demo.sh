@@ -13,6 +13,7 @@ suffix=${MR_FILE_SUFFIX}
 bag_pth="$(rospack find mrpt_graphslam_2d)/rosbags/20170607_multi_robot_graphSLAM_${suffix}"
 bag_fname="records.bag"
 bag_full="${bag_pth}/${bag_fname}"
+#bag_full="/home/berger/ktM_upogeio.bag"
 
 # Run the python script - runs the launchfile once for every indicated robot
 $python_bin "${BASH_SOURCE%/*}/../nodes/graphslam_demo.py" &
