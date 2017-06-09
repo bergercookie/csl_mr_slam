@@ -4,7 +4,10 @@
 source "${BASH_SOURCE%/*}/unset_registered_agents.sh"
 
 export MR_NUM_OF_ROBOTS=2 # how many to spawn
-# state if this is MR-GRAPHSLAM
+# state if this is multi-robot graphSLAM
+# You can just have this ON even in single-robot cases. If you do want to turn
+# this OFF however, make sure that the deciders/optimizer used are not specific
+# to the multi-robot case (_MR suffix).
 export MR_IS_MULTIROBOT_GRAPHSLAM=
 if (("$MR_NUM_OF_ROBOTS" >= 2)) ; then
     MR_IS_MULTIROBOT_GRAPHSLAM=1
